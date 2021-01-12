@@ -24,3 +24,7 @@ yarn-error.log*
 
 # local settings
 .vscode
+
+
+# eslint
+.eslintcache
