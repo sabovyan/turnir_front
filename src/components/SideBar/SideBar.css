@@ -1,0 +1,45 @@
+:root {
+  --trans-width: width 0.2s ease-in-out;
+}
+
+.sidebar__container {
+  height: 100vh;
+  background: rgba(24, 24, 24, 0.836);
+  display: flex;
+  justify-content: flex-start;
+  position: initial;
+}
+
+.sideBar__withSettings {
+  position: absolute;
+}
+
+.list {
+  height: 100%;
+  width: 60px;
+  transition: var(--trans-width);
+  border-radius: 5px;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.list-open {
+  width: 200px;
+}
+
+.settings {
+  transition: var(--trans-width);
+  color: red;
+  overflow: hidden;
+}
+
+.settings__open {
+  width: 300px;
+}
+
+.settings__close {
+  width: 0px;
+}

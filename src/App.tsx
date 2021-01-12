@@ -1,29 +1,27 @@
-import React, { ChangeEvent, useState } from 'react';
-import CustomButton from './components/Buttons/CustomButton/CustomButton';
-import { Button, TextField } from '@material-ui/core';
-import axios from 'axios';
-import CButton from './components/Buttons/CustomButton/CustomButton';
+import React, { useState } from 'react';
+import { Backdrop } from '@material-ui/core';
 import RegisterForm from './components/RegisterForm/RegisterForm';
-
+import SideBar from './components/SideBar/SideBar';
 
 function App() {
-
-
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>hello there</h1>
-      </header>
+      <div style={{ display: 'flex' }}>
+        <SideBar />
 
-      <form style={{
-        display: 'flex',
-        alignItems: "center",
-        justifyContent: 'center',
-        flexDirection: 'column'
-      }} >
+        <section>akl;jsdfkla;jdfk;lajsdf;l</section>
+      </div>
 
+      <div
+        style={{
+          display: 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <RegisterForm />
-      </form>
+      </div>
     </div>
   );
 }
