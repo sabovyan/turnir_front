@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Backdrop } from '@material-ui/core';
+import React from 'react';
 import RegisterForm from './components/RegisterForm/RegisterForm';
 import SideBar from './components/SideBar/SideBar';
 
@@ -9,7 +8,7 @@ function App() {
       <div style={{ display: 'flex' }}>
         <SideBar />
 
-        <section>akl;jsdfkla;jdfk;lajsdf;l</section>
+        <section>testing section</section>
       </div>
 
       <div
