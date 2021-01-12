@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import clsx from 'clsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,18 +8,38 @@ import PersonIcon from '@material-ui/icons/Person';
 import GamepadIcon from '@material-ui/icons/Gamepad';
 import HomeIcon from '@material-ui/icons/Home';
 import Settings from '@material-ui/icons/Settings';
+import {
+  Backdrop,
+  IconButton,
+  MenuItem,
+  Paper,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './SideBar.css';
-import { Backdrop } from '@material-ui/core';
+import greenTheme from '../../styles/theme';
+import SideBarList from '../SideBarList/SideBarList';
+
+const colors = {
+  green: '#54fd54',
+  white: '#ffffffce',
+};
+
+const languages: string[] = ['Armenian', 'English', 'Russian'];
 
 const SideBar: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [SettingsVisible, setSettingsVisible] = useState<boolean>(true);
+  const [active, setActive] = useState<string>('settings');
+
+  const [selectedLang, setSelectedLang] = useState<string>(languages[1]);
 
   const handleToggleDrawer = (event: any) => {
     if (
       !(event.target.parentNode.tagName === 'svg') &&
-      !(event.target.parentNode.tagName === 'div') &&
       !(event.target.parentNode.tagName === 'DIV')
     ) {
       setOpen((state) => !state);
@@ -27,12 +47,24 @@ const SideBar: FC = () => {
   };
 
   const handleToggleSettings = () => {
+    if (SettingsVisible) {
+      setActive('none');
+    } else {
+      setActive('settings');
+    }
     setSettingsVisible((state) => !state);
+  };
+
+  const handleLanguageChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setSelectedLang(event.target.value);
   };
 
   return (
     <div>
       <Backdrop
+        onClick={handleToggleSettings}
         open={SettingsVisible}
         style={{
           justifyContent: 'flex-start',
@@ -49,46 +81,43 @@ const SideBar: FC = () => {
             settings__close: !SettingsVisible,
           })}
         >
-          settings
+          <IconButton
+            onClick={handleToggleSettings}
+            style={{ color: colors.white }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <Paper
+            elevation={3}
+            style={{ background: 'white', width: '100%', height: '100%' }}
+          >
+            <Typography
+              color="textSecondary"
+              variant="body1"
+              component="h3"
+              style={{ margin: '20px 10px' }}
+            >
+              Language
+            </Typography>
+            <TextField
+              id="standard-select-currency"
+              select
+              value={selectedLang}
+              onChange={handleLanguageChange}
+              fullWidth
+            >
+              {languages.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Paper>
         </div>
-        <List
-          onClick={handleToggleDrawer}
-          className={clsx('list', {
-            'list-open': open,
-            'list-close': !open,
-          })}
-        >
-          <div>
-            <ListItem style={{ margin: '0 0 10px 0' }}>
-              <ListItemIcon>
-                <GamepadIcon style={{ color: 'green' }} />
-              </ListItemIcon>
-              <ListItemText primary={'turnir'} />
-            </ListItem>
-
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon style={{ color: 'white' }} />
-              </ListItemIcon>
-              <ListItemText primary={'Home'} />
-            </ListItem>
-
-            <ListItem button onClick={handleToggleSettings}>
-              <ListItemIcon>
-                <Settings style={{ color: 'white' }} />
-              </ListItemIcon>
-              <ListItemText primary={'Settings'} />
-            </ListItem>
-          </div>
-          <div>
-            <ListItem button style={{ margin: '10px 0' }}>
-              <ListItemIcon>
-                <PersonIcon style={{ color: 'white' }} />
-              </ListItemIcon>
-              <ListItemText primary={'Login'} />
-            </ListItem>
-          </div>
-        </List>
+        <SideBarList
+          active={active}
+          handleToggleSettings={handleToggleSettings}
+        />
       </section>
     </div>
   );

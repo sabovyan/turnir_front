@@ -15,19 +15,18 @@
 }
 
 .list {
-  height: 100%;
+  height: 98%;
   width: 60px;
   transition: var(--trans-width);
-  border-radius: 5px;
   overflow: hidden;
-  color: white;
+  color: #ffffffce;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .list-open {
-  width: 200px;
+  width: 180px;
 }
 
 .settings {
@@ -37,7 +36,7 @@
 }
 
 .settings__open {
-  width: 300px;
+  width: 350px;
 }
 
 .settings__close {
