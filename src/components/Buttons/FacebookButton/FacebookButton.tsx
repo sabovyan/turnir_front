@@ -1,31 +1,26 @@
+import Button from '@material-ui/core/Button';
 import React from 'react';
-import FacebookLogin from 'react-facebook-login';
-
-import './facebook-button.css';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import useFacebookLogin from '../../../hooks/useFacebookLogin';
 
 const FacebookButton = () => {
-  const responseFacebook = (response: any) => {
-    console.log(response);
+  const { userInfo, login } = useFacebookLogin();
+
+  const handleFacebookLogin = () => {
+    login();
+    // console.log(userInfo);
   };
+
   return (
-    <div>
-      <FacebookLogin
-        appId="1088597931155576"
-        autoLoad={true}
-        fields="name,email"
-        callback={responseFacebook}
-        icon="fa-facebook"
-        buttonStyle={{
-          fontSize: '16px',
-          padding: '13px 20px',
-          width: '100%',
-          borderRadius: 3,
-        }}
-        containerStyle={{
-          width: '100%',
-        }}
-      />
-    </div>
+    <Button
+      style={{ padding: 9, margin: '10px 0' }}
+      startIcon={<FacebookIcon color="primary" />}
+      fullWidth
+      variant="outlined"
+      onClick={handleFacebookLogin}
+    >
+      login with Facebook
+    </Button>
   );
 };
 
