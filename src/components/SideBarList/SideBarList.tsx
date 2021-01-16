@@ -11,11 +11,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import GamepadIcon from '@material-ui/icons/Gamepad';
 import HomeIcon from '@material-ui/icons/Home';
 import Settings from '@material-ui/icons/Settings';
+import colors from '../../styles/colors';
 
-const colors = {
-  green: '#54fd54',
-  white: '#ffffffce',
-};
+import './SideBarList.css';
 
 interface Props {
   handleToggleSettings: () => void;
@@ -27,8 +25,10 @@ const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
 
   const handleToggleDrawer = (event: any) => {
     if (
-      !(event.target.parentNode.tagName === 'svg') &&
-      !(event.target.parentNode.tagName === 'DIV')
+      !(event.target.tagName === 'svg') &&
+      !(event.target.tagName === 'path') &&
+      !(event.target.tagName === 'DIV') &&
+      !(event.target.tagName === 'div')
     ) {
       setOpen((state) => !state);
     }
@@ -42,7 +42,7 @@ const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
         'list-close': !open,
       })}
     >
-      <div>
+      <span>
         <ListItem style={{ margin: '0 0 10px 0' }}>
           <ListItemIcon>
             <GamepadIcon style={{ color: colors.green }} />
@@ -67,15 +67,15 @@ const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
           </ListItemIcon>
           <ListItemText primary={'Settings'} />
         </ListItem>
-      </div>
-      <div>
-        <ListItem button style={{ margin: '10px 0' }}>
+      </span>
+      <span>
+        <ListItem button style={{ margin: '0' }}>
           <ListItemIcon>
             <PersonIcon style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary={'Login'} />
         </ListItem>
-      </div>
+      </span>
     </List>
   );
 };

@@ -20,3 +20,7 @@ const { actions, reducer } = createSlice({
     ): ResponseStatus => payload,
   },
 });
+
+export default reducer;
+
+export const { setResponseStatus } = actions;

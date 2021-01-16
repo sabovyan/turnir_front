@@ -65,9 +65,6 @@ const RegisterForm: FC = () => {
         />
         <FormField onChange={handleChange} name="email" label="email" />
         <FormField onChange={handleChange} name="password" label="password" />
-        <div style={{ color: 'red', alignSelf: 'center', margin: '16px 0' }}>
-          {error} here is the error message
-        </div>
         <CButton size="large" text="sign up" onClick={submitRegister} />
       </form>
     </div>

@@ -14,21 +14,6 @@
   position: absolute;
 }
 
-.list {
-  height: 98%;
-  width: 60px;
-  transition: var(--trans-width);
-  overflow: hidden;
-  color: #ffffffce;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.list-open {
-  width: 180px;
-}
-
 .settings {
   transition: var(--trans-width);
   color: red;
