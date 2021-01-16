@@ -1,6 +1,4 @@
-import { Backdrop } from '@material-ui/core';
 import React from 'react';
-import RegisterForm from './components/RegisterForm/RegisterForm';
 import SideBar from './components/SideBar/SideBar';
 
 function App() {
