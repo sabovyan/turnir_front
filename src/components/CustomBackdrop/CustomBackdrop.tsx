@@ -9,6 +9,7 @@ interface IBackdropProps extends BackdropProps {
 const CustomBackdrop: FC<IBackdropProps> = ({ open, children, ...props }) => {
   return (
     <Backdrop
+      {...props}
       open={open}
       style={{
         zIndex: 1,

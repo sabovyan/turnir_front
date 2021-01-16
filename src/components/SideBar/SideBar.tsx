@@ -1,18 +1,21 @@
-import React, { FC, useState } from 'react';
-/* MAterial ui */
+import React, { createContext, FC, useState } from 'react';
+
 import clsx from 'clsx';
 import Backdrop from '@material-ui/core/Backdrop';
 
-/* components */
-import SignCard from '../RegisterPopup/SignCard';
+import SignCard from '../SignCard/SignCard';
 import SideBarList from '../SideBarList/SideBarList';
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
 
 import './SideBar.css';
 
+export const SignCardDisplayContext = createContext(false);
+
 const SideBar: FC = () => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(true);
   const [active, setActive] = useState<string>('settings');
+
+  const [isSignIconPressed, setIsSignIconPressed] = useState<boolean>(true);
 
   const handleToggleSettings = () => {
     if (settingsVisible) {
@@ -21,6 +24,10 @@ const SideBar: FC = () => {
       setActive('settings');
     }
     setSettingsVisible((state) => !state);
+  };
+
+  const handleToggleSignCardVisibility = () => {
+    setIsSignIconPressed((state) => !state);
   };
 
   return (
@@ -43,11 +50,14 @@ const SideBar: FC = () => {
         />
 
         <SideBarList
-          active={active}
+          activeSettings={active}
           handleToggleSettings={handleToggleSettings}
+          personIconClick={handleToggleSignCardVisibility}
         />
       </div>
-      <SignCard />
+      <SignCardDisplayContext.Provider value={isSignIconPressed}>
+        <SignCard handleClose={handleToggleSignCardVisibility} />
+      </SignCardDisplayContext.Provider>
     </div>
   );
 };

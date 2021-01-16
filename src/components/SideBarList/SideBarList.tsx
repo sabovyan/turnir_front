@@ -17,12 +17,17 @@ import './SideBarList.css';
 
 interface Props {
   handleToggleSettings: () => void;
-  active: string;
+  activeSettings: string;
+  personIconClick: () => void;
 }
 
-const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
+const SideBarList: FC<Props> = ({
+  handleToggleSettings,
+  activeSettings,
+  personIconClick,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
-
+  /* ANCHOR Here is any */
   const handleToggleDrawer = (event: any) => {
     if (
       !(event.target.tagName === 'svg') &&
@@ -61,7 +66,8 @@ const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
           <ListItemIcon>
             <Settings
               style={{
-                color: active === 'settings' ? colors.green : colors.white,
+                color:
+                  activeSettings === 'settings' ? colors.green : colors.white,
               }}
             />
           </ListItemIcon>
@@ -69,7 +75,7 @@ const SideBarList: FC<Props> = ({ handleToggleSettings, active }) => {
         </ListItem>
       </span>
       <span>
-        <ListItem button style={{ margin: '0' }}>
+        <ListItem button style={{ margin: '0' }} onClick={personIconClick}>
           <ListItemIcon>
             <PersonIcon style={{ color: 'white' }} />
           </ListItemIcon>

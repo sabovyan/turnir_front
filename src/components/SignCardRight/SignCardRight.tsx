@@ -9,6 +9,10 @@ interface Props {}
 const SignCardRight = (props: Props) => {
   const [isSWitched, setIsSwitched] = useState<boolean>(true);
 
+  const [isResponseStatusDisplayed, setIsResponseStatusDisplayed] = useState<
+    boolean
+  >(true);
+
   const handleFormsToggle = () => {
     setIsSwitched((state) => !state);
   };
@@ -22,7 +26,16 @@ const SignCardRight = (props: Props) => {
           handleToggle={handleFormsToggle}
         />
       </div>
-      {/* <CustomSnackBar message={} /> */}
+      <CustomSnackBar
+        open={isResponseStatusDisplayed}
+        message={
+          "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+        }
+        type={'error'}
+        onClose={() => {
+          setIsResponseStatusDisplayed((state) => !state);
+        }}
+      />
     </>
   );
 };
