@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { IntlProvider } from 'react-intl';
+import { Provider } from 'react-redux';
+import store from './store';
 
 let lang;
 
@@ -12,9 +14,11 @@ if (lang === 'en') {
 }
 ReactDOM.render(
   <React.StrictMode>
-    <IntlProvider locale={navigator.language}>
-      <App />
-    </IntlProvider>
+    <Provider store={store}>
+      <IntlProvider locale={navigator.language}>
+        <App />
+      </IntlProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

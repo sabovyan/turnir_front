@@ -11,32 +11,6 @@ function App() {
 
         <section>testing section</section>
       </div>
-      <Backdrop
-        open={true}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          position: 'absolute',
-          padding: '16px',
-          zIndex: 1,
-        }}
-      >
-        <div
-          style={{
-            // display: 'none',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            position: 'absolute',
-            background: 'white',
-            padding: '16px',
-          }}
-        >
-          <RegisterForm />
-        </div>
-      </Backdrop>
     </div>
   );
 }

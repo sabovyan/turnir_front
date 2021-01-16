@@ -4,11 +4,29 @@ declare global {
     FB: FB;
   }
 
+  type ScopeOptions = {
+    scope: string;
+    return_scopes?: boolean;
+  };
+
+  type APIOptions = {
+    fields: string;
+  };
+
   interface FB {
     getLoginStatus: (cb: loginCallBack) => void;
     init: (props: InitParams) => void;
-    login: (cb: loginCallBack) => void;
+    login: (cb: loginCallBack, options?: ScopeOptions) => void;
+    api: (pointer: string, options: APIOptions, cb: apiCallback) => void;
   }
+
+  type ApiResponse = {
+    id?: string;
+    email?: string;
+    name?: string;
+  };
+
+  type apiCallback = (response: ApiResponse) => void;
 
   /* function properties / options */
 

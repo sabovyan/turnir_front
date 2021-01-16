@@ -14,5 +14,7 @@ typescript
 
 ## side things
 
+<!-- remove react facebook package -->
+
 react-facebook-login
 react-google-login

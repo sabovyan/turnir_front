@@ -1,0 +1,25 @@
+:root {
+  --sideColor: #363636;
+  --secondary-foreground: rgb(233, 233, 233);
+}
+
+.cardLeft {
+  background: var(--sideColor);
+  color: var(--secondary-foreground);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
+  width: 300px;
+}
+
+.advantage-list {
+  margin-left: 0;
+  font-size: 14px;
+  padding: 20;
+}
+
+.advantage-list__item {
+  margin-top: 2rem;
+}

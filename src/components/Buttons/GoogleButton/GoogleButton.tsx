@@ -5,14 +5,34 @@ import {
   GoogleLoginResponseOffline,
   useGoogleLogin,
 } from 'react-google-login';
+import { authRequest } from '../../../api/axios';
 import { GOOGLE_CLIENT_ID } from '../../../config/envConstants';
 import GoogleSvgIcon from '../../icons/GoogleSvgIcon/GoogleSvgIcon';
 
+type RequestData = {
+  googleId: string;
+  imageUrl: string;
+  email: string;
+  name: string;
+  givenName: string;
+  familyName: string;
+  tokenId: string;
+};
+
+type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
+
 const GoogleButton: React.FC = () => {
-  const responseGoogle = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline,
-  ) => {
-    console.log(response);
+  const responseGoogle = async (response: GoogleResponse) => {
+    const googleResponse = response as GoogleLoginResponse;
+
+    const requestData: RequestData = {
+      tokenId: googleResponse.tokenId,
+      ...googleResponse.profileObj,
+    };
+
+    const apiResponse = await authRequest.doPost('google', requestData);
+
+    console.log(requestData);
   };
 
   const { signIn } = useGoogleLogin({

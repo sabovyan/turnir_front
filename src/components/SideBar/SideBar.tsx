@@ -13,11 +13,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import SideBarList from '../SideBarList/SideBarList';
 
 import './SideBar.css';
-
-const colors = {
-  green: '#54fd54',
-  white: '#ffffffce',
-};
+import RegisterPopup from '../RegisterPopup/RegisterPopup';
+import colors from '../../styles/colors';
 
 const languages: string[] = ['Armenian', 'English', 'Russian'];
 
@@ -100,6 +97,7 @@ const SideBar: FC = () => {
           handleToggleSettings={handleToggleSettings}
         />
       </section>
+      <RegisterPopup />
     </div>
   );
 };

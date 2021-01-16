@@ -1,20 +1,16 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-
 import Typography from '@material-ui/core/Typography';
+import { SignFormData } from '../../types/main.types';
 import CButton from '../Buttons/CustomButton/CustomButton';
 import FormField from '../Input/FormField';
 
-import { SignFormData } from '../../types/main.types';
-
-const RegisterForm: FC = () => {
+const LoginForm = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({
     displayName: '',
     email: '',
     password: '',
   });
-
-  const [error, setError] = useState<null | string>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -30,14 +26,14 @@ const RegisterForm: FC = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    axios
-      .post('http://localhost:7000/api/auth/email/login', formData)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error.response);
-      });
+    // axios
+    //   .post('http://localhost:7000/api/auth/email/login', formData)
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error.response);
+    //   });
   };
 
   return (
@@ -56,22 +52,15 @@ const RegisterForm: FC = () => {
           variant="h6"
           component="h2"
         >
-          Sign up for Tournaments
+          Log In For Tournaments
         </Typography>
-        <FormField
-          onChange={handleChange}
-          name="displayName"
-          label="user name"
-        />
+
         <FormField onChange={handleChange} name="email" label="email" />
         <FormField onChange={handleChange} name="password" label="password" />
-        <div style={{ color: 'red', alignSelf: 'center', margin: '16px 0' }}>
-          {error} here is the error message
-        </div>
-        <CButton size="large" text="sign up" onClick={submitRegister} />
+        <CButton size="large" text="sign In" onClick={submitRegister} />
       </form>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

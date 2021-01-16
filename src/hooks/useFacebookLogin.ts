@@ -1,18 +1,39 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FACEBOOK_ID } from '../config/envConstants';
 
 /**
  * @requirement Facebook SDK
- * @description insert facebook login SDK after the opening body tag into your index.html
+ * @description place facebook/SDK after the opening body tag into your index.html
  */
 
+type State = AuthResponse | (AuthResponse & ApiResponse) | ApiResponse | null;
+
 const useFacebookLogin = () => {
-  const [userInfo, setUserInfo] = useState<AuthResponse | null>(null);
+  const [userInfo, setUserInfo] = useState<State>(null);
 
   const login = () => {
-    window.FB.login((response: FacebookResponse): void => {
-      setUserInfo(response.authResponse);
-    });
+    if (window.FB) {
+      window.FB.login(
+        (loginResponse: FacebookResponse): void => {
+          const { authResponse } = loginResponse;
+
+          window.FB.api(
+            '/me',
+            { fields: 'name, email, id' },
+            (response: ApiResponse) => {
+              if (response.email) {
+                setUserInfo({ ...authResponse, ...response });
+              }
+            },
+          );
+        },
+        {
+          scope: 'email',
+        },
+      );
+    } else {
+      console.error('sdk is not loaded');
+    }
   };
 
   const fbAsyncInit = useCallback(() => {
@@ -26,10 +47,6 @@ const useFacebookLogin = () => {
 
   useEffect(() => {
     fbAsyncInit();
-
-    window.FB.getLoginStatus((response) => {
-      setUserInfo(response.authResponse);
-    });
   });
 
   return { userInfo, login };
