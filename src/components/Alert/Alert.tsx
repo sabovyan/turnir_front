@@ -12,9 +12,9 @@ const Alert: FC<IAlert> = ({ type, message, ...props }) => {
     <MuiAlert
       elevation={6}
       variant="filled"
-      {...props}
       severity={type}
       style={{ minWidth: 300 }}
+      {...props}
     >
       <AlertTitle>{type === 'error' ? 'Error' : 'Success'}</AlertTitle>
       {message}

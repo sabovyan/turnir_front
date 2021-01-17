@@ -2,10 +2,10 @@ import React, { ChangeEvent, FC, useState } from 'react';
 import axios from 'axios';
 
 import Typography from '@material-ui/core/Typography';
-import CButton from '../Buttons/CustomButton/CustomButton';
-import FormField from '../Input/FormField';
+import CButton from '../../Buttons/CustomButton/CustomButton';
+import FormField from '../../Input/FormField';
 
-import { SignFormData } from '../../types/main.types';
+import { SignFormData } from '../../../types/main.types';
 
 const RegisterForm: FC = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({

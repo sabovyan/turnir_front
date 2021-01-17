@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import LoginForm from '../LoginForm/LoginForm';
-import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from '../Forms/LoginForm/LoginForm';
+import RegisterForm from '../Forms/RegisterForm/RegisterForm';
 import SignFormBottom from '../SignFormBottom/SignFormBottom';
 import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
 

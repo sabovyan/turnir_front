@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
-import { SignFormData } from '../../types/main.types';
-import CButton from '../Buttons/CustomButton/CustomButton';
-import FormField from '../Input/FormField';
+import { SignFormData } from '../../../types/main.types';
+import CButton from '../../Buttons/CustomButton/CustomButton';
+import FormField from '../../Input/FormField';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({

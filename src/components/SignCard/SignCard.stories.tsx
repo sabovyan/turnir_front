@@ -8,4 +8,4 @@ const main = {
 
 export default main;
 
-export const Card: VFC<{}> = () => <SignCard handleClose={() => {}} />;
+export const Sign: VFC<{}> = () => <SignCard handleClose={() => {}} />;

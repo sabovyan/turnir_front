@@ -88,7 +88,6 @@ const TopBar = () => {
               By Name
             </Typography>
 
-            {/* <span>By Date</span> */}
             <div className={styles.topBar__divider} />
             <Typography
               color={activeFilter === 'date' ? 'textPrimary' : 'textSecondary'}
@@ -99,7 +98,6 @@ const TopBar = () => {
             >
               By Date
             </Typography>
-            {/* <span> By Name</span> */}
           </div>
           <div className={styles.topBar__filter}>
             <FilterListIcon style={{ margin: '0 1rem' }} />
@@ -114,7 +112,6 @@ const TopBar = () => {
         </div>
         <div
           className={styles.TopBarBottom__right}
-          // className="topBar-bottom__right"
           style={{
             width: isSearchInputWide ? 300 : 50,
           }}
