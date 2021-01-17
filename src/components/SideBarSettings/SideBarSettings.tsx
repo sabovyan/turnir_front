@@ -8,8 +8,19 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import colors from '../../styles/colors';
 import CloseButton from '../Buttons/CloseButton/CloseButton';
+import { useTranslation } from 'react-i18next';
+import { LangValue } from '../../types/main.types';
 
-const languages: string[] = ['Հայերեն', 'English', 'Русский'];
+type lang = {
+  name: string;
+  value: LangValue;
+};
+
+const languages: lang[] = [
+  { name: 'Հայերեն', value: 'hy' },
+  { name: 'English', value: 'en' },
+  { name: 'Русский', value: 'ru' },
+];
 
 interface sideBarSettingsProps {
   settingsVisible: boolean;
@@ -20,11 +31,18 @@ const SideBarSettings: FC<sideBarSettingsProps> = ({
   settingsVisible,
   handleToggleSettings,
 }) => {
-  const [selectedLang, setSelectedLang] = useState<string>(languages[1]);
+  const { i18n } = useTranslation();
+
+  const [selectedLang, setSelectedLang] = useState<LangValue>(
+    i18n.language as LangValue,
+  );
+
   const handleLanguageChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSelectedLang(event.target.value);
+    setSelectedLang(event.target.value as LangValue);
+    i18n.changeLanguage(event.target.value);
+    console.log(i18n.language);
   };
 
   return (
@@ -59,8 +77,8 @@ const SideBarSettings: FC<sideBarSettingsProps> = ({
           fullWidth
         >
           {languages.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
+            <MenuItem key={option.value} value={option.value}>
+              {option.name}
             </MenuItem>
           ))}
         </TextField>

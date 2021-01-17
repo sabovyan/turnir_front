@@ -15,6 +15,8 @@ import SortIcon from '@material-ui/icons/Sort';
 import FormField from '../Input/FormField';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { useTranslation } from 'react-i18next';
+
 import styles from './TopBar.module.css';
 import { mode } from './TopBar.types';
 
@@ -47,6 +49,8 @@ const TopBar = () => {
   const [isSearchInputWide, setIsSearchInputWide] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState('name');
 
+  const { t } = useTranslation();
+
   const handleModeSelect = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
@@ -69,7 +73,7 @@ const TopBar = () => {
     <AppBar position="static" color="transparent" className={classes.topBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h5" noWrap color="textSecondary">
-          Manage Tournaments
+          {t('Manage Tournaments')}
         </Typography>
         <CButton text="NEW TOURNAMENT" />
       </Toolbar>

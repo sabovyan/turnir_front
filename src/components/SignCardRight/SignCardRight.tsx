@@ -26,6 +26,7 @@ const SignCardRight = (props: Props) => {
           handleToggle={handleFormsToggle}
         />
       </div>
+      {/* TODO change error and message to dynamic inserted */}
       <CustomSnackBar
         open={isResponseStatusDisplayed}
         message={

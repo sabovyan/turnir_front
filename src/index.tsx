@@ -1,24 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import store from './store';
 
-let lang;
+import './i18n';
 
-if (lang === 'en') {
-  lang = 'English';
-}
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <IntlProvider locale={navigator.language}>
+    <Suspense fallback={null}>
+      <Provider store={store}>
         <App />
-      </IntlProvider>
-    </Provider>
+      </Provider>
+    </Suspense>
   </React.StrictMode>,
   document.getElementById('root'),
 );

@@ -21,7 +21,7 @@ const CustomSnackbar: FC<ISnackbarProps> = ({
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        autoHideDuration={3000}
+        autoHideDuration={9000}
         onClose={onClose}
       >
         <Alert type={type} message={message} />
