@@ -1,0 +1,34 @@
+.searchInput {
+  display: flex;
+  align-items: center;
+}
+
+.topBarBottom__left {
+  display: flex;
+  align-items: center;
+}
+
+.topBar__sort {
+  display: flex;
+  justify-content: space-around;
+  min-width: 200px;
+  align-items: center;
+}
+.topBar__sort {
+  display: flex;
+  min-width: 200px;
+  align-items: center;
+}
+
+.topBar__divider {
+  width: 1px;
+  background: #8d8b8b;
+  height: 1.2rem;
+}
+
+.TopBarBottom__right {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: width 0.2s linear;
+}

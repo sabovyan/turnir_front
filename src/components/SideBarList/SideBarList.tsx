@@ -17,7 +17,7 @@ import './SideBarList.css';
 
 interface Props {
   handleToggleSettings: () => void;
-  activeSettings: string;
+  activeSettings: boolean;
   personIconClick: () => void;
 }
 
@@ -66,8 +66,7 @@ const SideBarList: FC<Props> = ({
           <ListItemIcon>
             <Settings
               style={{
-                color:
-                  activeSettings === 'settings' ? colors.green : colors.white,
+                color: activeSettings ? colors.green : colors.white,
               }}
             />
           </ListItemIcon>

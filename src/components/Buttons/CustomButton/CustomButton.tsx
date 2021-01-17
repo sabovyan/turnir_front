@@ -6,10 +6,10 @@ import { orange } from '@material-ui/core/colors';
 const CButton: FC<IButton> = ({ text, ...props }) => {
   return (
     <Button
-      {...props}
       variant="contained"
       color="primary"
       style={{ background: orange[800], alignSelf: 'center' }}
+      {...props}
     >
       {text}
     </Button>

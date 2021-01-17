@@ -1,4 +1,6 @@
 import React from 'react';
+
+import TopBar from './components/TopBar/TopBar';
 import SideBar from './components/SideBar/SideBar';
 
 function App() {
@@ -6,8 +8,9 @@ function App() {
     <div className="App">
       <div style={{ display: 'flex' }}>
         <SideBar />
-
-        <section>testing section</section>
+        <div style={{ width: '100%' }}>
+          <TopBar />
+        </div>
       </div>
     </div>
   );

@@ -4,10 +4,11 @@
 
 .sidebar__container {
   height: 100vh;
-  background: rgba(24, 24, 24, 0.836);
+  background: rgb(42, 42, 42);
   display: flex;
   justify-content: flex-start;
   position: initial;
+  z-index: 2;
 }
 
 .sideBar__withSettings {
@@ -16,7 +17,6 @@
 
 .settings {
   transition: var(--trans-width);
-  color: red;
   overflow: hidden;
 }
 
