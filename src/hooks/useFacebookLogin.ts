@@ -46,7 +46,7 @@ const useFacebookLogin = () => {
   }, []);
 
   useEffect(() => {
-    fbAsyncInit();
+    // fbAsyncInit();
   });
 
   return { userInfo, login };
