@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import FacebookButton from '../Buttons/FacebookButton/FacebookButton';
 import GoogleButton from '../Buttons/GoogleButton/GoogleButton';
@@ -11,10 +12,11 @@ interface ISignFormBottom {
 }
 
 const SignFormBottom: FC<ISignFormBottom> = ({ isSwitched, handleToggle }) => {
+  const { t } = useTranslation();
   return (
     <div className="sign-right__bottom">
       <SignFormSwitcher isSwitched={isSwitched} handleToggle={handleToggle} />
-      <LineWidthText text="OR" />
+      <LineWidthText text={t('or')} />
       <GoogleButton />
       <FacebookButton />
     </div>

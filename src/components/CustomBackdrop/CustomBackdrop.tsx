@@ -4,15 +4,21 @@ import colors from '../../styles/colors';
 
 interface IBackdropProps extends BackdropProps {
   open: boolean;
+  zIndex: number;
 }
 
-const CustomBackdrop: FC<IBackdropProps> = ({ open, children, ...props }) => {
+const CustomBackdrop: FC<IBackdropProps> = ({
+  open,
+  children,
+  zIndex,
+  ...props
+}) => {
   return (
     <Backdrop
       {...props}
       open={open}
       style={{
-        zIndex: 1,
+        zIndex, // 1
         background: colors.backdropColor,
       }}
     >

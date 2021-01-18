@@ -5,6 +5,7 @@ import {
   GoogleLoginResponseOffline,
   useGoogleLogin,
 } from 'react-google-login';
+import { useTranslation } from 'react-i18next';
 import { authRequest } from '../../../api/axios';
 import { GOOGLE_CLIENT_ID } from '../../../config/envConstants';
 import GoogleSvgIcon from '../../icons/GoogleSvgIcon/GoogleSvgIcon';
@@ -22,6 +23,8 @@ type RequestData = {
 type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
 
 const GoogleButton: React.FC = () => {
+  const { t } = useTranslation();
+
   const responseGoogle = async (response: GoogleResponse) => {
     const googleResponse = response as GoogleLoginResponse;
 
@@ -49,17 +52,9 @@ const GoogleButton: React.FC = () => {
       onClick={signIn}
       fullWidth
     >
-      Login with Google
+      {t('Login With Google')}
     </Button>
   );
 };
 
 export default GoogleButton;
-/* <GoogleLogin
-        clientId={GOOGLE_CLIENT_ID}
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-        render={renderProps => }
-      /> */

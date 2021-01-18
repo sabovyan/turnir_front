@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '../Alert/Alert';
+import { useTranslation } from 'react-i18next';
+import MuiAlert from '@material-ui/lab/Alert';
+import { AlertTitle } from '@material-ui/lab';
 
 interface ISnackbarProps {
   message: string;
@@ -16,6 +17,8 @@ const CustomSnackbar: FC<ISnackbarProps> = ({
   open,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Snackbar
@@ -24,7 +27,12 @@ const CustomSnackbar: FC<ISnackbarProps> = ({
         autoHideDuration={9000}
         onClose={onClose}
       >
-        <Alert type={type} message={message} />
+        <MuiAlert variant="filled" severity={type} style={{ minWidth: 300 }}>
+          <AlertTitle>
+            {type === 'error' ? t('Error') : t('Success')}
+          </AlertTitle>
+          {message}
+        </MuiAlert>
       </Snackbar>
     </div>
   );

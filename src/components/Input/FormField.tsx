@@ -13,9 +13,9 @@ const FormField = ({ label, ...props }: Props) => {
     <ThemeProvider theme={greenTheme}>
       <TextField
         fullWidth
-        {...props}
         label={label}
         style={{ marginBottom: greenTheme.spacing(3) }}
+        {...props}
       />
     </ThemeProvider>
   );

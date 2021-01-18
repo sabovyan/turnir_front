@@ -1,14 +1,13 @@
 import React, { createContext, FC, useState } from 'react';
 
 import clsx from 'clsx';
-import Backdrop from '@material-ui/core/Backdrop';
 
 import SignCard from '../SignCard/SignCard';
 import SideBarList from '../SideBarList/SideBarList';
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
+import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
 
 import './SideBar.css';
-import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
 
 export const SignCardDisplayContext = createContext(false);
 
@@ -36,7 +35,7 @@ const SideBar: FC = () => {
       <CustomBackdrop
         onClick={handleToggleSettings}
         open={settingsVisible}
-        style={{}}
+        zIndex={1}
       />
       <div
         className={clsx('sidebar__container', {

@@ -4,13 +4,15 @@ import Typography from '@material-ui/core/Typography';
 import { SignFormData } from '../../../types/main.types';
 import CButton from '../../Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({
-    displayName: '',
     email: '',
     password: '',
   });
+
+  const { t } = useTranslation();
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -52,12 +54,16 @@ const LoginForm = () => {
           variant="h6"
           component="h2"
         >
-          Log In For Tournaments
+          {t('Log In For Tournaments')}
         </Typography>
 
-        <FormField onChange={handleChange} name="email" label="email" />
-        <FormField onChange={handleChange} name="password" label="password" />
-        <CButton size="large" text="sign In" onClick={submitRegister} />
+        <FormField onChange={handleChange} name="email" label={t('email')} />
+        <FormField
+          onChange={handleChange}
+          name="password"
+          label={t('password')}
+        />
+        <CButton size="large" text={t('Login')} onClick={submitRegister} />
       </form>
     </div>
   );

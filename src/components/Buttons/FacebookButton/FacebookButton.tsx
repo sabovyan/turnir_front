@@ -3,9 +3,12 @@ import React, { useEffect } from 'react';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import useFacebookLogin from '../../../hooks/useFacebookLogin';
 import { authRequest } from '../../../api/axios';
+import { useTranslation } from 'react-i18next';
 
 const FacebookButton = () => {
   const { userInfo, login } = useFacebookLogin();
+
+  const { t } = useTranslation();
 
   const handleFacebookLogin = () => {
     login();
@@ -29,7 +32,7 @@ const FacebookButton = () => {
       variant="outlined"
       onClick={handleFacebookLogin}
     >
-      login with Facebook
+      {t('Login With Facebook')}
     </Button>
   );
 };

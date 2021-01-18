@@ -75,7 +75,7 @@ const TopBar = () => {
         <Typography variant="h5" noWrap color="textSecondary">
           {t('Manage Tournaments')}
         </Typography>
-        <CButton text="NEW TOURNAMENT" />
+        <CButton text={t('NEW TOURNAMENT')} />
       </Toolbar>
 
       <Toolbar className={classes.toolbar}>
@@ -89,7 +89,7 @@ const TopBar = () => {
               onClick={handleNameFilterClick}
               style={{ cursor: 'pointer' }}
             >
-              By Name
+              {t('By Name')}
             </Typography>
 
             <div className={styles.topBar__divider} />
@@ -100,7 +100,7 @@ const TopBar = () => {
               onClick={handleDateFilterClick}
               style={{ cursor: 'pointer' }}
             >
-              By Date
+              {t('By Date')}
             </Typography>
           </div>
           <div className={styles.topBar__filter}>
@@ -108,7 +108,7 @@ const TopBar = () => {
             <TextField select value={selectedMode} onChange={handleModeSelect}>
               {tournamentModes.map((mode) => (
                 <MenuItem key={mode} value={mode}>
-                  {mode}
+                  {t(mode)}
                 </MenuItem>
               ))}
             </TextField>

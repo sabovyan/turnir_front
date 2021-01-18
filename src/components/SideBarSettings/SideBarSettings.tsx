@@ -10,6 +10,9 @@ import colors from '../../styles/colors';
 import CloseButton from '../Buttons/CloseButton/CloseButton';
 import { useTranslation } from 'react-i18next';
 import { LangValue } from '../../types/main.types';
+import FormField from '../Input/FormField';
+import greenTheme from '../../styles/theme';
+import { ThemeProvider } from '@material-ui/core';
 
 type lang = {
   name: string;
@@ -31,7 +34,7 @@ const SideBarSettings: FC<sideBarSettingsProps> = ({
   settingsVisible,
   handleToggleSettings,
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [selectedLang, setSelectedLang] = useState<LangValue>(
     i18n.language as LangValue,
@@ -65,23 +68,26 @@ const SideBarSettings: FC<sideBarSettingsProps> = ({
           color="textSecondary"
           variant="body1"
           component="h3"
-          style={{ margin: '20px 10px' }}
+          style={{ margin: '20px 10px', background: 'white' }}
         >
-          Language
+          {t('Language')}
         </Typography>
-        <TextField
-          id="standard-select-currency"
-          select
-          value={selectedLang}
-          onChange={handleLanguageChange}
-          fullWidth
-        >
-          {languages.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
+        <ThemeProvider theme={greenTheme}>
+          <FormField
+            select
+            value={selectedLang}
+            onChange={handleLanguageChange}
+            label=""
+            style={{ margin: 10, width: 300 }}
+            fullWidth={false}
+          >
+            {languages.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </FormField>
+        </ThemeProvider>
       </Paper>
     </div>
   );

@@ -6,6 +6,7 @@ import CButton from '../../Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
 
 import { SignFormData } from '../../../types/main.types';
+import { useTranslation } from 'react-i18next';
 
 const RegisterForm: FC = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({
@@ -15,6 +16,8 @@ const RegisterForm: FC = () => {
   });
 
   const [error, setError] = useState<null | string>(null);
+
+  const { t } = useTranslation();
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -56,16 +59,20 @@ const RegisterForm: FC = () => {
           variant="h6"
           component="h2"
         >
-          Sign up for Tournaments
+          {t('Sign up for Tournaments')}
         </Typography>
         <FormField
           onChange={handleChange}
           name="displayName"
-          label="user name"
+          label={t('name')}
         />
-        <FormField onChange={handleChange} name="email" label="email" />
-        <FormField onChange={handleChange} name="password" label="password" />
-        <CButton size="large" text="sign up" onClick={submitRegister} />
+        <FormField onChange={handleChange} name="email" label={t('email')} />
+        <FormField
+          onChange={handleChange}
+          name="password"
+          label={t('password')}
+        />
+        <CButton size="large" text={t('Sign up')} onClick={submitRegister} />
       </form>
     </div>
   );

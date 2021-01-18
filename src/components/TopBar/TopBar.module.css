@@ -11,10 +11,10 @@
 .topBar__sort {
   display: flex;
   justify-content: space-around;
-  min-width: 200px;
   align-items: center;
+  min-width: 300px;
 }
-.topBar__sort {
+.topBar__filter {
   display: flex;
   min-width: 200px;
   align-items: center;

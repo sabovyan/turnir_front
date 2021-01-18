@@ -7,8 +7,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .list-open {
-  width: 180px;
+  width: 300px;
 }

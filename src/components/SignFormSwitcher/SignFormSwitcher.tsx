@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import Button from '@material-ui/core/Button';
 import colors from '../../styles/colors';
+import { useTranslation } from 'react-i18next';
 
 import './SignFormSwitcher.css';
 
@@ -13,11 +14,12 @@ const SignFormSwitcher: FC<ISignSwitcherProps> = ({
   isSwitched,
   handleToggle,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="sign-card__switch">
       {isSwitched
-        ? 'Do you have an Account?'
-        : ' Do you want to get registered'}
+        ? t('Do you have an Account?')
+        : t('Do you want to get registered')}
 
       <Button
         style={{
@@ -28,7 +30,7 @@ const SignFormSwitcher: FC<ISignSwitcherProps> = ({
         }}
         onClick={handleToggle}
       >
-        {isSwitched ? 'login in' : ' sign up'}
+        {isSwitched ? t('Login') : t('Sign up')}
       </Button>
     </div>
   );

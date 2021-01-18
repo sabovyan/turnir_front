@@ -14,6 +14,7 @@ import Settings from '@material-ui/icons/Settings';
 import colors from '../../styles/colors';
 
 import './SideBarList.css';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   handleToggleSettings: () => void;
@@ -39,6 +40,8 @@ const SideBarList: FC<Props> = ({
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <List
       onClick={handleToggleDrawer}
@@ -59,7 +62,7 @@ const SideBarList: FC<Props> = ({
           <ListItemIcon>
             <HomeIcon style={{ color: 'white' }} />
           </ListItemIcon>
-          <ListItemText primary={'Home'} />
+          <ListItemText primary={t('Home')} />
         </ListItem>
 
         <ListItem button onClick={handleToggleSettings}>
@@ -70,7 +73,7 @@ const SideBarList: FC<Props> = ({
               }}
             />
           </ListItemIcon>
-          <ListItemText primary={'Settings'} />
+          <ListItemText primary={t('Settings')} />
         </ListItem>
       </span>
       <span>
@@ -78,7 +81,7 @@ const SideBarList: FC<Props> = ({
           <ListItemIcon>
             <PersonIcon style={{ color: 'white' }} />
           </ListItemIcon>
-          <ListItemText primary={'Login'} />
+          <ListItemText primary={t('Login')} />
         </ListItem>
       </span>
     </List>

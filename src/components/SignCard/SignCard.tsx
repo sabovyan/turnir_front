@@ -19,7 +19,7 @@ const SignCard: FC<ISignCard> = ({ handleClose }) => {
   };
 
   return (
-    <CustomBackdrop open={open} onClick={handleBackdropClick}>
+    <CustomBackdrop open={open} onClick={handleBackdropClick} zIndex={2}>
       <div className="sign-card">
         <SignCardLeft />
         <SignCardRight />

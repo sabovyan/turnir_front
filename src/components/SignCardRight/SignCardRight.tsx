@@ -3,6 +3,7 @@ import LoginForm from '../Forms/LoginForm/LoginForm';
 import RegisterForm from '../Forms/RegisterForm/RegisterForm';
 import SignFormBottom from '../SignFormBottom/SignFormBottom';
 import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
+import CButton from '../Buttons/CustomButton/CustomButton';
 
 interface Props {}
 
@@ -32,10 +33,16 @@ const SignCardRight = (props: Props) => {
         message={
           "lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
         }
-        type={'error'}
+        type={'success'}
         onClose={() => {
           setIsResponseStatusDisplayed((state) => !state);
         }}
+      />
+      <CButton
+        onClick={() => {
+          setIsResponseStatusDisplayed((state) => !state);
+        }}
+        text="open snackbar"
       />
     </>
   );
