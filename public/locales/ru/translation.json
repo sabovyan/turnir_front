@@ -10,7 +10,7 @@
   "password": "Пароль",
   "name": "Имя",
   "Sign up for Tournaments": "Регистрироваться для турниров",
-  "sign up": "Регистрироваться",
+  "Sign up": "Регистрироваться",
   "Home": "Главная",
   "Settings": "Настройки",
   "Language": "язык",
@@ -27,5 +27,15 @@
   "Round Robin": "Робин раунд",
   "Last Man standing": "Последний герой",
   "Elimination": "Исключение",
-  "NEW TOURNAMENT": "НОВЫЙ ТУРНИР"
+  "NEW TOURNAMENT": "НОВЫЙ ТУРНИР",
+
+  "Too Short!": "Слишком короткий",
+  "Too Long!": "Слишком длинный",
+  "Name is required": "Имя обязательно",
+
+  "Invalid email": "Неверный адрес эл. почты",
+  "email is required": "Эл. почта обязательна",
+
+  "your password should contain at least one uppercase letter, one digit and one symbol": "Ваш пароль должен содержать как минимум одну заглавную букву, одну цифру и один символ",
+  "password is required": "пароль обязателен"
 }

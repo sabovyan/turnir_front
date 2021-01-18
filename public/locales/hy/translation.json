@@ -27,5 +27,19 @@
   "Round Robin": "Ռոբին ռաունդ",
   "Last Man standing": "վերջին հերոս",
   "Elimination": "Հեռացնում",
-  "NEW TOURNAMENT": "ՆՈՐ ՄՐՑԱՇԱՐ"
+  "NEW TOURNAMENT": "ՆՈՐ ՄՐՑԱՇԱՐ",
+
+  "Too Short!": "շատ կարճ է",
+  "Too Long!": "շատ երկար Է",
+  "Name is required": "անունը պարտադիր Է",
+
+  "Invalid email": "անվավեր Էլ֊փոստ",
+  "email is required": "Էլ֊փոստ պարտադիր է",
+
+  "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր գաղտնաբառը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
+  "password is required": "գաղտնաբառը պարտադիր է",
+
+  // errors from server
+  "This email is already registered": "",
+  "Email is sent": ""
 }

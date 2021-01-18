@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import axios from 'axios';
 
 import Typography from '@material-ui/core/Typography';
@@ -7,40 +7,90 @@ import FormField from '../../Input/FormField';
 
 import { SignFormData } from '../../../types/main.types';
 import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import RegisterSchema from './Register.validate';
+import Button from '@material-ui/core/Button';
+import { useDispatch } from 'react-redux';
+import CustomSnackbar from '../../CustomSnackBar/CustomSnackBar';
+import { setResponseStatus } from '../../../store/features/formResponseStatus';
+import { authRequest } from '../../../api';
 
-const RegisterForm: FC = () => {
-  const [formData, setFormData] = useState<SignFormData<string>>({
-    displayName: '',
-    email: '',
-    password: '',
-  });
+const initialValues: SignFormData<string> = {
+  displayName: '',
+  email: '',
+  password: '',
+};
 
-  const [error, setError] = useState<null | string>(null);
-
+const RegisterForm: FC = (): JSX.Element => {
   const { t } = useTranslation();
 
-  const handleChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const { value, name } = e.target;
-    console.log(formData);
-    setFormData((state) => {
-      state[name] = value;
-      return state;
-    });
-  };
-  const submitRegister = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: RegisterSchema,
+    onSubmit: (values) => {
+      authRequest
+        .doPost('email', { ...values })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          const {
+            response: {
+              data: { error },
+            },
+          } = err;
+          dispatch(
+            setResponseStatus({ type: 'error', message: error, open: true }),
+          );
+        });
+
+      // axios
+      //   .post('http://localhost:7000/api/auth/email/login', formData)
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error.response);
+      //   });
+    },
+  });
+
+  const handleSubmitRegisterForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post('http://localhost:7000/api/auth/email/login', formData)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error.response);
-      });
+
+    const nameError = formik.touched.displayName && formik.errors.displayName;
+    const emailError = formik.touched.email && formik.errors.email;
+    const passwordError = formik.touched.password && formik.errors.password;
+
+    if (nameError) {
+      dispatch(
+        setResponseStatus({
+          type: 'error',
+          message: t(nameError),
+          open: true,
+        }),
+      );
+    } else if (emailError) {
+      dispatch(
+        setResponseStatus({
+          type: 'error',
+          message: t(emailError),
+          open: true,
+        }),
+      );
+    } else if (passwordError) {
+      dispatch(
+        setResponseStatus({
+          type: 'error',
+          message: t(passwordError),
+          open: true,
+        }),
+      );
+    } else {
+      formik.handleSubmit(e);
+    }
   };
 
   return (
@@ -52,6 +102,7 @@ const RegisterForm: FC = () => {
           alignItems: 'flex-start',
           width: '100%',
         }}
+        onSubmit={handleSubmitRegisterForm}
       >
         <Typography
           style={{ alignSelf: 'center' }}
@@ -62,17 +113,38 @@ const RegisterForm: FC = () => {
           {t('Sign up for Tournaments')}
         </Typography>
         <FormField
-          onChange={handleChange}
           name="displayName"
           label={t('name')}
+          onChange={formik.handleChange}
+          value={formik.values.displayName}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.displayName && formik.errors.displayName
+              ? true
+              : false
+          }
         />
-        <FormField onChange={handleChange} name="email" label={t('email')} />
         <FormField
-          onChange={handleChange}
+          type="email"
+          name="email"
+          label={t('email')}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          error={formik.touched.email && formik.errors.email ? true : false}
+        />
+        <FormField
+          type="password"
           name="password"
           label={t('password')}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          error={
+            formik.touched.password && formik.errors.password ? true : false
+          }
         />
-        <CButton size="large" text={t('Sign up')} onClick={submitRegister} />
+        <CButton type="submit" size="large" text={t('Sign up')} />
       </form>
     </div>
   );

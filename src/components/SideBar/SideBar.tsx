@@ -15,7 +15,7 @@ const SideBar: FC = () => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
 
-  const [isSignIconPressed, setIsSignIconPressed] = useState<boolean>(false);
+  const [isSignIconPressed, setIsSignIconPressed] = useState<boolean>(true);
 
   const handleToggleSettings = () => {
     if (settingsVisible) {

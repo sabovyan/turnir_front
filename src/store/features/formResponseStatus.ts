@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type ResponseStatus = {
-  type: string | null;
-  message: string | null;
+  type: 'error' | 'success' | undefined;
+  message: string | undefined;
+  open: boolean;
 };
 
 const initialState: ResponseStatus = {
-  type: null,
-  message: null,
+  type: undefined,
+  message: undefined,
+  open: false,
 };
 
 const { actions, reducer } = createSlice({
@@ -18,9 +20,13 @@ const { actions, reducer } = createSlice({
       state,
       { payload }: PayloadAction<ResponseStatus>,
     ): ResponseStatus => payload,
+
+    closeAlert: (state) => {
+      state.open = false;
+    },
   },
 });
 
 export default reducer;
 
-export const { setResponseStatus } = actions;
+export const { setResponseStatus, closeAlert } = actions;

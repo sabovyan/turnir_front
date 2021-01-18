@@ -6,7 +6,7 @@ import {
   useGoogleLogin,
 } from 'react-google-login';
 import { useTranslation } from 'react-i18next';
-import { authRequest } from '../../../api/axios';
+import { authRequest } from '../../../api';
 import { GOOGLE_CLIENT_ID } from '../../../config/envConstants';
 import GoogleSvgIcon from '../../icons/GoogleSvgIcon/GoogleSvgIcon';
 

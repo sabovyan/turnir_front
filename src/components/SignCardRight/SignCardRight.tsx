@@ -3,6 +3,10 @@ import LoginForm from '../Forms/LoginForm/LoginForm';
 import RegisterForm from '../Forms/RegisterForm/RegisterForm';
 import SignFormBottom from '../SignFormBottom/SignFormBottom';
 import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/features';
+import { closeAlert } from '../../store/features/formResponseStatus';
 import CButton from '../Buttons/CustomButton/CustomButton';
 
 interface Props {}
@@ -10,15 +14,23 @@ interface Props {}
 const SignCardRight = (props: Props) => {
   const [isSWitched, setIsSwitched] = useState<boolean>(true);
 
-  const [isResponseStatusDisplayed, setIsResponseStatusDisplayed] = useState<
-    boolean
-  >(true);
+  const dispatch = useDispatch();
+
+  const formResponseStatus = useSelector(
+    (state: RootState) => state.formResponseStatus,
+  );
 
   const handleFormsToggle = () => {
     setIsSwitched((state) => !state);
   };
 
-  return (
+  return formResponseStatus.message === 'Email is sent' &&
+    formResponseStatus.type === 'success' ? (
+    <>
+      <div>here we are </div>
+      <CButton text={'resend'} />
+    </>
+  ) : (
     <>
       <div className="sign-right">
         {isSWitched ? <RegisterForm /> : <LoginForm />}
@@ -29,20 +41,12 @@ const SignCardRight = (props: Props) => {
       </div>
       {/* TODO change error and message to dynamic inserted */}
       <CustomSnackBar
-        open={isResponseStatusDisplayed}
-        message={
-          "lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-        }
-        type={'success'}
+        open={formResponseStatus.open}
+        message={formResponseStatus.message}
+        type={formResponseStatus.type}
         onClose={() => {
-          setIsResponseStatusDisplayed((state) => !state);
+          dispatch(closeAlert());
         }}
-      />
-      <CButton
-        onClick={() => {
-          setIsResponseStatusDisplayed((state) => !state);
-        }}
-        text="open snackbar"
       />
     </>
   );

@@ -47,4 +47,4 @@ class Request implements IRequest {
 
 export default Request;
 
-export const authRequest = new Request(`${API_ENDPOINT}/auth/`);
+export const authRequest = new Request(`${API_ENDPOINT}auth/`);

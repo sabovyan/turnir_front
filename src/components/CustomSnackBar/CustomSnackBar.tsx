@@ -5,8 +5,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
 
 interface ISnackbarProps {
-  message: string;
-  type: 'error' | 'success';
+  message: string | undefined;
+  type: 'error' | 'success' | undefined;
   open: boolean;
   onClose: () => void;
 }

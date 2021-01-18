@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import React, { useEffect } from 'react';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import useFacebookLogin from '../../../hooks/useFacebookLogin';
-import { authRequest } from '../../../api/axios';
+import { authRequest } from '../../../api';
 import { useTranslation } from 'react-i18next';
 
 const FacebookButton = () => {
