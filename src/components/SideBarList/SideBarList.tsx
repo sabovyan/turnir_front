@@ -15,6 +15,7 @@ import colors from '../../styles/colors';
 
 import './SideBarList.css';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 interface ISideBarList {
   handleToggleSettings: () => void;
@@ -41,6 +42,12 @@ const SideBarList: FC<ISideBarList> = ({
   };
 
   const { t } = useTranslation();
+  const history = useHistory();
+
+  const handleHomeIconClick = () => {
+    console.log(history);
+    history.push('/');
+  };
 
   return (
     <List
@@ -58,7 +65,7 @@ const SideBarList: FC<ISideBarList> = ({
           <ListItemText primary={'TURNIR'} style={{ color: colors.green }} />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={handleHomeIconClick}>
           <ListItemIcon>
             <HomeIcon style={{ color: 'white' }} />
           </ListItemIcon>

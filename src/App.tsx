@@ -8,12 +8,12 @@ import EmailVerification from './pages/EmailVerification/EmailVerification';
 
 function App() {
   return (
-    <div className="App">
-      <div style={{ display: 'flex' }}>
-        <SideBar />
-        <div style={{ width: '100%' }}>
-          <TopBar />
-          <Router>
+    <Router>
+      <div className="App">
+        <div style={{ display: 'flex' }}>
+          <SideBar />
+          <div style={{ width: '100%' }}>
+            <TopBar />
             <Switch>
               <Route exact path="/">
                 <Home />
@@ -22,10 +22,10 @@ function App() {
                 <EmailVerification />
               </Route>
             </Switch>
-          </Router>
+          </div>
         </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

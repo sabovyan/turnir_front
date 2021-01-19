@@ -5,9 +5,7 @@ import { useTranslation } from 'react-i18next';
 import tournament from '../../assets/tournaments.svg';
 import CButton from '../../components/Buttons/CustomButton/CustomButton';
 
-interface Props {}
-
-const Home = (props: Props) => {
+const Home = () => {
   const { t } = useTranslation();
   return (
     <div

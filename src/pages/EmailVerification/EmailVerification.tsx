@@ -27,15 +27,11 @@ const EmailVerification = () => {
           history.push('/');
         }, 2000);
       })
-      .catch((/* err */) => {
-        // const {
-        //   response: {
-        //     data: { error },
-        //   },
-        // } = err;
-
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response.data.error);
         setEmoji(' 😢');
-        setAnswer('There was a problem with your email verification');
+        setAnswer(err.response.data.error);
       });
 
     return () => {
