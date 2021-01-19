@@ -37,5 +37,15 @@
   "email is required": "Эл. почта обязательна",
 
   "your password should contain at least one uppercase letter, one digit and one symbol": "Ваш пароль должен содержать как минимум одну заглавную букву, одну цифру и один символ",
-  "password is required": "пароль обязателен"
+  "password is required": "пароль обязателен",
+
+  "Please check your email to verify your account": "Пожалуйста, проверьте вашу электронную почту, чтобы подтвердить свой аккаунт",
+  "Didn't you receive an Email?": "Не получили электронное письмо?",
+  "Click the resend button to receive a new one": "Нажмите кнопку «Отправить повторно», чтобы получить новый",
+  "Back": "Назад",
+  "Resend": "Отправить повторно",
+  "Your email is successfully registered, you can now login": "Ваш адрес электронной почты успешно зарегистрирован, теперь вы можете войти в систему",
+  "Invalid token or email": "Неверный токен или адрес электронной почты",
+  "Unauthorized request": "Несанкционированный запрос",
+  "The email was already registered": "Электронная почта уже была зарегистрирована"
 }

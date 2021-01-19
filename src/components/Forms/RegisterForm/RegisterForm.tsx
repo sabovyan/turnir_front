@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import axios from 'axios';
+import React, { FC, FormEvent } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import CButton from '../../Buttons/CustomButton/CustomButton';
@@ -9,11 +8,10 @@ import { SignFormData } from '../../../types/main.types';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import RegisterSchema from './Register.validate';
-import Button from '@material-ui/core/Button';
 import { useDispatch } from 'react-redux';
-import CustomSnackbar from '../../CustomSnackBar/CustomSnackBar';
 import { setResponseStatus } from '../../../store/features/formResponseStatus';
 import { authRequest } from '../../../api';
+import { setRegisterFormData } from '../../../store/features/RegisterFormData';
 
 const initialValues: SignFormData<string> = {
   displayName: '',
@@ -30,6 +28,14 @@ const RegisterForm: FC = (): JSX.Element => {
     initialValues,
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
+      dispatch(
+        setRegisterFormData({
+          email: values.email,
+          displayName: values.displayName,
+          password: values.password,
+        }),
+      );
+
       authRequest
         .doPost('email', { ...values })
         .then((res) => {

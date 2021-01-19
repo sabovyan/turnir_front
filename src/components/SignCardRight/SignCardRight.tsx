@@ -42,9 +42,6 @@ const SignCardRight = () => {
         open={formResponseStatus.open}
         message={formResponseStatus.message}
         type={formResponseStatus.type}
-        // message={'Email is sent'}
-        // type="success"
-        // open={true}
         onClose={() => {
           dispatch(closeAlert());
         }}
@@ -52,32 +49,5 @@ const SignCardRight = () => {
     </>
   );
 };
-
-//   return formResponseStatus.message === 'Email is sent' &&
-//     formResponseStatus.type === 'success' ? (
-//     <RegisterVerification />
-//   ) : (
-//     <>
-//       <div className="sign-right" style={{ minWidth: 400 }}>
-//         {isSWitched ? <RegisterForm /> : <LoginForm />}
-//         <SignFormBottom
-//           isSwitched={isSWitched}
-//           handleToggle={handleFormsToggle}
-//         />
-//       </div>
-//       <CustomSnackBar
-//         // open={formResponseStatus.open}
-//         // message={formResponseStatus.message}
-//         // type={formResponseStatus.type}
-//         message={'Email is sent'}
-//         type="success"
-//         open={true}
-//         onClose={() => {
-//           dispatch(closeAlert());
-//         }}
-//       />
-//     </>
-//   );
-// };
 
 export default SignCardRight;

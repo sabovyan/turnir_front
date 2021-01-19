@@ -28,17 +28,24 @@
   "Last Man standing": "վերջին հերոս",
   "Elimination": "Հեռացնում",
   "NEW TOURNAMENT": "ՆՈՐ ՄՐՑԱՇԱՐ",
-
   "Too Short!": "շատ կարճ է",
   "Too Long!": "շատ երկար Է",
   "Name is required": "անունը պարտադիր Է",
-
   "Invalid email": "անվավեր Էլ֊փոստ",
   "email is required": "Էլ֊փոստ պարտադիր է",
-
   "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր գաղտնաբառը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
   "password is required": "գաղտնաբառը պարտադիր է",
 
-  "This email is already registered": "",
+  "Please check your email to verify your account": "Խնդրում ենք ստուգել ձեր էլ. Փոստը՝ ձեր հաշիվը հաստատելու համար",
+  "Didn't you receive an Email?": "Չե՞ք ստացել Էլ.փոստ:",
+  "Click the resend button to receive a new one": "Կտտացրեք նորից ուղարկելու կոճակին ՝ նորը ստանալու համար",
+  "Back": "Վերադառնալ",
+  "Resend": "նորից ուղարկել",
+
+  "Your email is successfully registered, you can now login": "Ձեր էլ. Փոստը հաջողությամբ գրանցված է, այժմ կարող եք մուտք գործել",
+  "Invalid token or email": "Անվավեր թոկեն կամ էլ",
+  "Unauthorized request": "Չարտոնված հարցում",
+  "Email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
+
   "Email is sent": ""
 }

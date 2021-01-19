@@ -10,6 +10,9 @@ const initialState: ResponseStatus = {
   type: undefined,
   message: undefined,
   open: false,
+  // type: 'success',
+  // message: 'Email is sent',
+  // open: true,
 };
 
 const { actions, reducer } = createSlice({

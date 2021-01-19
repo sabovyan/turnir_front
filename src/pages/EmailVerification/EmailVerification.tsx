@@ -1,43 +1,33 @@
 import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { authRequest } from '../../api';
 
 const EmailVerification = () => {
   const [answer, setAnswer] = useState('');
   const [emoji, setEmoji] = useState('🐛');
   const [successMessage, setSuccessMessage] = useState('');
-  const token = useParams();
 
-  const history = useHistory();
+  const token = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    let timerId: NodeJS.Timeout;
-
     authRequest
       .doPost('email/confirmation', token)
-      .then((/* res */) => {
-        // console.log(res);
+      .then((res) => {
+        console.log(res);
         setEmoji('😁');
-        setSuccessMessage(
-          'Your email is successfully registered, you can now login',
-        );
-        timerId = setTimeout(() => {
-          history.push('/');
-        }, 2000);
+        setAnswer('Your email is successfully registered, you can now login');
+        setSuccessMessage('Success');
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response.data.error);
-        setEmoji(' 😢');
+        setEmoji('😢');
         setAnswer(err.response.data.error);
+        setSuccessMessage('Error');
       });
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  });
+  }, [token]);
 
   return (
     <div
@@ -45,19 +35,34 @@ const EmailVerification = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column',
         height: '60%',
       }}
     >
-      <Typography variant="h4" component="p">
-        {emoji}
-      </Typography>
-      <Typography variant="h4" component="p">
-        {answer}
-      </Typography>
-      <Typography variant="h4" component="p">
-        {successMessage}
-      </Typography>
+      <div
+        style={{
+          width: 800,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '10px',
+          gap: '1rem',
+          boxShadow: '2px 2px 5px grey, -1px -1px 10px #cacaca',
+          borderRadius: 5,
+          color: 'white',
+          background: successMessage === 'Error' ? '#f54f4f' : '#67bf67',
+        }}
+      >
+        <Typography variant="h4" component="p">
+          {emoji}
+        </Typography>
+        <Typography variant="h4" component="p">
+          {t(successMessage)}
+        </Typography>
+
+        <Typography variant="h4" component="p">
+          {t(answer)}
+        </Typography>
+      </div>
     </div>
   );
 };
