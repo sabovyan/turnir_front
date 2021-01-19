@@ -33,9 +33,27 @@ const RegisterForm: FC = (): JSX.Element => {
       authRequest
         .doPost('email', { ...values })
         .then((res) => {
-          console.log(res);
+          console.log(res.status);
+          dispatch(
+            setResponseStatus({
+              type: 'success',
+              message: res.data.message,
+              open: true,
+            }),
+          );
         })
         .catch((err) => {
+          if (!err.response) {
+            dispatch(
+              setResponseStatus({
+                type: 'error',
+                message: err.message,
+                open: true,
+              }),
+            );
+            return;
+          }
+
           const {
             response: {
               data: { error },
@@ -45,15 +63,6 @@ const RegisterForm: FC = (): JSX.Element => {
             setResponseStatus({ type: 'error', message: error, open: true }),
           );
         });
-
-      // axios
-      //   .post('http://localhost:7000/api/auth/email/login', formData)
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error.response);
-      //   });
     },
   });
 

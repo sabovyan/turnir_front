@@ -16,13 +16,13 @@ import colors from '../../styles/colors';
 import './SideBarList.css';
 import { useTranslation } from 'react-i18next';
 
-interface Props {
+interface ISideBarList {
   handleToggleSettings: () => void;
   activeSettings: boolean;
   personIconClick: () => void;
 }
 
-const SideBarList: FC<Props> = ({
+const SideBarList: FC<ISideBarList> = ({
   handleToggleSettings,
   activeSettings,
   personIconClick,

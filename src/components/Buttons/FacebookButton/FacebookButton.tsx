@@ -27,7 +27,9 @@ const FacebookButton = () => {
   return (
     <Button
       style={{ padding: 9, margin: '10px 0' }}
-      startIcon={<FacebookIcon color="primary" />}
+      startIcon={
+        <FacebookIcon style={{ color: '#3d68a6', fontSize: '1.5rem' }} />
+      }
       fullWidth
       variant="outlined"
       onClick={handleFacebookLogin}

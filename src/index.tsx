@@ -7,12 +7,16 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './i18n';
+import greenTheme from './styles/theme';
+import { ThemeProvider } from '@material-ui/core';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={null}>
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={greenTheme}>
+          <App />
+        </ThemeProvider>
       </Provider>
     </Suspense>
   </React.StrictMode>,

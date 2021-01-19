@@ -25,12 +25,12 @@ const languages: lang[] = [
   { name: 'Русский', value: 'ru' },
 ];
 
-interface sideBarSettingsProps {
+interface ISideBarSettingsProps {
   settingsVisible: boolean;
   handleToggleSettings: () => void;
 }
 
-const SideBarSettings: FC<sideBarSettingsProps> = ({
+const SideBarSettings: FC<ISideBarSettingsProps> = ({
   settingsVisible,
   handleToggleSettings,
 }) => {
@@ -45,7 +45,6 @@ const SideBarSettings: FC<sideBarSettingsProps> = ({
   ) => {
     setSelectedLang(event.target.value as LangValue);
     i18n.changeLanguage(event.target.value);
-    console.log(i18n.language);
   };
 
   return (

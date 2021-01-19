@@ -7,11 +7,9 @@ import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/features';
 import { closeAlert } from '../../store/features/formResponseStatus';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import RegisterVerification from '../RegisterVerification/RegisterVerification';
 
-interface Props {}
-
-const SignCardRight = (props: Props) => {
+const SignCardRight = () => {
   const [isSWitched, setIsSwitched] = useState<boolean>(true);
 
   const dispatch = useDispatch();
@@ -24,26 +22,29 @@ const SignCardRight = (props: Props) => {
     setIsSwitched((state) => !state);
   };
 
-  return formResponseStatus.message === 'Email is sent' &&
-    formResponseStatus.type === 'success' ? (
+  return (
     <>
-      <div>here we are </div>
-      <CButton text={'resend'} />
-    </>
-  ) : (
-    <>
-      <div className="sign-right">
-        {isSWitched ? <RegisterForm /> : <LoginForm />}
-        <SignFormBottom
-          isSwitched={isSWitched}
-          handleToggle={handleFormsToggle}
-        />
+      <div className="sign-right" style={{ minWidth: 400 }}>
+        {formResponseStatus.message === 'Email is sent' &&
+        formResponseStatus.type === 'success' ? (
+          <RegisterVerification />
+        ) : (
+          <>
+            {isSWitched ? <RegisterForm /> : <LoginForm />}
+            <SignFormBottom
+              isSwitched={isSWitched}
+              handleToggle={handleFormsToggle}
+            />
+          </>
+        )}
       </div>
-      {/* TODO change error and message to dynamic inserted */}
       <CustomSnackBar
         open={formResponseStatus.open}
         message={formResponseStatus.message}
         type={formResponseStatus.type}
+        // message={'Email is sent'}
+        // type="success"
+        // open={true}
         onClose={() => {
           dispatch(closeAlert());
         }}
@@ -51,5 +52,32 @@ const SignCardRight = (props: Props) => {
     </>
   );
 };
+
+//   return formResponseStatus.message === 'Email is sent' &&
+//     formResponseStatus.type === 'success' ? (
+//     <RegisterVerification />
+//   ) : (
+//     <>
+//       <div className="sign-right" style={{ minWidth: 400 }}>
+//         {isSWitched ? <RegisterForm /> : <LoginForm />}
+//         <SignFormBottom
+//           isSwitched={isSWitched}
+//           handleToggle={handleFormsToggle}
+//         />
+//       </div>
+//       <CustomSnackBar
+//         // open={formResponseStatus.open}
+//         // message={formResponseStatus.message}
+//         // type={formResponseStatus.type}
+//         message={'Email is sent'}
+//         type="success"
+//         open={true}
+//         onClose={() => {
+//           dispatch(closeAlert());
+//         }}
+//       />
+//     </>
+//   );
+// };
 
 export default SignCardRight;

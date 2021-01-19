@@ -39,7 +39,6 @@
   "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր գաղտնաբառը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
   "password is required": "գաղտնաբառը պարտադիր է",
 
-  // errors from server
   "This email is already registered": "",
   "Email is sent": ""
 }

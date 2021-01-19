@@ -1,5 +1,5 @@
 :root {
-  --sideColor: #363636;
+  --sideColor: #414141;
   --secondary-foreground: rgb(233, 233, 233);
 }
 
@@ -12,6 +12,7 @@
   padding: 3rem 2rem;
   box-sizing: border-box;
   width: 300px;
+  box-shadow: -1px 1px 1px #42424283;
 }
 
 .advantage-list {

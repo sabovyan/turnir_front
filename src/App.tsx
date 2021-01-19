@@ -18,7 +18,7 @@ function App() {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route path="/email-verification/:token">
+              <Route path="/email-confirmation/:token">
                 <EmailVerification />
               </Route>
             </Switch>
