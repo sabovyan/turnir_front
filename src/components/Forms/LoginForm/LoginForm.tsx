@@ -5,29 +5,33 @@ import { SignFormData } from '../../../types/main.types';
 import CButton from '../../Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
 import { useTranslation } from 'react-i18next';
+import { authRequest } from '../../../api';
+import useAuth from '../../../services/authentication';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<SignFormData<string>>({
-    email: '',
-    password: '',
+    email: 'sako558@gmail.com',
+    password: 'Sako727447*',
   });
 
   const { t } = useTranslation();
+  const { login, user } = useAuth();
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     const { value, name } = e.target;
-    console.log(formData);
     setFormData((state) => {
       state[name] = value;
       return state;
     });
   };
-  const submitRegister = (
+  const submitRegister = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    const user = await login(formData);
+
     // axios
     //   .post('http://localhost:7000/api/auth/email/login', formData)
     //   .then(function (response) {
@@ -57,11 +61,17 @@ const LoginForm = () => {
           {t('Log In For Tournaments')}
         </Typography>
 
-        <FormField onChange={handleChange} name="email" label={t('email')} />
+        <FormField
+          value={formData.email}
+          onChange={handleChange}
+          name="email"
+          label={t('email')}
+        />
         <FormField
           onChange={handleChange}
           name="password"
           label={t('password')}
+          value={formData.password}
         />
         <CButton size="large" text={t('Login')} onClick={submitRegister} />
       </form>

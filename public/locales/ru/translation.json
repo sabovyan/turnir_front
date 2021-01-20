@@ -47,5 +47,8 @@
   "Your email is successfully registered, you can now login": "Ваш адрес электронной почты успешно зарегистрирован, теперь вы можете войти в систему",
   "Invalid token or email": "Неверный токен или адрес электронной почты",
   "Unauthorized request": "Несанкционированный запрос",
-  "The email was already registered": "Электронная почта уже была зарегистрирована"
+  "The email was already registered": "Электронная почта уже была зарегистрирована",
+  "Email is sent": "Письмо отправлено",
+  "Nothing here, yet": "Здесь пока ничего нет",
+  "Let’s get started with a new tournament": "Приступим к новому турниру"
 }

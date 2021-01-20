@@ -9,10 +9,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import colors from '../../styles/colors';
 import CloseButton from '../Buttons/CloseButton/CloseButton';
 import { useTranslation } from 'react-i18next';
-import { LangValue } from '../../types/main.types';
+import { LangValue, SettingsContent } from '../../types/main.types';
 import FormField from '../Input/FormField';
 import greenTheme from '../../styles/theme';
 import { ThemeProvider } from '@material-ui/core';
+import SideBarAppSettings from '../SideBarAppSettings/SideBarAppSettings';
+import SideBarProfileSettings from '../SideBarProfileSettings/SideBarProfileSettings';
 
 type lang = {
   name: string;
@@ -28,11 +30,13 @@ const languages: lang[] = [
 interface ISideBarSettingsProps {
   settingsVisible: boolean;
   handleToggleSettings: () => void;
+  settingsContent: SettingsContent;
 }
 
 const SideBarSettings: FC<ISideBarSettingsProps> = ({
   settingsVisible,
   handleToggleSettings,
+  settingsContent,
 }) => {
   const { i18n, t } = useTranslation();
 
@@ -58,8 +62,18 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
         onClick={handleToggleSettings}
         style={{ color: colors.white }}
       />
-
       <Paper
+        elevation={3}
+        style={{ background: 'white', width: '100%', height: '100%' }}
+      >
+        {settingsContent === 'profile' ? (
+          <SideBarProfileSettings />
+        ) : (
+          <SideBarAppSettings />
+        )}
+      </Paper>
+
+      {/* <Paper
         elevation={3}
         style={{ background: 'white', width: '100%', height: '100%' }}
       >
@@ -87,7 +101,7 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
             ))}
           </FormField>
         </ThemeProvider>
-      </Paper>
+      </Paper> */}
     </div>
   );
 };

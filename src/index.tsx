@@ -9,15 +9,18 @@ import store from './store';
 import './i18n';
 import greenTheme from './styles/theme';
 import { ThemeProvider } from '@material-ui/core';
+import { ProvideAuth } from './services/authentication';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={null}>
-      <Provider store={store}>
-        <ThemeProvider theme={greenTheme}>
-          <App />
-        </ThemeProvider>
-      </Provider>
+      <ProvideAuth>
+        <Provider store={store}>
+          <ThemeProvider theme={greenTheme}>
+            <App />
+          </ThemeProvider>
+        </Provider>
+      </ProvideAuth>
     </Suspense>
   </React.StrictMode>,
   document.getElementById('root'),

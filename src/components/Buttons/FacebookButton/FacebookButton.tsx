@@ -17,10 +17,10 @@ const FacebookButton = () => {
   useEffect(() => {
     if (userInfo) {
       console.log(userInfo);
-      // authRequest
-      //   .doPost('facebook', userInfo)
-      //   .then(console.log)
-      //   .catch((err) => console.log(err.response));
+      authRequest
+        .doPost('facebook', userInfo)
+        .then(console.log)
+        .catch((err) => console.log(err.response));
     }
   }, [userInfo]);
 

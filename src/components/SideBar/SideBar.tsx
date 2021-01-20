@@ -6,6 +6,9 @@ import SignCard from '../SignCard/SignCard';
 import SideBarList from '../SideBarList/SideBarList';
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
 import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import { SettingsContent } from '../../types/main.types';
+
+import useAuth from '../../services/authentication';
 
 import './SideBar.css';
 
@@ -14,20 +17,34 @@ export const SignCardDisplayContext = createContext(false);
 const SideBar: FC = () => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
-
+  const [settingsContent, setSettingsContent] = useState<SettingsContent>(
+    'app',
+  );
   const [isSignIconPressed, setIsSignIconPressed] = useState<boolean>(false);
 
-  const handleToggleSettings = () => {
-    if (settingsVisible) {
-      setActive((state) => !state);
-    } else {
-      setActive((state) => !state);
-    }
+  const { user } = useAuth();
+
+  const handleSettingsIconClick = () => {
+    setActive((state) => !state);
     setSettingsVisible((state) => !state);
+    setSettingsContent('app');
+  };
+
+  const handleAccountIconClick = () => {
+    if (user) {
+      setSettingsContent('profile');
+      setSettingsVisible((state) => !state);
+    } else {
+      setIsSignIconPressed((state) => !state);
+    }
   };
 
   const handleToggleSignCardVisibility = () => {
     setIsSignIconPressed((state) => !state);
+  };
+
+  const handleToggleSettings = () => {
+    setSettingsVisible(false);
   };
 
   return (
@@ -45,12 +62,13 @@ const SideBar: FC = () => {
         <SideBarSettings
           handleToggleSettings={handleToggleSettings}
           settingsVisible={settingsVisible}
+          settingsContent={settingsContent}
         />
 
         <SideBarList
           activeSettings={active}
-          handleToggleSettings={handleToggleSettings}
-          personIconClick={handleToggleSignCardVisibility}
+          handleSettingsIconClick={handleSettingsIconClick}
+          personIconClick={handleAccountIconClick}
         />
       </div>
       <SignCardDisplayContext.Provider value={isSignIconPressed}>

@@ -48,3 +48,4 @@ class Request implements IRequest {
 export default Request;
 
 export const authRequest = new Request(`${API_ENDPOINT}auth/`);
+export const testRequest = new Request(`${'http://localhost:7000/'}test`);

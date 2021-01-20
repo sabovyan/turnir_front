@@ -46,6 +46,7 @@
   "Invalid token or email": "Անվավեր թոկեն կամ էլ",
   "Unauthorized request": "Չարտոնված հարցում",
   "Email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
-
-  "Email is sent": ""
+  "Email is sent": "Նամակն ուղարկվում է",
+  "Nothing here, yet": "Այստեղ դեռ ոչինչ չկա:",
+  "Let’s get started with a new tournament": "Եկեք սկսենք նոր մրցաշար"
 }

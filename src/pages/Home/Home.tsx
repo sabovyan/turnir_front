@@ -28,7 +28,7 @@ const Home = () => {
         }}
       >
         <Typography component="h2" variant="h4">
-          Nothing here, yet.
+          {t('Nothing here, yet')}
         </Typography>
         <Typography
           component="p"
@@ -36,7 +36,7 @@ const Home = () => {
           color="textSecondary"
           style={{ margin: '10px 0' }}
         >
-          Let’s get started with a new tournament.
+          {t('Let’s get started with a new tournament')}
         </Typography>
       </div>
       <CButton text={t('NEW TOURNAMENT')} cssStyles={{ fontSize: '1.2rem' }} />

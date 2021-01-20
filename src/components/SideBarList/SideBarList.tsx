@@ -13,29 +13,34 @@ import HomeIcon from '@material-ui/icons/Home';
 import Settings from '@material-ui/icons/Settings';
 import colors from '../../styles/colors';
 
-import './SideBarList.css';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import useAuth from '../../services/authentication';
+
+import './SideBarList.css';
+import svg from '../../assets/tournaments.svg';
 
 interface ISideBarList {
-  handleToggleSettings: () => void;
+  handleSettingsIconClick: () => void;
   activeSettings: boolean;
   personIconClick: () => void;
 }
 
 const SideBarList: FC<ISideBarList> = ({
-  handleToggleSettings,
+  handleSettingsIconClick,
   activeSettings,
   personIconClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   /* ANCHOR Here is any */
   const handleToggleDrawer = (event: any) => {
+    console.log(event.target.tagName);
     if (
       !(event.target.tagName === 'svg') &&
       !(event.target.tagName === 'path') &&
       !(event.target.tagName === 'DIV') &&
-      !(event.target.tagName === 'div')
+      !(event.target.tagName === 'div') &&
+      !(event.target.tagName === 'IMG')
     ) {
       setOpen((state) => !state);
     }
@@ -43,6 +48,7 @@ const SideBarList: FC<ISideBarList> = ({
 
   const { t } = useTranslation();
   const history = useHistory();
+  const { user } = useAuth();
 
   const handleHomeIconClick = () => {
     console.log(history);
@@ -72,7 +78,7 @@ const SideBarList: FC<ISideBarList> = ({
           <ListItemText primary={t('Home')} />
         </ListItem>
 
-        <ListItem button onClick={handleToggleSettings}>
+        <ListItem button onClick={handleSettingsIconClick}>
           <ListItemIcon>
             <Settings
               style={{
@@ -86,7 +92,11 @@ const SideBarList: FC<ISideBarList> = ({
       <span>
         <ListItem button style={{ margin: '0' }} onClick={personIconClick}>
           <ListItemIcon>
-            <PersonIcon style={{ color: 'white' }} />
+            {!user ? (
+              <PersonIcon style={{ color: 'white' }} />
+            ) : (
+              <img src={svg} alt="logged users" width="25" />
+            )}
           </ListItemIcon>
           <ListItemText primary={t('Login')} />
         </ListItem>
