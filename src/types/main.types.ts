@@ -31,11 +31,6 @@ export type User = {
   id: number;
   displayName: string;
   email: string;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-  verified: boolean;
-  verificationToken: string | null;
   googleId: string | null;
   facebookId: string | null;
 };
@@ -43,3 +38,9 @@ export type User = {
 export type SettingsContent = 'app' | 'profile';
 
 export type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
+
+export type ChangePasswordData = {
+  id: number;
+  oldPassword: string;
+  newPassword: string;
+};

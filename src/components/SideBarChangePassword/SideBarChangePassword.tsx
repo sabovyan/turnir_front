@@ -3,7 +3,9 @@ import { useFormik } from 'formik';
 import React, { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
+import { ChangePasswordData } from '../../types/main.types';
 import CButton from '../Buttons/CustomButton/CustomButton';
 import FormField from '../Input/FormField';
 import ChangePasswordSchema from './SideBarChangePassword.validate';
@@ -13,6 +15,7 @@ interface Props {}
 const SideBarChangePassword = (props: Props) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { user, updatePassword } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -21,8 +24,38 @@ const SideBarChangePassword = (props: Props) => {
       repeatNewPassword: '',
     },
     validationSchema: ChangePasswordSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const { oldPassword, newPassword } = values;
+      try {
+        const data: ChangePasswordData = {
+          id: user.id,
+          oldPassword,
+          newPassword,
+        };
+
+        const resp = await updatePassword(data);
+
+        const message = resp.data;
+        console.log(resp);
+        console.log(user);
+        dispatch(
+          setResponseStatus({
+            type: 'success',
+            message: t(message),
+            open: true,
+          }),
+        );
+      } catch (err) {
+        const {
+          response: {
+            data: { error },
+          },
+        } = err;
+
+        dispatch(
+          setResponseStatus({ type: 'error', message: t(error), open: true }),
+        );
+      }
     },
   });
 

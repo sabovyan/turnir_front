@@ -61,5 +61,7 @@
   "Please fill in all the fields": "Խնդրում ենք լրացնել բոլոր բաց դաշտերը",
 
   "Your password is not correct": "Ձեր ծածկագիրը ճիշտ չէ",
-  "Email is not registered": "Էլ.փոստը գրանցված չէ"
+  "Email is not registered": "Էլ.փոստը գրանցված չէ",
+  "Your password is changed": "Ձեր ծածկագիրը փոխվել է",
+  "forgot password": "Մոռացել եք գաղտնաբառը"
 }

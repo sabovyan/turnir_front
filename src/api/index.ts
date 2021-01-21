@@ -5,7 +5,7 @@ interface IRequest {
   doGet: (url: string, token?: string) => AxiosPromise<any>;
   doPost: (url: string, data: any, token?: string) => AxiosPromise<any>;
   doDelete?: () => AxiosPromise<any>;
-  doUpdate?: () => AxiosPromise<any>;
+  doUpdate: (url: string, data: any, token?: string) => AxiosPromise<any>;
 }
 
 class Request implements IRequest {
@@ -33,6 +33,20 @@ class Request implements IRequest {
   doPost(url: string, data: any, token?: string) {
     const options: AxiosRequestConfig = {
       method: 'post',
+      data,
+      url,
+      headers: {},
+    };
+
+    if (token) {
+      options.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return this.api(options);
+  }
+
+  doUpdate(url: string, data: any, token?: string) {
+    const options: AxiosRequestConfig = {
+      method: 'put',
       data,
       url,
       headers: {},

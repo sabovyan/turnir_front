@@ -8,6 +8,7 @@ import React, {
 import { AxiosResponse } from 'axios';
 import { authRequest } from '../api';
 import {
+  ChangePasswordData,
   GoogleResponse,
   LoginResponse,
   SignFormData,
@@ -51,6 +52,7 @@ interface IAuthProvider {
   logout: () => void;
   loginWithFacebook: () => Promise<User>;
   loginWithGoogle: (response: GoogleResponse) => Promise<User>;
+  updatePassword: (data: ChangePasswordData) => Promise<AxiosResponse<any>>;
 }
 
 const useProvideAuth = (): IAuthProvider => {
@@ -58,23 +60,6 @@ const useProvideAuth = (): IAuthProvider => {
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );
-
-  const loginWithGoogle = async (response: GoogleResponse): Promise<User> => {
-    const googleResponse = response as GoogleLoginResponse;
-    const requestData: RequestData = {
-      tokenId: googleResponse.tokenId,
-      ...googleResponse.profileObj,
-    };
-
-    const res = await authRequest.doPost('google', requestData);
-    const { data } = res;
-    const { user } = data;
-
-    authStorage.setTokens(data);
-    setUser(user);
-
-    return user;
-  };
 
   const login = async (data: SignFormData<string>) => {
     const res: AxiosResponse<LoginResponse> = await authRequest.doPost(
@@ -105,6 +90,28 @@ const useProvideAuth = (): IAuthProvider => {
     setUser(user);
 
     return user;
+  };
+
+  const loginWithGoogle = async (response: GoogleResponse): Promise<User> => {
+    const googleResponse = response as GoogleLoginResponse;
+    const requestData: RequestData = {
+      tokenId: googleResponse.tokenId,
+      ...googleResponse.profileObj,
+    };
+
+    const res = await authRequest.doPost('google', requestData);
+    const { data } = res;
+    const { user } = data;
+
+    authStorage.setTokens(data);
+    setUser(user);
+
+    return user;
+  };
+
+  const updatePassword = async (data: ChangePasswordData) => {
+    const update = await authRequest.doUpdate('email/update-password', data);
+    return update;
   };
 
   const logout = () => {
@@ -170,7 +177,7 @@ const useProvideAuth = (): IAuthProvider => {
               console.error(err);
             });
         }
-      }, 2 * 1000);
+      }, 10 * 1000);
     }
     return (): void => {
       clearInterval(timerId);
@@ -183,6 +190,7 @@ const useProvideAuth = (): IAuthProvider => {
     user,
     loginWithFacebook,
     loginWithGoogle,
+    updatePassword,
   };
 };
 
