@@ -1,41 +1,74 @@
-import React, { ChangeEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext } from 'react';
 
-import { signCardDisplayContext } from '../../SideBar/SideBar';
+import Typography from '@material-ui/core/Typography';
 import CButton from '../../Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
 
-import Typography from '@material-ui/core/Typography';
-
-import { SignFormData } from '../../../types/main.types';
-import { useTranslation } from 'react-i18next';
+import { signCardDisplayContext } from '../../SideBar/SideBar';
+import loginValidateSchema from './loginForm.validate';
 import useAuth from '../../../services/authentication';
+import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { setResponseStatus } from '../../../store/features/formResponseStatus';
+import { SignFormData } from '../../../types/main.types';
+
+const initialValues: SignFormData<string> = {
+  email: '',
+  password: '',
+};
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState<SignFormData<string>>({
-    email: 'sako558@gmail.com',
-    password: 'Sako727447*',
-  });
-
   const { toggle } = useContext(signCardDisplayContext);
-
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { login } = useAuth();
 
-  const handleChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const { value, name } = e.target;
-    setFormData((state) => {
-      state[name] = value;
-      return state;
-    });
-  };
-  const submitRegister = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
+  const formik = useFormik({
+    initialValues,
+    validationSchema: loginValidateSchema,
+    onSubmit: async (values) => {
+      try {
+        await login(values);
+        toggle((state) => !state);
+      } catch (err) {
+        const {
+          response: {
+            data: { error },
+          },
+        } = err;
+
+        dispatch(
+          setResponseStatus({ type: 'error', message: t(error), open: true }),
+        );
+      }
+    },
+  });
+
+  const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await login(formData);
-    toggle((state) => !state);
+    const emailError = formik.touched.email && formik.errors.email;
+    const passwordError = formik.touched.password && formik.errors.password;
+
+    if (emailError) {
+      dispatch(
+        setResponseStatus({
+          type: 'error',
+          message: t(emailError),
+          open: true,
+        }),
+      );
+    } else if (passwordError) {
+      dispatch(
+        setResponseStatus({
+          type: 'error',
+          message: t(passwordError),
+          open: true,
+        }),
+      );
+    } else {
+      formik.handleSubmit(e);
+    }
   };
 
   return (
@@ -47,6 +80,7 @@ const LoginForm = () => {
           alignItems: 'flex-start',
           width: '100%',
         }}
+        onSubmit={submitLoginForm}
       >
         <Typography
           style={{ alignSelf: 'center' }}
@@ -58,18 +92,23 @@ const LoginForm = () => {
         </Typography>
 
         <FormField
-          value={formData.email}
-          onChange={handleChange}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email && formik.touched.email ? true : false}
           name="email"
           label={t('email')}
         />
         <FormField
-          onChange={handleChange}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email && formik.touched.email ? true : false}
           name="password"
+          type="password"
           label={t('password')}
-          value={formData.password}
         />
-        <CButton size="large" text={t('Login')} onClick={submitRegister} />
+        <CButton size="large" text={t('Login')} type="submit" />
       </form>
     </div>
   );

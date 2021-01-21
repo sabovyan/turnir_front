@@ -58,5 +58,8 @@
   "logout": "ելք",
 
   "Passwords don't match!": "Ծածկագրերը չեն համընկնում",
-  "Please fill in all the fields": "Խնդրում ենք լրացնել բոլոր բաց դաշտերը"
+  "Please fill in all the fields": "Խնդրում ենք լրացնել բոլոր բաց դաշտերը",
+
+  "Your password is not correct": "Ձեր ծածկագիրը ճիշտ չէ",
+  "Email is not registered": "Էլ.փոստը գրանցված չէ"
 }

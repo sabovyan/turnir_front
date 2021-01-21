@@ -97,7 +97,7 @@ const SideBarList: FC<ISideBarList> = ({
               <img src={svg} alt="logged users" width="25" />
             )}
           </ListItemIcon>
-          <ListItemText primary={t('Login')} />
+          <ListItemText primary={user ? user.displayName : t('Login')} />
         </ListItem>
       </span>
     </List>

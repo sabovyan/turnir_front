@@ -15,10 +15,7 @@ import {
 } from '../types/main.types';
 import authStorage from './storage';
 import getFacebookData from '../lib/facebook';
-import {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from 'react-google-login';
+import { GoogleLoginResponse } from 'react-google-login';
 
 type RequestData = {
   googleId: string;
@@ -64,7 +61,6 @@ const useProvideAuth = (): IAuthProvider => {
 
   const loginWithGoogle = async (response: GoogleResponse): Promise<User> => {
     const googleResponse = response as GoogleLoginResponse;
-    console.log(googleResponse);
     const requestData: RequestData = {
       tokenId: googleResponse.tokenId,
       ...googleResponse.profileObj,

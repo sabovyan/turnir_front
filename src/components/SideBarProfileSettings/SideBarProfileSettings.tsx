@@ -28,8 +28,9 @@ const SideBarProfileSettings = (props: Props) => {
       </Typography>
       <FormField disabled label={t('name')} value={user.displayName} />
       <FormField disabled label={t('email')} value={user.email} />
-
-      <SideBarChangePassword />
+      {user && !user.googleId && !user.facebookId ? (
+        <SideBarChangePassword />
+      ) : null}
 
       <Typography
         color="textSecondary"
