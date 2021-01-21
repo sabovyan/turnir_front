@@ -1,47 +1,41 @@
 import { Button } from '@material-ui/core';
-import React from 'react';
-import {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-  useGoogleLogin,
-} from 'react-google-login';
+import React, { useContext } from 'react';
+import { useGoogleLogin } from 'react-google-login';
 import { useTranslation } from 'react-i18next';
-import { authRequest } from '../../../api';
+import { useDispatch } from 'react-redux';
 import { GOOGLE_CLIENT_ID } from '../../../config/envConstants';
+import useAuth from '../../../services/authentication';
+import { setResponseStatus } from '../../../store/features/formResponseStatus';
+import { GoogleResponse } from '../../../types/main.types';
 import GoogleSvgIcon from '../../icons/GoogleSvgIcon/GoogleSvgIcon';
-
-type RequestData = {
-  googleId: string;
-  imageUrl: string;
-  email: string;
-  name: string;
-  givenName: string;
-  familyName: string;
-  tokenId: string;
-};
-
-type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
+import { signCardDisplayContext } from '../../SideBar/SideBar';
 
 const GoogleButton: React.FC = () => {
   const { t } = useTranslation();
+  const { loginWithGoogle } = useAuth();
 
-  const responseGoogle = async (response: GoogleResponse) => {
-    const googleResponse = response as GoogleLoginResponse;
+  const { toggle } = useContext(signCardDisplayContext);
+  const dispatch = useDispatch();
 
-    const requestData: RequestData = {
-      tokenId: googleResponse.tokenId,
-      ...googleResponse.profileObj,
-    };
+  const login = async (response: GoogleResponse) => {
+    await loginWithGoogle(response);
+    toggle(false);
+  };
 
-    const apiResponse = await authRequest.doPost('google', requestData);
-
-    console.log(requestData);
+  const fail = (response: any) => {
+    dispatch(
+      setResponseStatus({
+        type: 'error',
+        message: response.message,
+        open: true,
+      }),
+    );
   };
 
   const { signIn } = useGoogleLogin({
     clientId: GOOGLE_CLIENT_ID,
-    onSuccess: responseGoogle,
-    onFailure: responseGoogle,
+    onSuccess: login,
+    onFailure: fail,
   });
 
   return (

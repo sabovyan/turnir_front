@@ -4,14 +4,31 @@ import React, {
   createContext,
   useContext,
   FC,
-  useCallback,
 } from 'react';
 import { AxiosResponse } from 'axios';
 import { authRequest } from '../api';
-import { LoginResponse, SignFormData, User } from '../types/main.types';
+import {
+  GoogleResponse,
+  LoginResponse,
+  SignFormData,
+  User,
+} from '../types/main.types';
 import authStorage from './storage';
-import useFacebookLogin from '../lib/facebook';
 import getFacebookData from '../lib/facebook';
+import {
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
+
+type RequestData = {
+  googleId: string;
+  imageUrl: string;
+  email: string;
+  name: string;
+  givenName: string;
+  familyName: string;
+  tokenId: string;
+};
 
 const authContext = createContext<any>(null);
 
@@ -31,16 +48,37 @@ const refreshAccessToken = (refreshToken: string | null) => {
   return authRequest.doPost('email/refreshToken', { token: refreshToken });
 };
 
-const useProvideAuth = (): {
+interface IAuthProvider {
   login: (data: SignFormData<string>) => Promise<User>;
   user: User | false;
   logout: () => void;
-  loginWithFacebook: () => void;
-} => {
+  loginWithFacebook: () => Promise<User>;
+  loginWithGoogle: (response: GoogleResponse) => Promise<User>;
+}
+
+const useProvideAuth = (): IAuthProvider => {
   const [user, setUser] = useState<User | false>(false);
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );
+
+  const loginWithGoogle = async (response: GoogleResponse): Promise<User> => {
+    const googleResponse = response as GoogleLoginResponse;
+    console.log(googleResponse);
+    const requestData: RequestData = {
+      tokenId: googleResponse.tokenId,
+      ...googleResponse.profileObj,
+    };
+
+    const res = await authRequest.doPost('google', requestData);
+    const { data } = res;
+    const { user } = data;
+
+    authStorage.setTokens(data);
+    setUser(user);
+
+    return user;
+  };
 
   const login = async (data: SignFormData<string>) => {
     const res: AxiosResponse<LoginResponse> = await authRequest.doPost(
@@ -57,24 +95,20 @@ const useProvideAuth = (): {
   };
 
   const loginWithFacebook = async () => {
-    try {
-      const info: FaceBookData = await getFacebookData();
+    const info: FaceBookData = await getFacebookData();
 
-      const response: AxiosResponse<LoginResponse> = await authRequest.doPost(
-        'facebook',
-        info,
-      );
+    const response: AxiosResponse<LoginResponse> = await authRequest.doPost(
+      'facebook',
+      info,
+    );
 
-      const { data } = response;
-      const { user } = data;
+    const { data } = response;
+    const { user } = data;
 
-      authStorage.setTokens(data);
-      setUser(user);
+    authStorage.setTokens(data);
+    setUser(user);
 
-      return user;
-    } catch (err) {
-      console.log(err.message);
-    }
+    return user;
   };
 
   const logout = () => {
@@ -152,6 +186,7 @@ const useProvideAuth = (): {
     logout,
     user,
     loginWithFacebook,
+    loginWithGoogle,
   };
 };
 

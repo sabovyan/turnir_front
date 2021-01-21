@@ -1,3 +1,8 @@
+import {
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
+
 export type SignFormData<T> = {
   [key: string]: T;
 };
@@ -36,3 +41,5 @@ export type User = {
 };
 
 export type SettingsContent = 'app' | 'profile';
+
+export type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
