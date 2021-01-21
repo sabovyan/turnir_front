@@ -23,7 +23,7 @@ const CustomSnackbar: FC<ISnackbarProps> = ({
     <div>
       <Snackbar
         open={open}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         autoHideDuration={9000}
         onClose={onClose}
       >

@@ -33,7 +33,7 @@
   "Name is required": "անունը պարտադիր Է",
   "Invalid email": "անվավեր Էլ֊փոստ",
   "email is required": "Էլ֊փոստ պարտադիր է",
-  "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր ծածկագիրը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
+  "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր ծածկագիրը պետք է պարունակի նվազագույնը մեկ մեծատառ, մեկ թվանշան և մեկ սիմվոլ",
   "password is required": "ծածկագիրը պարտադիր է",
 
   "Please check your email to verify your account": "Խնդրում ենք ստուգել ձեր էլ. Փոստը՝ ձեր հաշիվը հաստատելու համար",
@@ -55,6 +55,8 @@
   "New password": "Նոր ծածկագիր",
   "Repeat new password": "Կրկնել նոր ծածկագիրը",
   "CHANGE PASSWORD": "ՓՈԽԵԼ ԾԱԾԿԱԳԻՐԸ",
+  "logout": "ելք",
 
-  "logout": "ելք"
+  "Passwords don't match!": "Ծածկագրերը չեն համընկնում",
+  "Please fill in all the fields": "Խնդրում ենք լրացնել բոլոր բաց դաշտերը"
 }

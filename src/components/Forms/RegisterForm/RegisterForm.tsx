@@ -39,7 +39,6 @@ const RegisterForm: FC = (): JSX.Element => {
       authRequest
         .doPost('email', { ...values })
         .then((res) => {
-          console.log(res.status);
           dispatch(
             setResponseStatus({
               type: 'success',

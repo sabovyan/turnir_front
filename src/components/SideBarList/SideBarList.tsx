@@ -34,7 +34,6 @@ const SideBarList: FC<ISideBarList> = ({
   const [open, setOpen] = useState<boolean>(false);
   /* ANCHOR Here is any */
   const handleToggleDrawer = (event: any) => {
-    console.log(event.target.tagName);
     if (
       !(event.target.tagName === 'svg') &&
       !(event.target.tagName === 'path') &&

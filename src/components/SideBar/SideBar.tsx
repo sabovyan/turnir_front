@@ -1,17 +1,19 @@
 import React, { createContext, FC, useState } from 'react';
 
-import clsx from 'clsx';
-
-import SignCard from '../SignCard/SignCard';
-import SideBarList from '../SideBarList/SideBarList';
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
+import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
 import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import SideBarList from '../SideBarList/SideBarList';
+import SignCard from '../SignCard/SignCard';
+
+import { closeAlert } from '../../store/features/formResponseStatus';
 import { SettingsContent } from '../../types/main.types';
-
+import { useSelector, useDispatch } from 'react-redux';
 import useAuth from '../../services/authentication';
+import { RootState } from '../../store/features';
 
+import clsx from 'clsx';
 import './SideBar.css';
-import { Settings } from '@material-ui/icons';
 
 export const SignCardDisplayContext = createContext(false);
 
@@ -24,6 +26,11 @@ const SideBar: FC = () => {
   const [isSignIconPressed, setIsSignIconPressed] = useState<boolean>(false);
 
   const { user } = useAuth();
+
+  const formResponseStatus = useSelector(
+    (state: RootState) => state.formResponseStatus,
+  );
+  const dispatch = useDispatch();
 
   const handleSettingsIconClick = () => {
     /* to open app settings */
@@ -100,6 +107,14 @@ const SideBar: FC = () => {
       <SignCardDisplayContext.Provider value={isSignIconPressed}>
         <SignCard handleClose={handleToggleSignCardVisibility} />
       </SignCardDisplayContext.Provider>
+      <CustomSnackBar
+        open={formResponseStatus.open}
+        message={formResponseStatus.message}
+        type={formResponseStatus.type}
+        onClose={() => {
+          dispatch(closeAlert());
+        }}
+      />
     </div>
   );
 };
