@@ -1,4 +1,10 @@
-import React, { createContext, FC, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useState,
+} from 'react';
 
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
 import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
@@ -15,7 +21,10 @@ import { RootState } from '../../store/features';
 import clsx from 'clsx';
 import './SideBar.css';
 
-export const SignCardDisplayContext = createContext(false);
+export const signCardDisplayContext = createContext<{
+  state: boolean;
+  toggle: Dispatch<SetStateAction<boolean>>;
+}>({ state: false, toggle: () => {} });
 
 const SideBar: FC = () => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
@@ -104,9 +113,11 @@ const SideBar: FC = () => {
           personIconClick={handleAccountIconClick}
         />
       </div>
-      <SignCardDisplayContext.Provider value={isSignIconPressed}>
+      <signCardDisplayContext.Provider
+        value={{ state: isSignIconPressed, toggle: setIsSignIconPressed }}
+      >
         <SignCard handleClose={handleToggleSignCardVisibility} />
-      </SignCardDisplayContext.Provider>
+      </signCardDisplayContext.Provider>
       <CustomSnackBar
         open={formResponseStatus.open}
         message={formResponseStatus.message}

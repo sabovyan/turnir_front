@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/features';
 
 const SignCardRight = () => {
-  const [isSWitched, setIsSwitched] = useState<boolean>(true);
+  const [isSWitched, setIsSwitched] = useState<boolean>(false);
 
   const formResponseStatus = useSelector(
     (state: RootState) => state.formResponseStatus,

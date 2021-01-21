@@ -4,11 +4,14 @@ import React, {
   createContext,
   useContext,
   FC,
+  useCallback,
 } from 'react';
 import { AxiosResponse } from 'axios';
 import { authRequest } from '../api';
 import { LoginResponse, SignFormData, User } from '../types/main.types';
 import authStorage from './storage';
+import useFacebookLogin from '../lib/facebook';
+import getFacebookData from '../lib/facebook';
 
 const authContext = createContext<any>(null);
 
@@ -30,9 +33,11 @@ const refreshAccessToken = (refreshToken: string | null) => {
 
 const useProvideAuth = (): {
   login: (data: SignFormData<string>) => Promise<User>;
-  user: User | undefined;
+  user: User | false;
+  logout: () => void;
+  loginWithFacebook: () => void;
 } => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | false>(false);
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );
@@ -49,6 +54,33 @@ const useProvideAuth = (): {
     setUser(user);
 
     return user;
+  };
+
+  const loginWithFacebook = async () => {
+    try {
+      const info: FaceBookData = await getFacebookData();
+
+      const response: AxiosResponse<LoginResponse> = await authRequest.doPost(
+        'facebook',
+        info,
+      );
+
+      const { data } = response;
+      const { user } = data;
+
+      authStorage.setTokens(data);
+      setUser(user);
+
+      return user;
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const logout = () => {
+    setUser(false);
+    setExpiry(null);
+    authStorage.clear();
   };
 
   useEffect(() => {
@@ -89,6 +121,9 @@ const useProvideAuth = (): {
 
       timerId = setInterval(() => {
         const diff = Math.floor((expiry - Date.now()) / 1000 / 60);
+        if (!refreshToken) {
+          clearInterval(timerId);
+        }
 
         if (diff < 2) {
           refreshAccessToken(refreshToken)
@@ -114,7 +149,9 @@ const useProvideAuth = (): {
 
   return {
     login,
+    logout,
     user,
+    loginWithFacebook,
   };
 };
 

@@ -1,31 +1,15 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { FC } from 'react';
 
-import clsx from 'clsx';
+import SideBarProfileSettings from '../SideBarProfileSettings/SideBarProfileSettings';
+import SideBarAppSettings from '../SideBarAppSettings/SideBarAppSettings';
+import CloseButton from '../Buttons/CloseButton/CloseButton';
+import colors from '../../styles/colors';
 
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import colors from '../../styles/colors';
-import CloseButton from '../Buttons/CloseButton/CloseButton';
-import { useTranslation } from 'react-i18next';
-import { LangValue, SettingsContent } from '../../types/main.types';
-import FormField from '../Input/FormField';
-import greenTheme from '../../styles/theme';
-import { ThemeProvider } from '@material-ui/core';
-import SideBarAppSettings from '../SideBarAppSettings/SideBarAppSettings';
-import SideBarProfileSettings from '../SideBarProfileSettings/SideBarProfileSettings';
 
-type lang = {
-  name: string;
-  value: LangValue;
-};
-
-const languages: lang[] = [
-  { name: 'Հայերեն', value: 'hy' },
-  { name: 'English', value: 'en' },
-  { name: 'Русский', value: 'ru' },
-];
+import { SettingsContent } from '../../types/main.types';
+import useAuth from '../../services/authentication';
+import clsx from 'clsx';
 
 interface ISideBarSettingsProps {
   settingsVisible: boolean;
@@ -38,18 +22,7 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
   handleToggleSettings,
   settingsContent,
 }) => {
-  const { i18n, t } = useTranslation();
-
-  const [selectedLang, setSelectedLang] = useState<LangValue>(
-    i18n.language as LangValue,
-  );
-
-  const handleLanguageChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setSelectedLang(event.target.value as LangValue);
-    i18n.changeLanguage(event.target.value);
-  };
+  const { user } = useAuth();
 
   return (
     <div
@@ -71,7 +44,7 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
           padding: '10px',
         }}
       >
-        {settingsContent === 'profile' ? (
+        {settingsContent === 'profile' && user ? (
           <SideBarProfileSettings />
         ) : (
           <SideBarAppSettings />

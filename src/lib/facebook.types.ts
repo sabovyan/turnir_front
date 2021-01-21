@@ -62,6 +62,8 @@ declare global {
     userID: string;
     graphDomain: 'facebook';
   };
+
+  type FaceBookData = AuthResponse & ApiResponse;
 }
 
 export default global;

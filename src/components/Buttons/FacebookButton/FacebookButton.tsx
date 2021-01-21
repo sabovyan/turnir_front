@@ -1,28 +1,31 @@
-import Button from '@material-ui/core/Button';
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import useFacebookLogin from '../../../hooks/useFacebookLogin';
-import { authRequest } from '../../../api';
+import Button from '@material-ui/core/Button';
+
+import { setResponseStatus } from '../../../store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
+import useAuth from '../../../services/authentication';
+import { signCardDisplayContext } from '../../SideBar/SideBar';
+import { useDispatch } from 'react-redux';
 
 const FacebookButton = () => {
-  const { userInfo, login } = useFacebookLogin();
+  const { loginWithFacebook } = useAuth();
+
+  const { toggle } = useContext(signCardDisplayContext);
+  const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
-  const handleFacebookLogin = () => {
-    login();
-  };
-
-  useEffect(() => {
-    if (userInfo) {
-      console.log(userInfo);
-      authRequest
-        .doPost('facebook', userInfo)
-        .then(console.log)
-        .catch((err) => console.log(err.response));
+  const handleFacebookLogin = async () => {
+    try {
+      await loginWithFacebook();
+      toggle((state) => !state);
+    } catch (err) {
+      dispatch(
+        setResponseStatus({ type: 'error', message: err.message, open: true }),
+      );
     }
-  }, [userInfo]);
+  };
 
   return (
     <Button

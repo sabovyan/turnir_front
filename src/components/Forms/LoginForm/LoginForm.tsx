@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
-import axios from 'axios';
-import Typography from '@material-ui/core/Typography';
-import { SignFormData } from '../../../types/main.types';
+import React, { ChangeEvent, useContext, useState } from 'react';
+
+import { signCardDisplayContext } from '../../SideBar/SideBar';
 import CButton from '../../Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
+
+import Typography from '@material-ui/core/Typography';
+
+import { SignFormData } from '../../../types/main.types';
 import { useTranslation } from 'react-i18next';
-import { authRequest } from '../../../api';
 import useAuth from '../../../services/authentication';
 
 const LoginForm = () => {
@@ -14,8 +16,10 @@ const LoginForm = () => {
     password: 'Sako727447*',
   });
 
+  const { toggle } = useContext(signCardDisplayContext);
+
   const { t } = useTranslation();
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -30,16 +34,8 @@ const LoginForm = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    const user = await login(formData);
-
-    // axios
-    //   .post('http://localhost:7000/api/auth/email/login', formData)
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error.response);
-    //   });
+    await login(formData);
+    toggle((state) => !state);
   };
 
   return (

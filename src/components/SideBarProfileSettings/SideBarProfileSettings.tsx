@@ -10,7 +10,11 @@ interface Props {}
 
 const SideBarProfileSettings = (props: Props) => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -36,7 +40,7 @@ const SideBarProfileSettings = (props: Props) => {
         {t('logout')}
       </Typography>
 
-      <CButton text={t('logout')} />
+      <CButton text={t('logout')} onClick={handleLogout} />
     </>
   );
 };
