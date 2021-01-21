@@ -64,7 +64,12 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
       />
       <Paper
         elevation={3}
-        style={{ background: 'white', width: '100%', height: '100%' }}
+        style={{
+          background: 'white',
+          width: '100%',
+          height: '100%',
+          padding: '10px',
+        }}
       >
         {settingsContent === 'profile' ? (
           <SideBarProfileSettings />
@@ -72,36 +77,6 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
           <SideBarAppSettings />
         )}
       </Paper>
-
-      {/* <Paper
-        elevation={3}
-        style={{ background: 'white', width: '100%', height: '100%' }}
-      >
-        <Typography
-          color="textSecondary"
-          variant="body1"
-          component="h3"
-          style={{ margin: '20px 10px', background: 'white' }}
-        >
-          {t('Language')}
-        </Typography>
-        <ThemeProvider theme={greenTheme}>
-          <FormField
-            select
-            value={selectedLang}
-            onChange={handleLanguageChange}
-            label=""
-            style={{ margin: 10, width: 300 }}
-            fullWidth={false}
-          >
-            {languages.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </FormField>
-        </ThemeProvider>
-      </Paper> */}
     </div>
   );
 };

@@ -40,7 +40,7 @@ const SideBarAppSettings = (props: Props) => {
         color="textSecondary"
         variant="body1"
         component="h3"
-        style={{ margin: '20px 10px', background: 'white' }}
+        style={{ marginBottom: '1rem' }}
       >
         {t('Language')}
       </Typography>

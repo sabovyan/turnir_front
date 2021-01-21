@@ -7,7 +7,7 @@
   "Login": "Войти",
   "Log In For Tournaments": "Авторизоваться для турниров",
   "email": "Эл. адрес",
-  "password": "Пароль",
+  "password": "пароль",
   "name": "Имя",
   "Sign up for Tournaments": "Регистрироваться для турниров",
   "Sign up": "Регистрироваться",
@@ -50,5 +50,12 @@
   "The email was already registered": "Электронная почта уже была зарегистрирована",
   "Email is sent": "Письмо отправлено",
   "Nothing here, yet": "Здесь пока ничего нет",
-  "Let’s get started with a new tournament": "Приступим к новому турниру"
+  "Let’s get started with a new tournament": "Приступим к новому турниру",
+
+  "Account": "Аккаунт",
+  "Current password": "Текущий пароль",
+  "New password": "Новый пароль",
+  "Repeat new password": "Повторите новый пароль",
+  "CHANGE PASSWORD": "ИЗМЕНИТЬ ПАРОЛЬ",
+  "logout": "Выход"
 }

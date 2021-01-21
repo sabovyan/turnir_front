@@ -11,6 +11,7 @@ import { SettingsContent } from '../../types/main.types';
 import useAuth from '../../services/authentication';
 
 import './SideBar.css';
+import { Settings } from '@material-ui/icons';
 
 export const SignCardDisplayContext = createContext(false);
 
@@ -25,15 +26,39 @@ const SideBar: FC = () => {
   const { user } = useAuth();
 
   const handleSettingsIconClick = () => {
-    setActive((state) => !state);
-    setSettingsVisible((state) => !state);
-    setSettingsContent('app');
+    /* to open app settings */
+    if (settingsVisible) {
+      setActive(true);
+      setSettingsContent('app');
+    } else if (!settingsVisible) {
+      setActive(true);
+      setSettingsContent('app');
+      setSettingsVisible(true);
+    }
+
+    /* to close the side bar settings */
+    if (settingsVisible && settingsContent === 'app') {
+      setSettingsVisible(false);
+      setActive(false);
+    }
   };
 
   const handleAccountIconClick = () => {
     if (user) {
-      setSettingsContent('profile');
-      setSettingsVisible((state) => !state);
+      setActive(false);
+
+      /* to open profile settings */
+      if (settingsVisible) {
+        setSettingsContent('profile');
+      } else if (!settingsVisible) {
+        setSettingsContent('profile');
+        setSettingsVisible(true);
+      }
+      /* to close the side bar settings */
+      if (settingsVisible && settingsContent === 'profile') {
+        setSettingsVisible(false);
+        setActive(false);
+      }
     } else {
       setIsSignIconPressed((state) => !state);
     }
@@ -45,6 +70,7 @@ const SideBar: FC = () => {
 
   const handleToggleSettings = () => {
     setSettingsVisible(false);
+    setActive(false);
   };
 
   return (

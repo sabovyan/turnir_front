@@ -33,8 +33,8 @@
   "Name is required": "անունը պարտադիր Է",
   "Invalid email": "անվավեր Էլ֊փոստ",
   "email is required": "Էլ֊փոստ պարտադիր է",
-  "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր գաղտնաբառը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
-  "password is required": "գաղտնաբառը պարտադիր է",
+  "your password should contain at least one uppercase letter, one digit and one symbol": "Ձեր ծածկագիրը պետք է պարունակի նվազագույնը մեկ տառ, մեկ թվանշան և մեկ սիմվոլ",
+  "password is required": "ծածկագիրը պարտադիր է",
 
   "Please check your email to verify your account": "Խնդրում ենք ստուգել ձեր էլ. Փոստը՝ ձեր հաշիվը հաստատելու համար",
   "Didn't you receive an Email?": "Չե՞ք ստացել Էլ.փոստ:",
@@ -48,5 +48,13 @@
   "Email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
   "Email is sent": "Նամակն ուղարկվում է",
   "Nothing here, yet": "Այստեղ դեռ ոչինչ չկա:",
-  "Let’s get started with a new tournament": "Եկեք սկսենք նոր մրցաշար"
+  "Let’s get started with a new tournament": "Եկեք սկսենք նոր մրցաշար",
+
+  "Account": "Հաշիվ",
+  "Current password": "Ընթացիկ ծածկագիր",
+  "New password": "Նոր ծածկագիր",
+  "Repeat new password": "Կրկնել նոր ծածկագիրը",
+  "CHANGE PASSWORD": "ՓՈԽԵԼ ԾԱԾԿԱԳԻՐԸ",
+
+  "logout": "ելք"
 }
