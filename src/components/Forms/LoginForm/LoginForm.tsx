@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FC, FormEvent, useContext, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import CButton from '../../Buttons/CustomButton/CustomButton';
@@ -18,18 +18,18 @@ const initialValues: SignFormData<string> = {
   password: '',
 };
 
-const LoginForm = () => {
-  const [isRequestPasswordClicked, setIsRequestPasswordClicked] = useState<
-    boolean
-  >(false);
+interface ILoginView {
+  changeViewToRequest: () => void;
+}
 
+const LoginForm: FC<ILoginView> = ({ changeViewToRequest }) => {
   const { toggle } = useContext(signCardDisplayContext);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { login } = useAuth();
 
   const handleRequestPasswordClick = () => {
-    setIsRequestPasswordClicked(true);
+    changeViewToRequest();
   };
 
   const formik = useFormik({
@@ -80,95 +80,56 @@ const LoginForm = () => {
   };
 
   return (
-    <div style={{ width: '100%' }}>
-      {!isRequestPasswordClicked ? (
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            width: '100%',
-          }}
-          onSubmit={submitLoginForm}
+    <>
+      <form
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          width: '100%',
+        }}
+        onSubmit={submitLoginForm}
+      >
+        <Typography
+          style={{ alignSelf: 'center' }}
+          color="textSecondary"
+          variant="h6"
+          component="h3"
         >
-          <Typography
-            style={{ alignSelf: 'center' }}
-            color="textSecondary"
-            variant="h6"
-            component="h3"
-          >
-            {t('Log In For Tournaments')}
-          </Typography>
+          {t('Log In For Tournaments')}
+        </Typography>
 
-          <FormField
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.email && formik.touched.email ? true : false}
-            name="email"
-            label={t('email')}
-          />
-          <FormField
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.email && formik.touched.email ? true : false}
-            name="password"
-            type="password"
-            label={t('password')}
-          />
-          <Typography
-            color="primary"
-            style={{
-              alignSelf: 'flex-end',
-              cursor: 'pointer',
-              margin: '1rem 0',
-            }}
-            onClick={handleRequestPasswordClick}
-          >
-            {t('forgot password')}
-          </Typography>
-          <CButton size="large" text={t('Login')} type="submit" />
-        </form>
-      ) : (
-        <>
-          <form
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              width: '100%',
-            }}
-          >
-            <Typography
-              style={{ alignSelf: 'center', margin: '1rem 0' }}
-              color="textSecondary"
-              variant="h6"
-              component="h3"
-            >
-              Request new password
-            </Typography>
-            <FormField label={t('email')} type="email" name="email" />
-            <CButton text="confirm" cssStyles={{ alignSelf: 'center' }} />
-            <Typography
-              color="primary"
-              variant="body1"
-              component="p"
-              onClick={() => {
-                setIsRequestPasswordClicked(false);
-              }}
-              style={{
-                alignSelf: 'flex-end',
-                cursor: 'pointer',
-                margin: '1rem 0',
-              }}
-            >
-              {t('back to login')}
-            </Typography>
-          </form>
-        </>
-      )}
-    </div>
+        <FormField
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email && formik.touched.email ? true : false}
+          name="email"
+          label={t('email')}
+        />
+        <FormField
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email && formik.touched.email ? true : false}
+          name="password"
+          type="password"
+          label={t('password')}
+        />
+        <Typography
+          color="primary"
+          style={{
+            alignSelf: 'flex-end',
+            cursor: 'pointer',
+            margin: '1rem 0',
+          }}
+          onClick={handleRequestPasswordClick}
+        >
+          {t('forgot password')}
+        </Typography>
+        <CButton size="large" text={t('Login')} type="submit" />
+      </form>
+    </>
   );
 };
 

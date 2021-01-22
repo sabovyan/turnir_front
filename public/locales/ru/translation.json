@@ -65,5 +65,10 @@
   "Your password is not correct": "Ваш пароль неверный",
   "Email is not registered": "Электронная почта не зарегистрирована",
   "Your password is changed": "Ваш пароль изменен",
-  "forgot password": "Забыли пароль?"
+  "forgot password": "Забыли пароль?",
+
+  "Request new password": "Запросить новый пароль",
+  "confirm": "Подтвердить",
+  "back to login": "вернуться на страницу авторизации",
+  "Your New Password is confirmed": "Ваш новый пароль подтвержден"
 }

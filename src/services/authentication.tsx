@@ -28,7 +28,21 @@ type RequestData = {
   tokenId: string;
 };
 
-const authContext = createContext<any>(null);
+interface IAuthProvider {
+  login: (data: SignFormData<string>) => Promise<User>;
+  user: User | false;
+  logout: () => void;
+  loginWithFacebook: () => Promise<User>;
+  loginWithGoogle: (response: GoogleResponse) => Promise<User>;
+  updatePassword: (data: ChangePasswordData) => Promise<AxiosResponse<any>>;
+  resetPassword: (email: string) => Promise<AxiosResponse<any>>;
+  setNewPassword: (
+    password: string,
+    token: string,
+  ) => Promise<AxiosResponse<any>>;
+}
+
+const authContext = createContext<IAuthProvider>(undefined!);
 
 export const ProvideAuth: FC = ({ children }) => {
   const auth = useProvideAuth();
@@ -45,15 +59,6 @@ const refreshAccessToken = (refreshToken: string | null) => {
   }
   return authRequest.doPost('email/refreshToken', { token: refreshToken });
 };
-
-interface IAuthProvider {
-  login: (data: SignFormData<string>) => Promise<User>;
-  user: User | false;
-  logout: () => void;
-  loginWithFacebook: () => Promise<User>;
-  loginWithGoogle: (response: GoogleResponse) => Promise<User>;
-  updatePassword: (data: ChangePasswordData) => Promise<AxiosResponse<any>>;
-}
 
 const useProvideAuth = (): IAuthProvider => {
   const [user, setUser] = useState<User | false>(false);
@@ -112,6 +117,21 @@ const useProvideAuth = (): IAuthProvider => {
   const updatePassword = async (data: ChangePasswordData) => {
     const update = await authRequest.doUpdate('email/update-password', data);
     return update;
+  };
+
+  const resetPassword = async (email: string) => {
+    const response = await authRequest.doPost('email/reset-password?lang=en', {
+      email,
+    });
+    return response;
+  };
+
+  const setNewPassword = async (password: string, token: string) => {
+    const response = await authRequest.doPost('email/confirm-password', {
+      password,
+      token,
+    });
+    return response;
   };
 
   const logout = () => {
@@ -191,6 +211,8 @@ const useProvideAuth = (): IAuthProvider => {
     loginWithFacebook,
     loginWithGoogle,
     updatePassword,
+    resetPassword,
+    setNewPassword,
   };
 };
 

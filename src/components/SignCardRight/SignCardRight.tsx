@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import LoginForm from '../Forms/LoginForm/LoginForm';
+
+import LoginForms from '../LoginView/LoginView';
 import RegisterForm from '../Forms/RegisterForm/RegisterForm';
 import SignFormBottom from '../SignFormBottom/SignFormBottom';
 import RegisterVerification from '../RegisterVerification/RegisterVerification';
@@ -26,7 +27,7 @@ const SignCardRight = () => {
           <RegisterVerification />
         ) : (
           <>
-            {isSWitched ? <RegisterForm /> : <LoginForm />}
+            {isSWitched ? <RegisterForm /> : <LoginForms />}
             <SignFormBottom
               isSwitched={isSWitched}
               handleToggle={handleFormsToggle}

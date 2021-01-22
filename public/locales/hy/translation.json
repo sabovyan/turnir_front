@@ -63,5 +63,11 @@
   "Your password is not correct": "Ձեր ծածկագիրը ճիշտ չէ",
   "Email is not registered": "Էլ.փոստը գրանցված չէ",
   "Your password is changed": "Ձեր ծածկագիրը փոխվել է",
-  "forgot password": "Մոռացել եք գաղտնաբառը"
+  "forgot password": "Մոռացել եք գաղտնաբառը",
+
+  "Request new password": "Հայցել նոր ծածկագիր",
+  "confirm": "հաստատել",
+  "back to login": "վերադառնալ",
+
+  "Your New Password is confirmed": "Ձեր նոր գաղտնաբառը հաստատված է"
 }

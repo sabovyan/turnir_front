@@ -9,4 +9,6 @@ const main = {
 export default main;
 
 export const Register: React.VFC<{}> = () => <RegisterForm />;
-export const Login: React.VFC<{}> = () => <LoginForm />;
+export const Login: React.VFC<{}> = () => (
+  <LoginForm changeViewToRequest={() => {}} />
+);

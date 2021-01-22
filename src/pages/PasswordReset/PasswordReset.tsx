@@ -3,55 +3,50 @@ import { useFormik } from 'formik';
 import React, { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import CButton from '../../components/Buttons/CustomButton/CustomButton';
+import CustomBackdrop from '../../components/CustomBackdrop/CustomBackdrop';
+import FormField from '../../components/Input/FormField';
 import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
-import { ChangePasswordData } from '../../types/main.types';
-import CButton from '../Buttons/CustomButton/CustomButton';
-import FormField from '../Input/FormField';
-import ChangePasswordSchema from './SideBarChangePassword.validate';
+import passwordValidateSchema from './passwordReset.validate';
 
-const SideBarChangePassword = () => {
+interface Props {}
+
+const PasswordReset = (props: Props) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { user, updatePassword } = useAuth();
+  const { setNewPassword } = useAuth();
+  const { token } = useParams<{ token: string }>();
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
-      oldPassword: '',
       newPassword: '',
       repeatNewPassword: '',
     },
-    validationSchema: ChangePasswordSchema,
+    validationSchema: passwordValidateSchema,
     onSubmit: async (values) => {
-      const { oldPassword, newPassword } = values;
+      const password = values.newPassword;
+
       try {
-        if (user) {
-          const data: ChangePasswordData = {
-            id: user.id,
-            oldPassword,
-            newPassword,
-          };
+        const resp = await setNewPassword(password, token);
+        const message = resp.data;
 
-          const resp = await updatePassword(data);
-
-          const message = resp.data;
-          console.log(resp);
-          console.log(user);
-          dispatch(
-            setResponseStatus({
-              type: 'success',
-              message: t(message),
-              open: true,
-            }),
-          );
-        }
+        dispatch(
+          setResponseStatus({
+            type: 'success',
+            message: t(message),
+            open: true,
+          }),
+        );
+        history.push('/');
       } catch (err) {
         const {
           response: {
             data: { error },
           },
         } = err;
-
         dispatch(
           setResponseStatus({ type: 'error', message: t(error), open: true }),
         );
@@ -62,23 +57,12 @@ const SideBarChangePassword = () => {
   const handleChangePasswordForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const oldPasswordError =
-      formik.touched.oldPassword && formik.errors.oldPassword;
     const newPasswordError =
       formik.touched.newPassword && formik.errors.newPassword;
     const repeatNewPasswordError =
       formik.touched.repeatNewPassword && formik.errors.repeatNewPassword;
 
-    if (oldPasswordError) {
-      console.log(oldPasswordError);
-      dispatch(
-        setResponseStatus({
-          type: 'error',
-          message: t(oldPasswordError),
-          open: true,
-        }),
-      );
-    } else if (newPasswordError) {
+    if (newPasswordError) {
       dispatch(
         setResponseStatus({
           type: 'error',
@@ -100,29 +84,29 @@ const SideBarChangePassword = () => {
   };
 
   return (
-    <div>
-      <Typography
-        color="textSecondary"
-        variant="h6"
-        component="h3"
-        style={{ margin: '1rem 0' }}
+    <CustomBackdrop open={true} zIndex={5}>
+      <form
+        onSubmit={handleChangePasswordForm}
+        style={{
+          width: '400px',
+          display: 'flex',
+          background: 'white',
+          flexDirection: 'column',
+          padding: '3rem',
+          borderRadius: '5px',
+          boxShadow: '2px 2px 10px #a3a3a3, -1px -1px 3px #e3e3e3',
+        }}
       >
-        {t('password')}
-      </Typography>
-      <form onSubmit={handleChangePasswordForm}>
+        <Typography
+          color="textSecondary"
+          variant="h6"
+          component="h3"
+          style={{ margin: '1rem 0' }}
+        >
+          {t('password')}
+        </Typography>
         <FormField
-          name="oldPassword"
-          label={t('Current password')}
-          value={formik.values.oldPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched.oldPassword && formik.errors.oldPassword
-              ? true
-              : false
-          }
-        />
-        <FormField
+          type="password"
           name="newPassword"
           label={t('New password')}
           value={formik.values.newPassword}
@@ -135,6 +119,7 @@ const SideBarChangePassword = () => {
           }
         />
         <FormField
+          type="password"
           name="repeatNewPassword"
           label={t('Repeat new password')}
           value={formik.values.repeatNewPassword}
@@ -146,10 +131,14 @@ const SideBarChangePassword = () => {
               : false
           }
         />
-        <CButton type="submit" text={t('CHANGE PASSWORD')} />
+        <CButton
+          type="submit"
+          text={t('confirm')}
+          cssStyles={{ margin: '2rem' }}
+        />
       </form>
-    </div>
+    </CustomBackdrop>
   );
 };
 
-export default SideBarChangePassword;
+export default PasswordReset;

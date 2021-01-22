@@ -26,8 +26,8 @@ const SideBarProfileSettings = (props: Props) => {
       >
         {t('Account')}
       </Typography>
-      <FormField disabled label={t('name')} value={user.displayName} />
-      <FormField disabled label={t('email')} value={user.email} />
+      <FormField disabled label={t('name')} value={user && user.displayName} />
+      <FormField disabled label={t('email')} value={user && user.email} />
       {user && !user.googleId && !user.facebookId ? (
         <SideBarChangePassword />
       ) : null}
