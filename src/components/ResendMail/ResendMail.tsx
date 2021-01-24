@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
 import CButton from '../Buttons/CustomButton/CustomButton';
 import { useTranslation } from 'react-i18next';
-import { authRequest } from '../../api';
-import { RootState } from '../../store/features';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { orange } from '@material-ui/core/colors';
+import { Button } from '@material-ui/core';
 
-const RegisterVerification = () => {
-  const RegisterFormData = useSelector(
-    (state: RootState) => state.RegisterFormData,
-  );
+interface IResendMail {
+  resend: () => void;
+  email: string;
+  handleBackButtonClick: () => void;
+}
 
+const ResendMail: FC<IResendMail> = ({
+  resend,
+  handleBackButtonClick,
+  email,
+}) => {
   const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
 
   const [count, setCount] = useState(30);
@@ -22,24 +28,9 @@ const RegisterVerification = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const handleBackButtonClick = () => {
-    dispatch(
-      setResponseStatus({ type: undefined, message: undefined, open: false }),
-    );
-  };
-
   const handleResendButtonClick = () => {
     setIsResendButtonDisabled(true);
-    authRequest.doPost('email/resend', RegisterFormData).catch(() => {
-      dispatch(
-        setResponseStatus({
-          type: 'error',
-          message:
-            'Your email is either already registered or you have start from the beginning',
-          open: true,
-        }),
-      );
-    });
+    resend();
   };
 
   useEffect(() => {
@@ -70,7 +61,11 @@ const RegisterVerification = () => {
         flexDirection: 'column',
       }}
     >
-      <Typography component="h3" variant="h5">
+      <Typography component="h3" variant="h6" color="textSecondary">
+        {t('A verification link has been sent to')}
+        {email ? ` ${email}` : ` ${t('your email account')}`}
+      </Typography>
+      <Typography component="p" variant="body1" color="textSecondary">
         {t('Please check your email to verify your account')}
       </Typography>
 
@@ -78,14 +73,16 @@ const RegisterVerification = () => {
         <Typography component="p" variant="body1" color="textSecondary">
           {t("Didn't you receive an Email?")}
         </Typography>
-
         <Typography component="p" variant="body1" color="textSecondary">
           {t('Click the resend button to receive a new one')}
         </Typography>
       </div>
       <div style={{ alignSelf: 'flex-end', display: 'flex', gap: '1rem' }}>
-        <CButton text={t('Back')} onClick={handleBackButtonClick} />
-        <div style={{ minWidth: 200 }}>
+        <Button onClick={handleBackButtonClick} style={{ minWidth: 200 }}>
+          {t('Back')}
+        </Button>
+
+        <div>
           {isResendButtonDisabled ? (
             <div
               style={{
@@ -121,4 +118,4 @@ const RegisterVerification = () => {
   );
 };
 
-export default RegisterVerification;
+export default ResendMail;

@@ -8,7 +8,7 @@ type TRegisterFormData = {
 
 const initialState: TRegisterFormData = {
   displayName: '',
-  email: 'sargis@simplytechnologies.net',
+  email: '',
   password: '',
 };
 

@@ -44,9 +44,9 @@
 
   "Your email is successfully registered, you can now login": "Ձեր էլ. Փոստը հաջողությամբ գրանցված է, այժմ կարող եք մուտք գործել",
   "Invalid token or email": "Անվավեր թոկեն կամ էլ",
-  "Unauthorized request": "Չարտոնված հարցում",
+  "Unauthorized Request": "Չարտոնված հարցում",
   "Email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
-  "Email is sent": "Նամակն ուղարկվում է",
+  "Email is sent": "Նամակն ուղարկված է",
   "Nothing here, yet": "Այստեղ դեռ ոչինչ չկա:",
   "Let’s get started with a new tournament": "Եկեք սկսենք նոր մրցաշար",
 
@@ -69,5 +69,11 @@
   "confirm": "հաստատել",
   "back to login": "վերադառնալ",
 
-  "Your New Password is confirmed": "Ձեր նոր գաղտնաբառը հաստատված է"
+  "Your New Password is confirmed": "Ձեր նոր գաղտնաբառը հաստատված է",
+  "Network Error": "Ցանցային խնդիր",
+
+  "The email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
+  "The email is sent. please check out your inbox": "Նամակն ուղարկվում է խնդրում ենք ստուգել ձեր մուտքի արկղը",
+  "A verification link has been sent to": "Հաստատման հղումն ուղարկվել է",
+  "your email account": "ձեր էլ. փոստի հաշիվին"
 }

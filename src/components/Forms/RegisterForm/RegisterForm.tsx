@@ -10,8 +10,8 @@ import { useFormik } from 'formik';
 import RegisterSchema from './Register.validate';
 import { useDispatch } from 'react-redux';
 import { setResponseStatus } from '../../../store/features/formResponseStatus';
-import { authRequest } from '../../../api';
 import { setRegisterFormData } from '../../../store/features/RegisterFormData';
+import useAuth from '../../../services/authentication';
 
 const initialValues: SignFormData<string> = {
   displayName: '',
@@ -22,12 +22,14 @@ const initialValues: SignFormData<string> = {
 const RegisterForm: FC = (): JSX.Element => {
   const { t } = useTranslation();
 
+  const { register } = useAuth();
+
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues,
     validationSchema: RegisterSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       dispatch(
         setRegisterFormData({
           email: values.email,
@@ -36,38 +38,43 @@ const RegisterForm: FC = (): JSX.Element => {
         }),
       );
 
-      authRequest
-        .doPost('email', { ...values })
-        .then((res) => {
+      try {
+        const response = await register({
+          email: values.email,
+          displayName: values.displayName,
+          password: values.password,
+        });
+
+        console.log(response);
+
+        dispatch(
+          setResponseStatus({
+            type: 'success',
+            message: t(response),
+            open: true,
+          }),
+        );
+      } catch (err) {
+        if (!err.response) {
           dispatch(
             setResponseStatus({
-              type: 'success',
-              message: res.data.message,
+              type: 'error',
+              message: err.message,
               open: true,
             }),
           );
-        })
-        .catch((err) => {
-          if (!err.response) {
-            dispatch(
-              setResponseStatus({
-                type: 'error',
-                message: err.message,
-                open: true,
-              }),
-            );
-            return;
-          }
+          return;
+        }
 
-          const {
-            response: {
-              data: { error },
-            },
-          } = err;
-          dispatch(
-            setResponseStatus({ type: 'error', message: error, open: true }),
-          );
-        });
+        const {
+          response: {
+            data: { error },
+          },
+        } = err;
+        dispatch(
+          setResponseStatus({ type: 'error', message: t(error), open: true }),
+        );
+      }
     },
   });
 

@@ -70,5 +70,9 @@
   "Request new password": "Запросить новый пароль",
   "confirm": "Подтвердить",
   "back to login": "вернуться на страницу авторизации",
-  "Your New Password is confirmed": "Ваш новый пароль подтвержден"
+  "Your New Password is confirmed": "Ваш новый пароль подтвержден",
+  "Network Error": "Ошибка сети",
+  "The email is sent. please check out your inbox": "Письмо отправлено. пожалуйста, проверьте свой почтовый ящик",
+  "A verification link has been sent to": "Ссылка для подтверждения отправлена на",
+  "your email account": "вашу электронную почту"
 }

@@ -18,7 +18,7 @@ const CustomBackdrop: FC<IBackdropProps> = ({
       {...props}
       open={open}
       style={{
-        zIndex, // 1
+        zIndex,
         background: colors.backdropColor,
       }}
     >

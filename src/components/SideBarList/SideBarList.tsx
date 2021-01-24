@@ -50,7 +50,6 @@ const SideBarList: FC<ISideBarList> = ({
   const { user } = useAuth();
 
   const handleHomeIconClick = () => {
-    console.log(history);
     history.push('/');
   };
 

@@ -40,6 +40,16 @@ const LoginForm: FC<ILoginView> = ({ changeViewToRequest }) => {
         await login(values);
         toggle((state) => !state);
       } catch (err) {
+        if (!err.response) {
+          dispatch(
+            setResponseStatus({
+              type: 'error',
+              message: t(err.message),
+              open: true,
+            }),
+          );
+          return;
+        }
         const {
           response: {
             data: { error },

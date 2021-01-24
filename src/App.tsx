@@ -6,6 +6,7 @@ import SideBar from './components/SideBar/SideBar';
 import Home from './pages/Home/Home';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
+import CreateNewTournament from './pages/CreateNewTournament/CreateNewTournament';
 
 function App() {
   return (
@@ -19,9 +20,13 @@ function App() {
               <Route exact path="/">
                 <Home />
               </Route>
+              <Route path="/new">
+                <CreateNewTournament />
+              </Route>
               <Route path="/email-confirmation/:token">
                 <EmailVerification />
               </Route>
+
               <Route path="/password-reset/:token">
                 <PasswordReset />
               </Route>

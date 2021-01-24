@@ -28,7 +28,15 @@ type RequestData = {
   tokenId: string;
 };
 
+type RegisterFormData = {
+  email: string;
+  password: string;
+  displayName: string;
+};
+
 interface IAuthProvider {
+  register: (data: RegisterFormData) => Promise<string>;
+  resendRegisterMail: (data: RegisterFormData) => Promise<string>;
   login: (data: SignFormData<string>) => Promise<User>;
   user: User | false;
   logout: () => void;
@@ -65,6 +73,19 @@ const useProvideAuth = (): IAuthProvider => {
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );
+
+  const register = async (data: RegisterFormData) => {
+    const res = await authRequest.doPost('email', data);
+    const { message } = res.data;
+
+    return message;
+  };
+
+  const resendRegisterMail = async (data: RegisterFormData) => {
+    const res = await authRequest.doPost('email/resend', data);
+    const { message } = res.data;
+    return message;
+  };
 
   const login = async (data: SignFormData<string>) => {
     const res: AxiosResponse<LoginResponse> = await authRequest.doPost(
@@ -205,6 +226,8 @@ const useProvideAuth = (): IAuthProvider => {
   }, [expiry, user]);
 
   return {
+    register,
+    resendRegisterMail,
     login,
     logout,
     user,

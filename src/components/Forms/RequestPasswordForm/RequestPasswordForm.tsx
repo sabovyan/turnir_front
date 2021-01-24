@@ -9,6 +9,8 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { setResponseStatus } from '../../../store/features/formResponseStatus';
 import useAuth from '../../../services/authentication';
+import { setEmail } from '../../../store/features/requestPasswordEmail';
+import { Button } from '@material-ui/core';
 
 interface IRequestPasswordForm {
   changeViewToLogin: () => void;
@@ -41,9 +43,27 @@ const RequestPasswordForm: FC<IRequestPasswordForm> = ({
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
-      const resp = await resetPassword(values.email);
-      console.log(resp);
+      dispatch(setEmail(formik.values.email));
+
+      try {
+        const resp = await resetPassword(values.email);
+        const { data } = resp;
+
+        dispatch(
+          setResponseStatus({ type: 'success', message: t(data), open: true }),
+        );
+
+        changeViewToConfirm();
+      } catch (err) {
+        console.log(err.response);
+        dispatch(
+          setResponseStatus({
+            type: 'error',
+            message: t(err.response.data.error),
+            open: true,
+          }),
+        );
+      }
     },
   });
 
@@ -56,7 +76,6 @@ const RequestPasswordForm: FC<IRequestPasswordForm> = ({
       );
     } else {
       formik.handleSubmit(e);
-      changeViewToConfirm();
     }
   };
 
@@ -88,24 +107,16 @@ const RequestPasswordForm: FC<IRequestPasswordForm> = ({
           onBlur={formik.handleBlur}
           error={formik.errors.email && formik.touched.email ? true : false}
         />
-        <CButton
-          type="submit"
-          text={t('confirm')}
-          cssStyles={{ alignSelf: 'center' }}
-        />
-        <Typography
-          color="primary"
-          variant="body1"
-          component="p"
-          onClick={handleBackToLogin}
+        <div
           style={{
-            alignSelf: 'flex-end',
-            cursor: 'pointer',
-            margin: '1rem 0',
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '90%',
           }}
         >
-          {t('back to login')}
-        </Typography>
+          <Button onClick={handleBackToLogin}>{t('back to login')}</Button>
+          <CButton type="submit" text={t('confirm')} />
+        </div>
       </form>
     </>
   );

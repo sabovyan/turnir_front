@@ -33,10 +33,8 @@ const SideBarChangePassword = () => {
           };
 
           const resp = await updatePassword(data);
-
           const message = resp.data;
-          console.log(resp);
-          console.log(user);
+
           dispatch(
             setResponseStatus({
               type: 'success',
@@ -111,6 +109,7 @@ const SideBarChangePassword = () => {
       </Typography>
       <form onSubmit={handleChangePasswordForm}>
         <FormField
+          type="password"
           name="oldPassword"
           label={t('Current password')}
           value={formik.values.oldPassword}
@@ -123,6 +122,7 @@ const SideBarChangePassword = () => {
           }
         />
         <FormField
+          type="password"
           name="newPassword"
           label={t('New password')}
           value={formik.values.newPassword}
@@ -135,6 +135,7 @@ const SideBarChangePassword = () => {
           }
         />
         <FormField
+          type="password"
           name="repeatNewPassword"
           label={t('Repeat new password')}
           value={formik.values.repeatNewPassword}

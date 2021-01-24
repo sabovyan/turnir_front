@@ -53,10 +53,10 @@ const EmailVerification = () => {
         }}
       >
         <Typography variant="h4" component="p">
-          {emoji}
+          {t(successMessage)}
         </Typography>
         <Typography variant="h4" component="p">
-          {t(successMessage)}
+          {emoji}
         </Typography>
 
         <Typography variant="h4" component="p">
