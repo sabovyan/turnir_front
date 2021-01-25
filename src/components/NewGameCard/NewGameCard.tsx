@@ -22,35 +22,26 @@ const useStyles = makeStyles({
     color: 'white',
     flexGrow: 4,
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-
-  name: {
-    color: 'white',
   },
 
   action: {
     flexGrow: 0,
-    padding: 0,
+    padding: 10,
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 interface ICardProps {
   icon: JSX.Element;
-  buttonCLick: () => void;
+  onCardClick: () => void;
   name: string;
-  background: string;
+  color: string;
 }
 
-const NewGameCard: FC<ICardProps> = ({
-  icon,
-  buttonCLick,
-  name,
-  background,
-}) => {
+const NewGameCard: FC<ICardProps> = ({ icon, onCardClick, name, color }) => {
   const classes = useStyles();
 
   const [raised, setRaised] = useState<boolean>(false);
@@ -69,20 +60,18 @@ const NewGameCard: FC<ICardProps> = ({
       onMouseOut={cardMouseOut}
       raised={raised}
       className={classes.card}
+      onClick={onCardClick}
     >
-      <CardContent className={classes.cardContent} style={{ background }}>
-        {/* <EliminationIcon
-          style={{ fill: 'white', width: 40, alignSelf: 'flex-end' }}
-        /> */}
+      <CardContent
+        className={classes.cardContent}
+        style={{ background: color }}
+      >
         {icon}
-        <Typography className={classes.name} variant="h6">
-          {name}
-        </Typography>
       </CardContent>
       <CardActions className={classes.action}>
-        <IconButton onClick={buttonCLick}>
-          <PlayArrowIcon style={{ fontSize: '2rem' }} />
-        </IconButton>
+        <Typography variant="h6" style={{ color }}>
+          {name}
+        </Typography>
       </CardActions>
     </Card>
   );

@@ -10,17 +10,20 @@ import './i18n';
 import greenTheme from './styles/theme';
 import { ThemeProvider } from '@material-ui/core';
 import { ProvideAuth } from './services/authentication';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={null}>
-      <ProvideAuth>
-        <Provider store={store}>
-          <ThemeProvider theme={greenTheme}>
-            <App />
-          </ThemeProvider>
-        </Provider>
-      </ProvideAuth>
+      <Router>
+        <ProvideAuth>
+          <Provider store={store}>
+            <ThemeProvider theme={greenTheme}>
+              <App />
+            </ThemeProvider>
+          </Provider>
+        </ProvideAuth>
+      </Router>
     </Suspense>
   </React.StrictMode>,
   document.getElementById('root'),

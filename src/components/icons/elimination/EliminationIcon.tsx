@@ -4,7 +4,6 @@ const EliminationIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       id="Solid"
-      height="50"
       viewBox="0 0 512 512"
       width="50"
       xmlns="http://www.w3.org/2000/svg"

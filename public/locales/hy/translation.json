@@ -24,7 +24,7 @@
   "By Name": "Ըստ անունի",
   "By Date": "ըստ ամսաթվի",
   "All modes": "բոլոր ռեժիմները",
-  "Round Robin": "Ռոբին ռաունդ",
+  "Round Robin": "Ռաունդ Ռոբին",
   "Last Man standing": "վերջին հերոս",
   "Elimination": "Հեռացնում",
   "NEW TOURNAMENT": "ՆՈՐ ՄՐՑԱՇԱՐ",
@@ -75,5 +75,9 @@
   "The email was already registered": "Էլ. Փոստն արդեն գրանցված էր",
   "The email is sent. please check out your inbox": "Նամակն ուղարկվում է խնդրում ենք ստուգել ձեր մուտքի արկղը",
   "A verification link has been sent to": "Հաստատման հղումն ուղարկվել է",
-  "your email account": "ձեր էլ. փոստի հաշիվին"
+  "your email account": "ձեր էլ. փոստի հաշիվին",
+
+  "Select Mode": "Ընտրեք ռեժիմը",
+
+  "you are not logged in": "Դուք մուտք չեք գործել"
 }

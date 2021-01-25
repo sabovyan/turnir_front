@@ -1,11 +1,8 @@
 import React from 'react';
 
-interface Props {}
-
 const RoundRobinIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      height="50"
       viewBox="0 0 512 512"
       width="50"
       xmlns="http://www.w3.org/2000/svg"

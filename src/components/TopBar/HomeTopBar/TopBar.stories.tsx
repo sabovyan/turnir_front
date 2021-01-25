@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from './TopBar';
+import TopBar from './HomeTopBar';
 
 const main = {
   title: 'TopBar',

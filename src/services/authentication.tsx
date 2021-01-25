@@ -69,7 +69,7 @@ const refreshAccessToken = (refreshToken: string | null) => {
 };
 
 const useProvideAuth = (): IAuthProvider => {
-  const [user, setUser] = useState<User | false>(false);
+  const [user, setUser] = useState<User | false>(undefined!);
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );

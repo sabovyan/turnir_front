@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import useAuth from '../../services/authentication';
 import CButton from '../Buttons/CustomButton/CustomButton';
 import FormField from '../Input/FormField';
@@ -11,9 +12,11 @@ interface Props {}
 const SideBarProfileSettings = (props: Props) => {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
+  const history = useHistory();
 
   const handleLogout = () => {
     logout();
+    history.push('/');
   };
 
   return (
