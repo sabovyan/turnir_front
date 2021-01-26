@@ -17,6 +17,7 @@ const SettingsSelect = ({ label, array, value, type, ...props }: Props) => {
         display: 'flex',
         justifyContent: 'space-between',
         width: '100%',
+        margin: '1rem',
       }}
     >
       <Typography style={{ width: '100%', padding: '5px 0' }}>

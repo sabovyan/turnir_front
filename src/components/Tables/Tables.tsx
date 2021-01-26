@@ -5,15 +5,16 @@ import SettingsListItem from '../SettingsListItem/SettingsListItem';
 import { tablesArray } from '../../constants/quantity';
 
 import { useTranslation } from 'react-i18next';
+import { tableDescription } from '../../constants/description';
 
 const Tables = () => {
   const { t } = useTranslation();
   return (
-    <SettingsListItem header={t('Tables')}>
+    <SettingsListItem header={t('Tables')} description={t(tableDescription)}>
       <SettingsSelect
         label={t('Number of Tables')}
         array={tablesArray}
-        type={t('Tables')}
+        type={'Tables'}
         value={tablesArray[0]}
       />
     </SettingsListItem>

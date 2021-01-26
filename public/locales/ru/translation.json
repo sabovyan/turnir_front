@@ -80,5 +80,15 @@
 
   "you are not logged in": "вы не авторизованы",
   "Tournament Settings": "Настройки турнира",
-  "Next": "Дальше"
+  "Next": "Дальше",
+
+  "Press Ctrl + Enter": "Нажмите Ctrl + Enter",
+
+  "Number of Tables": "Количество столов",
+  "Tables": "Столы",
+  "Tables can be added or deactivated during the tournament": "Столы можно добавлять или отключать во время турнира.",
+  "Goals for Win can be changed during the tournament": "Голы на победу можно менять во время турнира.",
+  "Goals to Win": "Голы на победу",
+  "Winning Sets": "Выигрышные сетЫ",
+  "Goals": "Голы"
 }

@@ -1,7 +1,8 @@
 import { Paper } from '@material-ui/core';
 import React from 'react';
-import FormField from '../Input/FormField';
+import Goals from '../Goals/Goals';
 import Tables from '../Tables/Tables';
+import WinningSets from '../WinningSets/WinningSets';
 
 const EliminationSettings = () => {
   return (
@@ -11,19 +12,24 @@ const EliminationSettings = () => {
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
-        height: '80vh',
+        // height: '80vh',
         outline: 'none',
+        margin: '1rem',
       }}
     >
       <Paper
-        elevation={4}
-        style={{ width: '400px', display: 'flex', flexDirection: 'column' }}
+        elevation={6}
+        style={{
+          width: '600px',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '1rem',
+          height: '100%',
+        }}
       >
         <Tables />
-        <FormField label="" />
-        <FormField label="" />
-        <FormField label="" />
-        <FormField label="" />
+        <Goals />
+        <WinningSets />
       </Paper>
     </div>
   );

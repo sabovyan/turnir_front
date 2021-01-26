@@ -81,5 +81,14 @@
 
   "you are not logged in": "Դուք մուտք չեք գործել",
   "Tournament Settings": "Մրցաշարի կարգավորում",
-  "Next": "Հաջորդ"
+  "Next": "Հաջորդ",
+  "Press Ctrl + Enter": "Սեղմեք Ctrl + Enter",
+
+  "Number of Tables": "Սեղանների քանակը",
+  "Tables": "Սեղաններ",
+  "Tables can be added or deactivated during the tournament": "Աղյուսակները կարող են ավելացվել կամ ապաակտիվացվել մրցաշարի ընթացքում",
+  "Goals for Win can be changed during the tournament": "Գոլերը կարող են փոփոխվել մրցաշարի ընթացքում",
+  "Goals to Win": "Հաղթելու գոլերի քանակը",
+  "Winning Sets": "Հաղթական սեթեր",
+  "Goals": "Գոլեր"
 }

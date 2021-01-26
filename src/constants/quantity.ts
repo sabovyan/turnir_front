@@ -1,5 +1,6 @@
-const getArrayWithNameAndQuantity = (quantity: number) =>
+const getArrayOfQuantity = (quantity: number) =>
   new Array(quantity).fill(0).map((el, idx) => el + idx + 1);
 
-export const tablesArray = getArrayWithNameAndQuantity(200);
-export const goalsArray = getArrayWithNameAndQuantity(200);
+export const tablesArray = getArrayOfQuantity(200);
+export const goalsArray = getArrayOfQuantity(200);
+export const winningSetsArray = getArrayOfQuantity(10);
