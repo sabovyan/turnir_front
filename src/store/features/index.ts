@@ -2,11 +2,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 import formResponseStatus from './formResponseStatus';
 import RegisterFormData from './RegisterFormData';
 import requestPasswordEmail from './requestPasswordEmail';
-
-// const reducer = { formResponseStatus };
+import selectedMode from './selectedMode';
 
 const reducer = combineReducers({
   formResponseStatus,
+  selectedMode,
   RegisterFormData,
   requestPasswordEmail,
 });

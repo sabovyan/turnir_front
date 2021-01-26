@@ -8,7 +8,12 @@ const CButton: FC<IButton> = ({ text, cssStyles, ...props }) => {
     <Button
       variant="contained"
       color="primary"
-      style={{ background: orange[800], alignSelf: 'center', ...cssStyles }}
+      style={{
+        background: orange[800],
+        alignSelf: 'center',
+        padding: '10px 2rem',
+        ...cssStyles,
+      }}
       {...props}
     >
       {text}

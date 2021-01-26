@@ -1,11 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import EliminationIcon from '../../components/icons/elimination/EliminationIcon';
 import LastManStandingIcon from '../../components/icons/LastManStanding/LastManStanding';
 import RoundRobinIcon from '../../components/icons/roundRobin/RoundRobinIcon';
 import NewGameCard from '../../components/NewGameCard/NewGameCard';
 import NewTopBar from '../../components/TopBar/NewTopBar/NewTopBar';
+import {
+  setSelectedMode,
+  selectedMode,
+} from '../../store/features/selectedMode';
 
 interface Props {}
 
@@ -13,8 +18,11 @@ const CreateNewTournament = (props: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
 
+  const dispatch = useDispatch();
+
   const goToElimination = () => {
-    history.push('/elimination');
+    history.push('/tournament-settings');
+    dispatch(setSelectedMode(selectedMode.elimination));
   };
 
   return (

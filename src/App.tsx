@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import SideBar from './components/SideBar/SideBar';
 import Home from './pages/Home/Home';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import CreateNewTournament from './pages/CreateNewTournament/CreateNewTournament';
-import Elimination from './pages/Elimination/Elimination';
+import TournamentSettings from './pages/TournamentSettings/TournamentSettings';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import useAuth from './services/authentication';
 
@@ -25,8 +25,8 @@ function App() {
             <PrivateRoute isAuth={user} path="/new">
               <CreateNewTournament />
             </PrivateRoute>
-            <PrivateRoute isAuth={user} path="/elimination">
-              <Elimination />
+            <PrivateRoute isAuth={user} path="/tournament-settings">
+              <TournamentSettings />
             </PrivateRoute>
 
             <Route path="/email-confirmation/:token">

@@ -6,9 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   topBar: {
     margin: 0,
-    padding: '0 1rem',
+    padding: '10px 1rem',
     justifyContent: 'space-between',
-    minHeight: 100,
+    minHeight: 80,
   },
 });
 
