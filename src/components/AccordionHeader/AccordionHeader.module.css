@@ -1,15 +1,15 @@
 .accordion {
   overflow: hidden;
-  transition: height 200ms linear;
-  height: 50px;
+  transition: height 100ms linear;
+  height: 60px;
   width: 100%;
 }
 
 .accordionExtended {
   overflow: hidden;
-  transition: height 200ms linear;
-  height: 100%;
   width: 100%;
+  transition: height 100ms linear;
+  height: 150px;
 }
 
 .accordionHeadBar {
@@ -18,8 +18,9 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  height: 50px;
+  height: 60px;
   cursor: pointer;
+  padding: 5px 10px;
 }
 
 .accordionHeader {
@@ -27,9 +28,15 @@
   font-size: 1rem;
   padding: 1rem 0;
   color: #565656;
+  padding: 5px;
 }
 
-.accordionExtended > .accordionIcon {
+.accordionIcon {
+  transform: rotate(0);
+  transition: transform 100ms linear;
+}
+
+.accordionIconExpanded {
   transform: rotate(-180deg);
   transition: transform 100ms linear;
 }
@@ -37,5 +44,5 @@
 .accordionDescription {
   font-size: 12px;
   color: #666;
-  padding: 10px 0;
+  padding: 0 10px;
 }

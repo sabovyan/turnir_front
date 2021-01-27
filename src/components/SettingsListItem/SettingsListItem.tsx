@@ -14,7 +14,7 @@ const SettingsListItem = ({
   description,
 }: ISettingsListItemProps) => {
   return (
-    <ListItem style={{ display: 'flex', flexDirection: 'column' }}>
+    <ListItem style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
       <AccordionHeader header={header} description={description} />
 
       {children}

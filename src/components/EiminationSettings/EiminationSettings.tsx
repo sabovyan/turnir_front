@@ -12,7 +12,6 @@ const EliminationSettings = () => {
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
-        // height: '80vh',
         outline: 'none',
         margin: '1rem',
       }}
@@ -20,11 +19,10 @@ const EliminationSettings = () => {
       <Paper
         elevation={6}
         style={{
-          width: '600px',
+          width: '500px',
           display: 'flex',
           flexDirection: 'column',
-          padding: '1rem',
-          height: '100%',
+          padding: '10px',
         }}
       >
         <Tables />

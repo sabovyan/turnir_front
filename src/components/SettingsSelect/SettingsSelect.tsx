@@ -3,14 +3,20 @@ import Typography from '@material-ui/core/Typography/Typography';
 import FormField, { IFormFieldProps } from '../Input/FormField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-interface Props extends IFormFieldProps {
+interface ISettingsSelectProps extends IFormFieldProps {
   label: string;
   array: string[];
   value: string;
   type: string;
 }
 
-const SettingsSelect = ({ label, array, value, type, ...props }: Props) => {
+const SettingsSelect = ({
+  label,
+  array,
+  value,
+  type,
+  ...props
+}: ISettingsSelectProps) => {
   return (
     <div
       style={{
@@ -18,6 +24,7 @@ const SettingsSelect = ({ label, array, value, type, ...props }: Props) => {
         justifyContent: 'space-between',
         width: '100%',
         margin: '1rem',
+        padding: '5px 10px',
       }}
     >
       <Typography style={{ width: '100%', padding: '5px 0' }}>

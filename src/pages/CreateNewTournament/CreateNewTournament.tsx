@@ -5,12 +5,11 @@ import { useHistory } from 'react-router-dom';
 import EliminationIcon from '../../components/icons/elimination/EliminationIcon';
 import LastManStandingIcon from '../../components/icons/LastManStanding/LastManStanding';
 import RoundRobinIcon from '../../components/icons/roundRobin/RoundRobinIcon';
-import NewGameCard from '../../components/NewGameCard/NewGameCard';
+import NewGameCard from '../../components/BasicCard/NewGameCard';
 import NewTopBar from '../../components/TopBar/NewTopBar/NewTopBar';
-import {
-  setSelectedMode,
-  selectedMode,
-} from '../../store/features/selectedMode';
+import { setTournamentType } from '../../store/features/settingsInfo';
+
+import { TournamentType } from '../../types/main.types';
 
 interface Props {}
 
@@ -20,9 +19,9 @@ const CreateNewTournament = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const goToElimination = () => {
+  const goToSettings = (tournamentType: TournamentType) => () => {
     history.push('/tournament-settings');
-    dispatch(setSelectedMode(selectedMode.elimination));
+    dispatch(setTournamentType({ tournamentType }));
   };
 
   return (
@@ -41,7 +40,7 @@ const CreateNewTournament = (props: Props) => {
         <NewGameCard
           color="#ac47ac"
           name={t('Elimination')}
-          onCardClick={goToElimination}
+          onCardClick={goToSettings(TournamentType.elimination)}
           icon={
             <EliminationIcon
               style={{ fill: 'white', width: 100, margin: '0 auto' }}
@@ -51,7 +50,7 @@ const CreateNewTournament = (props: Props) => {
         <NewGameCard
           color="#ef6c00"
           name={t('Last Man standing')}
-          onCardClick={() => {}}
+          onCardClick={goToSettings(TournamentType.lastManStanding)}
           icon={
             <LastManStandingIcon
               style={{ fill: 'white', width: 100, margin: '0 auto' }}
@@ -61,7 +60,7 @@ const CreateNewTournament = (props: Props) => {
         <NewGameCard
           color="#4f9e18"
           name={t('Round Robin')}
-          onCardClick={() => {}}
+          onCardClick={goToSettings(TournamentType.roundRobin)}
           icon={
             <RoundRobinIcon
               style={{ fill: 'white', width: 100, margin: '0 auto' }}

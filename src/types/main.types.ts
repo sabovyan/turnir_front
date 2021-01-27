@@ -50,3 +50,10 @@ export type mode =
   | 'Round Robin'
   | 'Last Man standing'
   | 'Elimination';
+
+export enum TournamentType {
+  elimination = 'elimination',
+  lastManStanding = 'lastManStanding',
+  roundRobin = 'roundRobin',
+  none = 'none',
+}

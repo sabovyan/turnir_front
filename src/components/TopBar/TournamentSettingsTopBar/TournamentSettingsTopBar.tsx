@@ -6,9 +6,21 @@ import BasicTopBar from '../BasicTopBar/BasicTopBar';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
 import CButton from '../../Buttons/CustomButton/CustomButton';
+import { useHistory } from 'react-router-dom';
+import BackButton from '../../Buttons/BackButton/BackButton';
 
 const TournamentSettingsTopBar = () => {
   const { t } = useTranslation();
+  const history = useHistory();
+
+  const handleBackButtonClick = () => {
+    history.goBack();
+  };
+
+  const handleNextButtonClick = () => {
+    history.push('/participants');
+  };
+
   return (
     <BasicTopBar>
       <Toolbar
@@ -22,10 +34,8 @@ const TournamentSettingsTopBar = () => {
           {t('Tournament Settings')}
         </Typography>
         <div>
-          <IconButton>
-            <ArrowBackIosIcon />
-          </IconButton>
-          <CButton text={t('Next')} />
+          <BackButton onClick={handleBackButtonClick} />
+          <CButton text={t('Next')} onClick={handleNextButtonClick} />
         </div>
       </Toolbar>
     </BasicTopBar>

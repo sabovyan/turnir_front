@@ -23,13 +23,18 @@ const AccordionHeader = ({ header, description }: IAccordionHeaderProps) => {
         }}
       >
         <div className={styles.accordionHeader}>{header}</div>
-        {description && (
-          <div className={styles.accordionIcon}>
-            <ExpandMoreIcon />
-          </div>
-        )}
+
+        <div
+          className={
+            extended ? styles.accordionIconExpanded : styles.accordionIcon
+          }
+        >
+          {description && <ExpandMoreIcon />}
+        </div>
       </div>
-      <div className={styles.accordionDescription}>{description}</div>
+      <div className={styles.accordionDescription}>
+        <p>{description}</p>
+      </div>
     </div>
   );
 };
