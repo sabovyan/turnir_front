@@ -1,3 +1,4 @@
+import { MutableRefObject, Ref, RefObject } from 'react';
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -57,3 +58,15 @@ export enum TournamentType {
   roundRobin = 'roundRobin',
   none = 'none',
 }
+
+export type setPlayersSettingsView =
+  | 'cards'
+  | 'single'
+  | 'team'
+  | 'draw your partner';
+
+export type Player = {
+  name: string;
+  id: number;
+  // ref: RefObject<HTMLDivElement>;
+};

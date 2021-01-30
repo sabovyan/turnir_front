@@ -43,7 +43,12 @@ const CreateNewTournament = (props: Props) => {
           onCardClick={goToSettings(TournamentType.elimination)}
           icon={
             <EliminationIcon
-              style={{ fill: 'white', width: 100, margin: '0 auto' }}
+              style={{
+                fill: 'white',
+                width: 100,
+                margin: '0 auto',
+                filter: 'drop-shadow(2px 2px 1px black)',
+              }}
             />
           }
         />
@@ -53,7 +58,12 @@ const CreateNewTournament = (props: Props) => {
           onCardClick={goToSettings(TournamentType.lastManStanding)}
           icon={
             <LastManStandingIcon
-              style={{ fill: 'white', width: 100, margin: '0 auto' }}
+              style={{
+                fill: 'white',
+                width: 100,
+                margin: '0 auto',
+                filter: 'drop-shadow(2px 2px 1px black)',
+              }}
             />
           }
         />
@@ -63,7 +73,12 @@ const CreateNewTournament = (props: Props) => {
           onCardClick={goToSettings(TournamentType.roundRobin)}
           icon={
             <RoundRobinIcon
-              style={{ fill: 'white', width: 100, margin: '0 auto' }}
+              style={{
+                fill: 'white',
+                width: 100,
+                margin: '0 auto',
+                filter: 'drop-shadow(2px 2px 1px black)',
+              }}
             />
           }
         />

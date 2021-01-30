@@ -1,0 +1,22 @@
+.inputList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  height: 400px;
+}
+
+.inputListItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.inputListDigit {
+  padding: 0 10px 0 0;
+  font-size: 1.2rem;
+  width: 46px;
+  text-align: end;
+}

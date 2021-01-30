@@ -3,7 +3,6 @@ import React from 'react';
 const SingleIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      enable-background="new 0 0 24 24"
       height="80"
       viewBox="0 0 24 24"
       width="50"

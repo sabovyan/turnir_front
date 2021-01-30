@@ -3,10 +3,20 @@ import SingleIcon from '../../components/icons/Single/SingleIcon';
 import NewGameCard from '../../components/BasicCard/NewGameCard';
 import TeamsIcon from '../../components/icons/Teams/TeamsIcon';
 import DrawYourPartnerIcon from '../../components/icons/DrawYourPartnerIcon/DrawYourPartnerIcon';
+import { useTranslation } from 'react-i18next';
+import colors from '../../styles/colors';
 
-interface Props {}
+interface IParticipantCardsProps {
+  SingleCardClick: () => void;
+}
 
-const ParticipantCards = (props: Props) => {
+const ParticipantCards = ({ SingleCardClick }: IParticipantCardsProps) => {
+  const { t } = useTranslation();
+
+  const handleSingleCardClick = () => {
+    SingleCardClick();
+  };
+
   return (
     <div
       style={{
@@ -19,51 +29,51 @@ const ParticipantCards = (props: Props) => {
       }}
     >
       <NewGameCard
-        color="#2f97b1"
+        color={colors.single}
         icon={
           <SingleIcon
             style={{
               fill: 'white',
               width: '100px',
               margin: '0 auto',
-              filter: 'drop-shadow(2px 4px 6px black)',
+              filter: 'drop-shadow(2px 2px 2px black)',
               alignSelf: 'center',
             }}
           />
         }
-        name="Single"
-        onCardClick={() => {}}
+        name={t('Single')}
+        onCardClick={handleSingleCardClick}
       />
       <NewGameCard
-        color="#15b657"
+        color={colors.teams}
         icon={
           <DrawYourPartnerIcon
             style={{
               fill: 'white',
               width: '80px',
               margin: '0 auto',
-              filter: 'drop-shadow(2px 4px 6px black)',
+              filter: 'drop-shadow(2px 2px 2px black)',
               alignSelf: 'center',
             }}
           />
         }
-        name="Teams"
+        name={t('Teams')}
         onCardClick={() => {}}
       />
       <NewGameCard
-        color="#d78040"
+        color={colors.DrawYourPartner}
         icon={
           <TeamsIcon
             style={{
               fill: 'white',
               width: 80,
               margin: '0 auto',
-              filter: 'drop-shadow(2px 4px 6px black)',
+              filter: 'drop-shadow(2px 2px 2px black)',
               alignSelf: 'center',
             }}
           />
         }
-        name="Draw your partner"
+        name={t('Draw your partner')}
         onCardClick={() => {}}
       />
     </div>
