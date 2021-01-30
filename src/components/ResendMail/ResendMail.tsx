@@ -1,14 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import Typography from '@material-ui/core/Typography';
-import { useDispatch } from 'react-redux';
-import { setResponseStatus } from '../../store/features/formResponseStatus';
-import CButton from '../Buttons/CustomButton/CustomButton';
-import { useTranslation } from 'react-i18next';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CButton from '../Buttons/CustomButton/CustomButton';
+import Typography from '@material-ui/core/Typography';
 import { orange } from '@material-ui/core/colors';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
+import { useTranslation } from 'react-i18next';
 
 interface IResendMail {
   resend: () => void;
@@ -25,7 +23,6 @@ const ResendMail: FC<IResendMail> = ({
 
   const [count, setCount] = useState(30);
 
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const handleResendButtonClick = () => {

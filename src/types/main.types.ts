@@ -1,4 +1,3 @@
-import { MutableRefObject, Ref, RefObject } from 'react';
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -68,5 +67,4 @@ export type setPlayersSettingsView =
 export type Player = {
   name: string;
   id: number;
-  // ref: RefObject<HTMLDivElement>;
 };

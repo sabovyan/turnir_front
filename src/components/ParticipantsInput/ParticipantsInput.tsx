@@ -3,7 +3,6 @@ import React from 'react';
 import ParticipantsInputList from '../ParticipantsInputList/ParticipantsInputList';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseButton from '../Buttons/CloseButton/CloseButton';
-import SingleIcon from '../icons/Single/SingleIcon';
 import Card from '@material-ui/core/Card';
 
 import { useTranslation } from 'react-i18next';

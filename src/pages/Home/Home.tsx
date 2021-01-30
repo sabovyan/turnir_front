@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';

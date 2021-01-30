@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useContext, useState } from 'react';
+import React, { FC, FormEvent, useContext } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import CButton from '../../Buttons/CustomButton/CustomButton';

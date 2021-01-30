@@ -1,10 +1,7 @@
-import { LinearProgress } from '@material-ui/core';
-import React, { FC, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import React, { FC } from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import useAuth from '../../services/authentication';
-import { setResponseStatus } from '../../store/features/formResponseStatus';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { User } from '../../types/main.types';
 
 interface IPrivateRouteProps extends RouteProps {
@@ -19,7 +16,7 @@ const PrivateRoute: FC<IPrivateRouteProps> = ({
   return (
     <Route {...rest}>
       {isAuth === undefined ? (
-        <h1>loading</h1>
+        <CircularProgress />
       ) : isAuth ? (
         children
       ) : (
