@@ -10,6 +10,7 @@ import TournamentSettings from './pages/TournamentSettings/TournamentSettings';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import useAuth from './services/authentication';
 import Participants from './pages/Participants/Participants';
+import Setup from './pages/Setup/Setup';
 
 function App() {
   const { user } = useAuth();
@@ -31,6 +32,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute isAuth={user} path="/participants">
               <Participants />
+            </PrivateRoute>
+            <PrivateRoute isAuth={user} path="/setup">
+              <Setup />
             </PrivateRoute>
 
             <Route path="/email-confirmation/:token">
