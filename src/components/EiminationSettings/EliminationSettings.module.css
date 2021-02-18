@@ -1,0 +1,8 @@
+.eliminationSettings {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  outline: none;
+  margin: 1rem;
+}

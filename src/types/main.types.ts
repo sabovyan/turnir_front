@@ -1,3 +1,4 @@
+import { RefObject } from 'react';
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -58,13 +59,17 @@ export enum TournamentType {
   none = 'none',
 }
 
-export type setPlayersSettingsView =
-  | 'cards'
-  | 'single'
-  | 'team'
-  | 'draw your partner';
-
+export enum setPlayersSettingsView {
+  cards = 'cards',
+  single = 'single',
+  team = 'team',
+  DRP = 'draw your partner',
+}
 export type Player = {
   name: string;
+  ref: RefObject<HTMLDivElement>;
+  focus: boolean;
+  edit: boolean;
   id: number;
+  draft?: string;
 };

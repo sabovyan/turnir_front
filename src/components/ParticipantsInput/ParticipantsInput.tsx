@@ -15,7 +15,6 @@ import Card from '@material-ui/core/Card';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ParticipantsInput.module.css';
-import colors from '../../styles/colors';
 import { useDispatch } from 'react-redux';
 
 import { setResponseStatus } from '../../store/features/formResponseStatus';
@@ -37,14 +36,16 @@ const createNewPlayer = ({ name }: { name: string }) => {
 };
 
 interface IParticipantsInputProps {
-  icon: JSX.Element;
+  icon: JSX.Element | null;
   name: string;
   goBackToCards: () => void;
+  cardBackgroundColor: string;
 }
 const ParticipantInput = ({
   icon,
   name,
   goBackToCards,
+  cardBackgroundColor,
 }: IParticipantsInputProps) => {
   const [currentPlayerName, setCurrentPlayerName] = useState<string>('');
   const [playersList, setPlayersList] = useState<Player[] | undefined>();
@@ -290,7 +291,7 @@ const ParticipantInput = ({
         <div
           className={styles.hero}
           style={{
-            background: colors.single,
+            background: cardBackgroundColor,
           }}
         >
           <CloseButton

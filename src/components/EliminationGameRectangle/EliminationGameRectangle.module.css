@@ -1,0 +1,44 @@
+.eliminationGameWrapper {
+  position: relative;
+  min-width: 220px;
+}
+
+.eliminationGameContainer {
+  background: #464646;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.enterResult {
+  min-width: 220px;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: scale(0) translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333;
+  transition: transform 100ms linear;
+}
+
+.eliminationGameWrapper:hover > .enterResult {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.enterResultButton:hover ~ .enterResult {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.scoreBoard {
+  width: 100px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1rem 0;
+  font-size: 2rem;
+}

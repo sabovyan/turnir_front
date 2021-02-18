@@ -5,16 +5,17 @@ import TeamsIcon from '../../components/icons/Teams/TeamsIcon';
 import DrawYourPartnerIcon from '../../components/icons/DrawYourPartnerIcon/DrawYourPartnerIcon';
 import { useTranslation } from 'react-i18next';
 import colors from '../../styles/colors';
+import { setPlayersSettingsView } from '../../types/main.types';
 
 interface IParticipantCardsProps {
-  SingleCardClick: () => void;
+  onCardClick: (type: setPlayersSettingsView) => void;
 }
 
-const ParticipantCards = ({ SingleCardClick }: IParticipantCardsProps) => {
+const ParticipantCards = ({ onCardClick }: IParticipantCardsProps) => {
   const { t } = useTranslation();
 
-  const handleSingleCardClick = () => {
-    SingleCardClick();
+  const handleCardClick = (type: setPlayersSettingsView) => () => {
+    onCardClick(type);
   };
 
   return (
@@ -42,7 +43,7 @@ const ParticipantCards = ({ SingleCardClick }: IParticipantCardsProps) => {
           />
         }
         name={t('Single')}
-        onCardClick={handleSingleCardClick}
+        onCardClick={handleCardClick(setPlayersSettingsView.single)}
       />
       <NewGameCard
         color={colors.teams}
@@ -58,7 +59,7 @@ const ParticipantCards = ({ SingleCardClick }: IParticipantCardsProps) => {
           />
         }
         name={t('Teams')}
-        onCardClick={() => {}}
+        onCardClick={handleCardClick(setPlayersSettingsView.team)}
       />
       <NewGameCard
         color={colors.DrawYourPartner}
@@ -74,7 +75,7 @@ const ParticipantCards = ({ SingleCardClick }: IParticipantCardsProps) => {
           />
         }
         name={t('Draw your partner')}
-        onCardClick={() => {}}
+        onCardClick={handleCardClick(setPlayersSettingsView.DRP)}
       />
     </div>
   );

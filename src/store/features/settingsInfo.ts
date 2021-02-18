@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Player, TournamentType } from '../../types/main.types';
 
-type SettingsInfoPlayers = Omit<Player, 'id'>;
+type SettingsInfoPlayers = Pick<Player, 'name'>;
 
 type tournamentSettings = {
   tables: number;
@@ -16,7 +16,12 @@ const initialState: tournamentSettings = {
   goalsToWin: 7,
   winningSets: 1,
   tournamentType: TournamentType.none,
-  players: [],
+  players: [
+    { name: 'alpha' },
+    { name: 'betta' },
+    { name: 'gamma' },
+    { name: 'delta' },
+  ],
 };
 
 const { reducer, actions } = createSlice({
@@ -29,6 +34,21 @@ const { reducer, actions } = createSlice({
     ) => {
       state.tables = payload.tables;
     },
+
+    setGoalsQuantity: (
+      state,
+      { payload }: PayloadAction<Pick<tournamentSettings, 'goalsToWin'>>,
+    ) => {
+      state.goalsToWin = payload.goalsToWin;
+    },
+
+    setWinningSets: (
+      state,
+      { payload }: PayloadAction<Pick<tournamentSettings, 'winningSets'>>,
+    ) => {
+      state.winningSets = payload.winningSets;
+    },
+
     setTournamentType: (
       state,
       { payload }: PayloadAction<Pick<tournamentSettings, 'tournamentType'>>,
@@ -38,15 +58,25 @@ const { reducer, actions } = createSlice({
 
     getPlayers: (
       state,
-      { payload: { players } }: PayloadAction<{ players: Player[] }>,
+      {
+        payload: { players },
+      }: PayloadAction<{ players: Pick<Player, 'name'>[] }>,
     ) => {
-      const SettingsInfoPlayers: SettingsInfoPlayers[] = players.map((pl) => ({
-        name: pl.name,
-      }));
-      state.players = SettingsInfoPlayers;
+      const settingsInfoPlayers: SettingsInfoPlayers[] = players.map(
+        ({ name }) => ({
+          name,
+        }),
+      );
+      state.players = settingsInfoPlayers;
     },
   },
 });
 
-export const { setTablesQuantity, setTournamentType, getPlayers } = actions;
+export const {
+  setTablesQuantity,
+  setTournamentType,
+  getPlayers,
+  setGoalsQuantity,
+  setWinningSets,
+} = actions;
 export default reducer;

@@ -84,7 +84,7 @@ const PasswordReset = (props: Props) => {
   };
 
   return (
-    <CustomBackdrop open={true} zIndex={5}>
+    <CustomBackdrop open={true} zIndex={1}>
       <form
         onSubmit={handleChangePasswordForm}
         style={{
