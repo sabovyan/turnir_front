@@ -1,109 +1,148 @@
-import React, { ChangeEvent, createRef, useState, RefObject } from 'react';
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  FormEvent,
+  KeyboardEvent,
+  MouseEvent,
+} from 'react';
 import List from '@material-ui/core/List';
-import TextField from '@material-ui/core/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { setResponseStatus } from '../../store/features/formResponseStatus';
-import { checkIfPlayersNameExist } from './ParticipantsInput.util';
-import { RootState } from '../../store/features';
-import {
-  addNewEmptyRow,
-  removeLastRow,
-  removePlayersWithEmptyNames,
-  setPlayers,
-} from '../../store/features/players';
 
 import styles from './ParticipantsInputList.module.css';
+import FormField from '../Input/FormField';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { IconButton } from '@material-ui/core';
+import { Player } from '../../types/main.types';
 
-interface Props {}
+interface Props {
+  playersList: Player[] | undefined;
+  handleListItemKeyEvent: (
+    index: number,
+    event: KeyboardEvent<HTMLDivElement>,
+  ) => void;
+  onPlayerNameChange: (
+    id: number,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
 
-const ParticipantsInputList = (props: Props) => {
-  const dispatch = useDispatch();
-  const players = useSelector((state: RootState) => state.players);
-  const [refs, setRefs] = useState<RefObject<HTMLDivElement>[]>(
-    Array(players.length).fill(createRef()),
-  );
+  OnPlayerNameBlur: (id: number, value: string | undefined) => void;
+  onEditFormSubmit: (id: number, value: string | undefined) => void;
+  onListItemClick: (id: number) => void;
+  onEditIconClick: (id: number) => void;
+  onListItemMouseOver: (id: number) => void;
+  onDeleteIconClick: (id: number) => void;
+}
 
-  const handleFormFieldChange = (id: number, index: number) => (
-    e: ChangeEvent<HTMLInputElement>,
+const ParticipantsInputList = ({
+  playersList,
+  handleListItemKeyEvent,
+  onPlayerNameChange,
+  OnPlayerNameBlur,
+  onEditFormSubmit,
+  onListItemClick,
+  onEditIconClick,
+  onListItemMouseOver,
+  onDeleteIconClick,
+}: Props) => {
+  const handleListNavigation = (index: number) => (
+    event: KeyboardEvent<HTMLDivElement>,
   ) => {
-    const { value } = e.target;
-    const targetedValue = value.trim();
-
-    dispatch(setPlayers({ id, value: value }));
-
-    if (targetedValue) {
-      if (index === players.length - 1) {
-        dispatch(addNewEmptyRow());
-        setRefs((state) => [...state, createRef()]);
-      }
-    } else {
-      if (index === players.length - 2) {
-        dispatch(removeLastRow());
-        setRefs((state) => {
-          const newState = state.slice(0, -1);
-          return newState;
-        });
-      }
-    }
+    event.preventDefault();
+    handleListItemKeyEvent(index, event);
   };
 
-  const handleFormFieldKeyPress = (index: number) => (e: any) => {
-    const next = index + 1;
-    const prev = index - 1;
-
-    const isNameInUse = checkIfPlayersNameExist(players, index, e.target.value);
-
-    if (isNameInUse) {
-      dispatch(
-        setResponseStatus({
-          type: 'error',
-          message: 'the name is already in use',
-          open: true,
-        }),
-      );
-
-      return;
-    }
-
-    if (e.key === 'Enter' && players[next]) {
-      dispatch(removePlayersWithEmptyNames());
-
-      refs[next].current!.focus();
-    }
-
-    if (e.key === 'ArrowDown' && players[next]) {
-      dispatch(removePlayersWithEmptyNames());
-      refs[next].current!.focus();
-    }
-
-    if (e.key === 'ArrowUp' && players[prev]) {
-      dispatch(removePlayersWithEmptyNames());
-      refs[prev].current!.focus();
-    }
+  const handlePlayerNameChange = (id: number) => (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    onPlayerNameChange(id, event);
   };
 
-  const handleTextFiledClick = () => {
-    dispatch(removePlayersWithEmptyNames());
+  const handlePlayerNameBlur = (id: number, value: string | undefined) => (
+    event: FocusEvent<HTMLInputElement>,
+  ) => {
+    OnPlayerNameBlur(id, value);
+  };
+
+  const handleListItemClick = (id: number) => (
+    event: MouseEvent<HTMLDivElement>,
+  ) => {
+    onListItemClick(id);
+  };
+
+  const handleEditIconClick = (id: number) => () => {
+    onEditIconClick(id);
+  };
+
+  const handleListItemMouseOver = (id: number) => () => {
+    onListItemMouseOver(id);
+  };
+
+  const handleDeleteIconClick = (id: number) => () => {
+    onDeleteIconClick(id);
   };
 
   return (
-    <List className={styles.inputList}>
-      {players.map((el, idx) => (
-        <div className={styles.inputListItem} key={el.id}>
-          <span className={styles.inputListDigit} style={{}}>
-            {idx + 1}.
-          </span>
-          <TextField
-            fullWidth
-            value={el.name}
-            onChange={handleFormFieldChange(el.id, idx)}
-            inputRef={refs[idx]}
-            onKeyDown={handleFormFieldKeyPress(idx)}
-            onClick={handleTextFiledClick}
-          />
-        </div>
-      ))}
+    <List className={styles.inputList} style={{ margin: 10, padding: '1rem' }}>
+      {playersList && playersList.length
+        ? playersList.map((el, idx) =>
+            !el.edit ? (
+              <div
+                className={styles.inputListItem}
+                key={el.name}
+                tabIndex={0}
+                onKeyDown={handleListNavigation(idx)}
+                onClick={handleListItemClick(el.id)}
+                onMouseEnter={handleListItemMouseOver(el.id)}
+                onMouseOver={handleListItemMouseOver(el.id)}
+                // onMouseOut={handleListItemMouseOver(el.id)}
+                ref={el.ref}
+                id={String(el.name)}
+              >
+                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                  <span className={styles.inputListDigit}>{idx + 1}.</span>
+                  <span>{el.name}</span>
+                </div>
+                {el.focus && (
+                  <div className={styles.inputListItemButtons}>
+                    <IconButton
+                      style={{ borderRadius: 0 }}
+                      onClick={handleEditIconClick(el.id)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      style={{ borderRadius: 0 }}
+                      onClick={handleDeleteIconClick(el.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <form
+                key={el.id}
+                className={styles.playerNameEditForm}
+                onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                  e.preventDefault();
+
+                  onEditFormSubmit(el.id, el.draft);
+                }}
+              >
+                <span className={styles.inputListDigit}>{idx + 1}.</span>
+                <FormField
+                  label=""
+                  value={el.draft}
+                  autoFocus
+                  fullWidth
+                  style={{ fontSize: '1.1rem' }}
+                  onBlur={handlePlayerNameBlur(el.id, el.draft)}
+                  onChange={handlePlayerNameChange(el.id)}
+                />
+              </form>
+            ),
+          )
+        : null}
     </List>
   );
 };

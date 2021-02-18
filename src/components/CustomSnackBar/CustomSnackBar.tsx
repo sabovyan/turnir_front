@@ -24,7 +24,7 @@ const CustomSnackbar: FC<ISnackbarProps> = ({
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        autoHideDuration={9000}
+        autoHideDuration={3000}
         onClose={onClose}
       >
         <MuiAlert variant="filled" severity={type} style={{ minWidth: 300 }}>

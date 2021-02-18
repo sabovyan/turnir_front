@@ -1,10 +1,9 @@
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../../store/features';
-import { getPlayers } from '../../../store/features/settingsInfo';
 import { setPlayersSettingsView } from '../../../types/main.types';
 import BackButton from '../../Buttons/BackButton/BackButton';
 import CButton from '../../Buttons/CustomButton/CustomButton';
@@ -18,18 +17,14 @@ interface IParticipantsTopBarProps {
 const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const players = useSelector((state: RootState) => state.players);
-  const dispatch = useDispatch();
+  const { players } = useSelector((state: RootState) => state.settingsInfo);
 
   const handleBackButtonClick = () => {
     history.goBack();
   };
 
   const handleNextButtonClick = () => {
-    const targetedPlayers = players.filter((pl) => pl.name);
-
-    if (targetedPlayers.length) {
-      dispatch(getPlayers({ players: targetedPlayers }));
+    if (players.length) {
       history.push('/setup');
     }
   };
