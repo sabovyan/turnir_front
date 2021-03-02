@@ -61,11 +61,8 @@ export const useAuth = () => {
   return useContext(authContext);
 };
 
-const refreshAccessToken = (refreshToken: string | null) => {
-  if (!refreshToken) {
-    console.error('no refresh token');
-  }
-  return authRequest.doPost('email/refreshToken', { token: refreshToken });
+const refreshAccessToken = (token: string) => {
+  return authRequest.doPost({ url: 'email/refreshToken', data: { token } });
 };
 
 const useProvideAuth = (): IAuthProvider => {
@@ -75,23 +72,23 @@ const useProvideAuth = (): IAuthProvider => {
   );
 
   const register = async (data: RegisterFormData) => {
-    const res = await authRequest.doPost('email', data);
+    const res = await authRequest.doPost({ url: 'email', data });
     const { message } = res.data;
 
     return message;
   };
 
   const resendRegisterMail = async (data: RegisterFormData) => {
-    const res = await authRequest.doPost('email/resend', data);
+    const res = await authRequest.doPost({ url: 'email/resend', data });
     const { message } = res.data;
     return message;
   };
 
   const login = async (data: SignFormData<string>) => {
-    const res: AxiosResponse<LoginResponse> = await authRequest.doPost(
-      'email/login',
+    const res: AxiosResponse<LoginResponse> = await authRequest.doPost({
+      url: 'email/login',
       data,
-    );
+    });
     const resData = res.data;
     const { user } = resData;
 
@@ -104,10 +101,10 @@ const useProvideAuth = (): IAuthProvider => {
   const loginWithFacebook = async () => {
     const info: FaceBookData = await getFacebookData();
 
-    const response: AxiosResponse<LoginResponse> = await authRequest.doPost(
-      'facebook',
-      info,
-    );
+    const response: AxiosResponse<LoginResponse> = await authRequest.doPost({
+      url: 'facebook',
+      data: info,
+    });
 
     const { data } = response;
     const { user } = data;
@@ -125,7 +122,7 @@ const useProvideAuth = (): IAuthProvider => {
       ...googleResponse.profileObj,
     };
 
-    const res = await authRequest.doPost('google', requestData);
+    const res = await authRequest.doPost({ url: 'google', data: requestData });
     const { data } = res;
     const { user } = data;
 
@@ -136,21 +133,30 @@ const useProvideAuth = (): IAuthProvider => {
   };
 
   const updatePassword = async (data: ChangePasswordData) => {
-    const update = await authRequest.doUpdate('email/update-password', data);
+    const update = await authRequest.doUpdate({
+      url: 'email/update-password',
+      data,
+    });
     return update;
   };
 
   const resetPassword = async (email: string) => {
-    const response = await authRequest.doPost('email/reset-password?lang=en', {
-      email,
+    const response = await authRequest.doPost({
+      url: 'email/reset-password?lang=en',
+      data: {
+        email,
+      },
     });
     return response;
   };
 
   const setNewPassword = async (password: string, token: string) => {
-    const response = await authRequest.doPost('email/confirm-password', {
-      password,
-      token,
+    const response = await authRequest.doPost({
+      url: 'email/confirm-password',
+      data: {
+        password,
+        token,
+      },
     });
     return response;
   };
@@ -170,8 +176,11 @@ const useProvideAuth = (): IAuthProvider => {
     if (expiry) {
       if (expiry > now && !user) {
         authRequest
-          .doPost('/auto-login', {
-            token: accessToken,
+          .doPost({
+            url: '/auto-login',
+            data: {
+              token: accessToken,
+            },
           })
           .then((res) => {
             const data = res.data;
@@ -182,6 +191,8 @@ const useProvideAuth = (): IAuthProvider => {
           });
       }
       if (expiry < now && !user) {
+        if (!refreshToken) return;
+
         refreshAccessToken(refreshToken)
           .then((res: AxiosResponse<any>) => {
             const { data } = res;
@@ -199,8 +210,11 @@ const useProvideAuth = (): IAuthProvider => {
 
       timerId = setInterval(() => {
         const diff = Math.floor((expiry - Date.now()) / 1000 / 60);
+
         if (!refreshToken) {
+          authStorage.clear();
           clearInterval(timerId);
+          return;
         }
 
         if (diff < 2) {
@@ -214,14 +228,18 @@ const useProvideAuth = (): IAuthProvider => {
               setExpiry(data.expiry);
             })
             .catch((err) => {
-              authStorage.clear();
-              console.error(err);
+              if (!err.response) {
+                clearInterval(timerId);
+              }
+              console.log(err);
             });
         }
-      }, 10 * 1000);
+      }, 2 * 60 * 1000);
     }
     return (): void => {
-      clearInterval(timerId);
+      if (!refreshToken) {
+        clearInterval(timerId);
+      }
     };
   }, [expiry, user]);
 

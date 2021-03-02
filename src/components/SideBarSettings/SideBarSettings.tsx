@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import { SettingsContent } from '../../types/main.types';
 import useAuth from '../../services/authentication';
 import clsx from 'clsx';
+import SideBarPlayersSettings from '../SideBarPlayersSettings/SideBarPlayersSettings';
 
 interface ISideBarSettingsProps {
   settingsVisible: boolean;
@@ -42,10 +43,13 @@ const SideBarSettings: FC<ISideBarSettingsProps> = ({
           width: '100%',
           height: '100%',
           padding: '10px',
+          overflow: 'auto',
         }}
       >
         {settingsContent === 'profile' && user ? (
           <SideBarProfileSettings />
+        ) : settingsContent === 'players' && user ? (
+          <SideBarPlayersSettings />
         ) : (
           <SideBarAppSettings />
         )}

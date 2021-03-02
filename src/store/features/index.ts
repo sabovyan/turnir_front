@@ -4,7 +4,9 @@ import RegisterFormData from './RegisterFormData';
 import requestPasswordEmail from './requestPasswordEmail';
 import selectedMode from './selectedMode';
 import settingsInfo from './settingsInfo';
-// import players from './players';
+import gamesForSetup from './gamesForSetup';
+import players from './players';
+import groups from './groups.feature';
 
 const reducer = combineReducers({
   formResponseStatus,
@@ -12,7 +14,9 @@ const reducer = combineReducers({
   RegisterFormData,
   requestPasswordEmail,
   settingsInfo,
-  // players,
+  gamesForSetup,
+  players,
+  groups,
 });
 
 export type RootState = ReturnType<typeof reducer>;

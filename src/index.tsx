@@ -16,13 +16,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={null}>
       <Router>
-        <ProvideAuth>
-          <Provider store={store}>
+        <Provider store={store}>
+          <ProvideAuth>
             <ThemeProvider theme={greenTheme}>
               <App />
             </ThemeProvider>
-          </Provider>
-        </ProvideAuth>
+          </ProvideAuth>
+        </Provider>
       </Router>
     </Suspense>
   </React.StrictMode>,

@@ -5,24 +5,29 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import SetupListItem from './SetupListItem';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/features';
-import { Player } from '../../types/main.types';
-// import { getPlayers } from '../../store/features/settingsInfo';
+import { useDispatch } from 'react-redux';
 
-interface Props {}
+import { SetupPlayer } from '../../types/main.types';
+import {
+  createGamesAndPlayersForSetup,
+  UpdatePlayersOrder,
+} from '../../store/features/gamesForSetup';
 
 type DragState = {
   draggedFrom: null | number;
   draggedTo: null | number;
   isDragging: boolean;
-  originalOrder: Pick<Player, 'name'>[] | [];
-  updatedOrder: Pick<Player, 'name'>[] | [];
+  originalOrder: SetupPlayer[] | [];
+  updatedOrder: SetupPlayer[] | [];
 };
 
-const SetupList = (props: Props) => {
+interface Props {
+  players: SetupPlayer[];
+}
+
+const SetupList = ({ players }: Props) => {
   const { t } = useTranslation();
-  // const { players } = useSelector((state: RootState) => state.settingsInfo);
+
   const dispatch = useDispatch();
 
   const [dragState, setDragState] = useState<DragState>({
@@ -40,10 +45,8 @@ const SetupList = (props: Props) => {
       ...state,
       draggedFrom: initialPosition,
       isDragging: true,
-      // originalOrder: players,
+      originalOrder: players,
     }));
-
-    // event.dataTransfer.setData("text/html", '');
   };
 
   const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
@@ -77,7 +80,9 @@ const SetupList = (props: Props) => {
   };
 
   const handleDrop = (e: DragEvent<HTMLLIElement>) => {
-    // dispatch(getPlayers({ players: dragState.updatedOrder }));
+    dispatch(
+      createGamesAndPlayersForSetup({ players: dragState.updatedOrder }),
+    );
     setDragState((state) => ({
       ...state,
       draggedFrom: null,
@@ -90,7 +95,6 @@ const SetupList = (props: Props) => {
     <List
       style={{
         boxShadow: '3px 0px 3px #dadada',
-        height: '100%',
         minWidth: '280px',
       }}
     >
@@ -103,17 +107,17 @@ const SetupList = (props: Props) => {
         <span>#</span>
         <span>{t('Participants')}</span>
       </ListSubheader>
-      {/* {players.length > 0 &&
+      {players.length > 0 &&
         players.map((pl, idx) => (
           <SetupListItem
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            key={pl.name}
-            text={pl.name}
+            text={pl.name === '' ? '<FAKE>' : pl.name}
             index={idx}
+            key={String(pl.id)}
           />
-        ))} */}
+        ))}
     </List>
   );
 };

@@ -67,7 +67,6 @@ const LoginForm: FC<ILoginView> = ({ changeViewToRequest }) => {
     e.preventDefault();
     const emailError = formik.touched.email && formik.errors.email;
     const passwordError = formik.touched.password && formik.errors.password;
-
     if (emailError) {
       dispatch(
         setResponseStatus({
@@ -121,7 +120,9 @@ const LoginForm: FC<ILoginView> = ({ changeViewToRequest }) => {
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.errors.email && formik.touched.email ? true : false}
+          error={
+            formik.errors.password && formik.touched.password ? true : false
+          }
           name="password"
           type="password"
           label={t('password')}

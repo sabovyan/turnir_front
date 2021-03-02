@@ -36,7 +36,13 @@ export type User = {
   facebookId: string | null;
 };
 
-export type SettingsContent = 'app' | 'profile';
+export type SettingsContent = 'app' | 'profile' | 'players';
+
+export enum activeSideBarIcon {
+  settings = 'settings',
+  players = 'players',
+  none = 'none',
+}
 
 export type GoogleResponse = GoogleLoginResponse | GoogleLoginResponseOffline;
 
@@ -72,4 +78,41 @@ export type Player = {
   edit: boolean;
   id: number;
   draft?: string;
+};
+
+export type SetupPlayer = {
+  name: string;
+  id: number;
+};
+
+export type SetupGame = {
+  player1?: SetupPlayer;
+  player2?: SetupPlayer;
+  next?: number | null;
+  id: number;
+};
+
+export type SetupState = {
+  players: SetupPlayer[];
+  games: SetupGame[];
+  rounds: SetupRound[];
+};
+
+export type SetupRound = {
+  name: string;
+  games: SetupGame[];
+};
+
+export type PlayerResponse = {
+  id: number;
+  name: string;
+  tournamentId: number | undefined;
+  userId: number;
+};
+
+export type GroupResponse = {
+  id: number;
+  name: string;
+  userId: number;
+  players: PlayerResponse[];
 };

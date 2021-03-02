@@ -11,25 +11,29 @@ import PersonIcon from '@material-ui/icons/Person';
 import GamepadIcon from '@material-ui/icons/Gamepad';
 import HomeIcon from '@material-ui/icons/Home';
 import Settings from '@material-ui/icons/Settings';
-import colors from '../../styles/colors';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import useAuth from '../../services/authentication';
 
-import './SideBarList.css';
+import colors from '../../styles/colors';
 import svg from '../../assets/tournaments.svg';
+import './SideBarList.css';
+import { activeSideBarIcon } from '../../types/main.types';
 
 interface ISideBarList {
   handleSettingsIconClick: () => void;
-  activeSettings: boolean;
+  activeSidebarIcon: activeSideBarIcon;
   personIconClick: () => void;
+  handlePlayersIconClick: () => void;
 }
 
 const SideBarList: FC<ISideBarList> = ({
   handleSettingsIconClick,
-  activeSettings,
+  activeSidebarIcon,
   personIconClick,
+  handlePlayersIconClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   /* ANCHOR Here is any */
@@ -80,11 +84,27 @@ const SideBarList: FC<ISideBarList> = ({
           <ListItemIcon>
             <Settings
               style={{
-                color: activeSettings ? colors.green : colors.white,
+                color:
+                  activeSidebarIcon === activeSideBarIcon.settings
+                    ? colors.green
+                    : colors.white,
               }}
             />
           </ListItemIcon>
           <ListItemText primary={t('Settings')} />
+        </ListItem>
+        <ListItem button onClick={handlePlayersIconClick}>
+          <ListItemIcon>
+            <EmojiPeopleIcon
+              style={{
+                color:
+                  activeSidebarIcon === activeSideBarIcon.players
+                    ? colors.green
+                    : colors.white,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText primary={t('Players')} />
         </ListItem>
       </span>
       <span>

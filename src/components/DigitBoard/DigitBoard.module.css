@@ -18,3 +18,19 @@
   align-items: center;
   width: 100%;
 }
+
+/* .something {
+  animation: move 1200ms linear forwards;
+}
+
+@keyframes move {
+  0% {
+    transform: translate(150px);
+  }
+  50% {
+    transform: translate(-140px);
+  }
+  100% {
+    transform: translate(0px);
+  }
+} */

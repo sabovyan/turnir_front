@@ -55,7 +55,11 @@ const SetupListItem = ({
           width: '100%',
         }}
       >
-        <Typography variant="body1" component="span" color="textPrimary">
+        <Typography
+          variant="body1"
+          component="span"
+          color={text === '<FAKE>' ? 'textSecondary' : 'textPrimary'}
+        >
           {text}
         </Typography>
 

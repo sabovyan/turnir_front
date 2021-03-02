@@ -13,7 +13,7 @@ import SideBarList from '../SideBarList/SideBarList';
 import SignCard from '../SignCard/SignCard';
 
 import { closeAlert } from '../../store/features/formResponseStatus';
-import { SettingsContent } from '../../types/main.types';
+import { activeSideBarIcon, SettingsContent } from '../../types/main.types';
 import { useSelector, useDispatch } from 'react-redux';
 import useAuth from '../../services/authentication';
 import { RootState } from '../../store/features';
@@ -28,7 +28,9 @@ export const signCardDisplayContext = createContext<{
 
 const SideBar: FC = () => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
-  const [active, setActive] = useState<boolean>(false);
+  const [active, setActive] = useState<activeSideBarIcon>(
+    activeSideBarIcon.none,
+  );
   const [settingsContent, setSettingsContent] = useState<SettingsContent>(
     'app',
   );
@@ -44,10 +46,10 @@ const SideBar: FC = () => {
   const handleSettingsIconClick = () => {
     /* to open app settings */
     if (settingsVisible) {
-      setActive(true);
+      setActive(activeSideBarIcon.settings);
       setSettingsContent('app');
     } else if (!settingsVisible) {
-      setActive(true);
+      setActive(activeSideBarIcon.settings);
       setSettingsContent('app');
       setSettingsVisible(true);
     }
@@ -55,13 +57,27 @@ const SideBar: FC = () => {
     /* to close the side bar settings */
     if (settingsVisible && settingsContent === 'app') {
       setSettingsVisible(false);
-      setActive(false);
+      setActive(activeSideBarIcon.none);
+    }
+  };
+
+  const handlePlayersIconClick = () => {
+    if (user) {
+      if (active !== activeSideBarIcon.players) {
+        setActive(activeSideBarIcon.players);
+        setSettingsContent('players');
+        setSettingsVisible(true);
+      } else {
+        setActive(activeSideBarIcon.none);
+        setSettingsVisible(false);
+        setSettingsContent('app');
+      }
     }
   };
 
   const handleAccountIconClick = () => {
     if (user) {
-      setActive(false);
+      setActive(activeSideBarIcon.none);
 
       /* to open profile settings */
       if (settingsVisible) {
@@ -73,7 +89,7 @@ const SideBar: FC = () => {
       /* to close the side bar settings */
       if (settingsVisible && settingsContent === 'profile') {
         setSettingsVisible(false);
-        setActive(false);
+        setActive(activeSideBarIcon.none);
       }
     } else {
       setIsSignIconPressed((state) => !state);
@@ -86,7 +102,7 @@ const SideBar: FC = () => {
 
   const handleToggleSettings = () => {
     setSettingsVisible(false);
-    setActive(false);
+    setActive(activeSideBarIcon.none);
   };
 
   return (
@@ -108,9 +124,10 @@ const SideBar: FC = () => {
         />
 
         <SideBarList
-          activeSettings={active}
+          activeSidebarIcon={active}
           handleSettingsIconClick={handleSettingsIconClick}
           personIconClick={handleAccountIconClick}
+          handlePlayersIconClick={handlePlayersIconClick}
         />
       </div>
       <signCardDisplayContext.Provider

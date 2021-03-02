@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Player, TournamentType } from '../../types/main.types';
 
-type SettingsInfoPlayers = Pick<Player, 'name'>;
+export type SettingsInfoPlayers = Pick<Player, 'name'>;
 
 type tournamentSettings = {
   tables: number;
@@ -21,6 +21,15 @@ const initialState: tournamentSettings = {
     { name: 'betta' },
     { name: 'gamma' },
     { name: 'delta' },
+    { name: 'epsilon' },
+    { name: 'zeta' },
+    { name: 'eta' },
+    { name: 'theta' },
+    { name: 'iota' },
+    { name: 'kappa' },
+    { name: 'lambda' },
+    { name: 'mu' },
+    { name: 'nu' },
   ],
 };
 

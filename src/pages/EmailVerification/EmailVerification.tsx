@@ -2,32 +2,47 @@ import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { authRequest } from '../../api';
 
 const EmailVerification = () => {
   const [answer, setAnswer] = useState('');
   const [emoji, setEmoji] = useState('🐛');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isNotified, setIsNotified] = useState(false);
+  const history = useHistory();
 
-  const token = useParams();
+  const { token } = useParams<{ token: string }>();
   const { t } = useTranslation();
 
   useEffect(() => {
-    authRequest
-      .doPost('email/confirmation', token)
-      .then((res) => {
-        console.log(res);
-        setEmoji('😁');
-        setAnswer('Your email is successfully registered, you can now login');
-        setSuccessMessage('Success');
-      })
-      .catch((err) => {
-        setEmoji('😢');
-        setAnswer(err.response.data.error);
-        setSuccessMessage('Error');
-      });
-  }, [token]);
+    if (isNotified) {
+      history.push('/');
+    }
+
+    const timerId = setTimeout(() => {
+      authRequest
+        .doPost({ url: 'email/confirmation', data: { token } })
+        .then((res) => {
+          console.log(res);
+          setEmoji('😁');
+          setAnswer('Your email is successfully registered, you can now login');
+          setSuccessMessage('Success');
+        })
+        .catch((err) => {
+          setEmoji('😢');
+          setAnswer(err.response.data.error);
+          setSuccessMessage('Error');
+        });
+    }, 2000);
+
+    return () => {
+      if (answer !== '') {
+        clearTimeout(timerId);
+        setIsNotified(true);
+      }
+    };
+  }, [answer, history, isNotified, token]);
 
   return (
     <div
@@ -42,6 +57,7 @@ const EmailVerification = () => {
         style={{
           width: 800,
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           padding: '10px',
