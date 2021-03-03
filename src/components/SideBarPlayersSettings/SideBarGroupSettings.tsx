@@ -17,6 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 import colors from '../../styles/colors';
 import { orange } from '@material-ui/core/colors';
 import CreateNewGroupForm from './CreateNewGroupForm';
+import GroupPlayerList from '../GroupsModal/GroupPlayerList';
 
 interface Props {
   open: boolean;
@@ -24,7 +25,7 @@ interface Props {
 }
 
 const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
-  const groups = useSelector((state: RootState) => state.groups);
+  const { groups, players } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const { user } = useAuth();
 
@@ -32,21 +33,19 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
     onCloseIconClick();
   };
 
-  console.log(groups);
-
   useEffect(() => {
     if (!user) return;
 
-    groupService
-      .fetchAllGroups({ userId: user.id })
-      .then((res) => {
-        if (res) {
-          dispatch(getAllGroups(res));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // groupService
+    //   .fetchAllGroups({ userId: user.id })
+    //   .then((res) => {
+    //     if (res) {
+    //       dispatch(getAllGroups(res));
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, [dispatch, user]);
 
   return (
@@ -83,7 +82,7 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               groupName="All Players"
               isEditable={false}
             >
-              <SideBarPlayerList isEditable={false} view="groups" />
+              <GroupPlayerList players={players} />
             </SideBarGroupCard>
             {groups.length
               ? groups.map((group) => (

@@ -41,12 +41,11 @@ const AddNewPlayerForm = () => {
       });
       if (res) {
         dispatch(addNewPlayer(res));
+        setName('');
       }
     } catch (error) {
       setError(error.response.data.error);
     }
-
-    setName('');
   };
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CardContentProps } from '@material-ui/core';
+import { CardContentProps, List } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -65,7 +65,28 @@ const SideBarGroupCard = ({
           }
         />
       )}
-      <CardContent>{children}</CardContent>
+      <CardContent>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 0 3px 1px #333333',
+            minHeight: '500px',
+            minWidth: '200px',
+          }}
+        >
+          <List
+            style={{
+              overflowY: 'auto',
+              width: '100%',
+              padding: '1rem',
+              height: '500px',
+            }}
+          >
+            {children}
+          </List>
+        </div>
+      </CardContent>
     </GroupCard>
   );
 };

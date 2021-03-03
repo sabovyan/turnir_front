@@ -1,12 +1,6 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React from 'react';
 
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
+import { IconButton, List, ListItem, ListItemText } from '@material-ui/core';
 
 import { grey } from '@material-ui/core/colors';
 
@@ -15,84 +9,45 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import PlayerNameEditForm from '../Forms/EditForm/PlayerNameEditForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/features';
-import authStorage from '../../services/storage';
+
 import useAuth from '../../services/authentication';
 import {
   removePlayer,
   updatePlayerEditStatus,
 } from '../../store/features/players';
-import { setPlayers } from '../../store/features/players';
+
 import playerService from '../../services/players.service';
 import { PlayerResponse } from '../../types/main.types';
-import Checkbox from '@material-ui/core/Checkbox';
+import { RootState } from '../../store/features';
 
 interface Props {
-  isEditable: boolean;
-  view: 'groups' | 'sideBar';
+  selectedGroupId: 'all' | number;
 }
 
-const SideBarPlayerList = ({ isEditable, view }: Props) => {
-  const playersState = useSelector((state: RootState) => state.players);
-
-  const [selectedPlayers, setSelectedPlayers] = useState<
-    (PlayerResponse & {
-      isEdit: boolean;
-    })[]
-  >();
-
+const SideBarPlayerList = ({ selectedGroupId }: Props) => {
   const dispatch = useDispatch();
 
   const { user } = useAuth();
+  const { groups, players: allPlayers } = useSelector(
+    (state: RootState) => state,
+  );
 
-  const handleDeleteIconClick = (id: number) => async () => {
-    if (!user) return;
-
-    const deletedPlayer = await playerService.deletePlayer({ slug: id });
-
-    if (deletedPlayer) {
-      dispatch(removePlayer(deletedPlayer));
-    }
-  };
+  const selectedGroupPlayers =
+    selectedGroupId !== 'all' &&
+    groups.find((group) => group.id === selectedGroupId)!.players;
 
   const handleEditIconClick = (id: number) => () => {
     dispatch(updatePlayerEditStatus({ id }));
   };
 
-  const handleCheckBoxEvent = (id: number) => (
-    event: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
-    if (checked) {
-      const foundPlayer = playersState.find((player) => player.id === id);
-      if (foundPlayer) {
-        setSelectedPlayers((state) =>
-          state ? [...state, foundPlayer] : [foundPlayer],
-        );
-      }
-
-      return;
-    }
-
-    setSelectedPlayers(
-      (state) => state && state.filter((player) => player.id !== id),
-    );
-  };
-
-  useEffect(() => {
+  const handleDeleteIconClick = (id: number) => async () => {
     if (!user) return;
 
-    playerService
-      .fetchAllPlayers({ userId: user.id })
-      .then((res: PlayerResponse[] | undefined) => {
-        if (res) {
-          dispatch(setPlayers(res));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [user, dispatch, selectedPlayers]);
+    const deletedPlayer = await playerService.deletePlayer({ slug: id });
+    if (deletedPlayer) {
+      dispatch(removePlayer(deletedPlayer));
+    }
+  };
 
   return (
     <div
@@ -112,11 +67,45 @@ const SideBarPlayerList = ({ isEditable, view }: Props) => {
           height: '500px',
         }}
       >
-        {playersState.length &&
-          playersState.map((player) =>
-            !player.isEdit ? (
+        {selectedGroupId === 'all'
+          ? allPlayers.length &&
+            allPlayers.map((player) =>
+              !player.isEdit ? (
+                <ListItem
+                  style={{
+                    backgroundColor: grey[100],
+                    marginBottom: '10px',
+                    padding: '0',
+                  }}
+                  key={player.id}
+                >
+                  <ListItemText>{player.name}</ListItemText>
+
+                  <IconButton
+                    style={{ borderRadius: 0 }}
+                    onClick={handleEditIconClick(player.id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
+                    style={{ borderRadius: 0 }}
+                    onClick={handleDeleteIconClick(player.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItem>
+              ) : (
+                <PlayerNameEditForm
+                  value={player.name}
+                  key={player.id}
+                  id={player.id}
+                />
+              ),
+            )
+          : selectedGroupPlayers &&
+            selectedGroupPlayers.map((player) => (
               <ListItem
-                draggable
                 style={{
                   backgroundColor: grey[100],
                   marginBottom: '10px',
@@ -124,47 +113,9 @@ const SideBarPlayerList = ({ isEditable, view }: Props) => {
                 }}
                 key={player.id}
               >
-                {view === 'groups' ? (
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      //  checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      onChange={handleCheckBoxEvent(player.id)}
-                      //  inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-                ) : null}
-
                 <ListItemText>{player.name}</ListItemText>
-
-                {isEditable ? (
-                  <>
-                    <IconButton
-                      style={{ borderRadius: 0 }}
-                      onClick={handleEditIconClick(player.id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-
-                    <IconButton
-                      style={{ borderRadius: 0 }}
-                      onClick={handleDeleteIconClick(player.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                ) : null}
               </ListItem>
-            ) : (
-              <PlayerNameEditForm
-                value={player.name}
-                key={player.id}
-                id={player.id}
-              />
-            ),
-          )}
+            ))}
       </List>
     </div>
   );

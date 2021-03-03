@@ -237,9 +237,10 @@ const useProvideAuth = (): IAuthProvider => {
       }, 2 * 60 * 1000);
     }
     return (): void => {
-      if (!refreshToken) {
-        clearInterval(timerId);
-      }
+      clearInterval(timerId);
+      console.group('authentication');
+      console.log('unsubscribed');
+      console.groupEnd();
     };
   }, [expiry, user]);
 

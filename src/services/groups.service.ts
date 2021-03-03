@@ -11,7 +11,7 @@ type CreateNewGroupRequest = {
   name: string;
 };
 
-type DeleteGroupRequest = {
+type RequestWithSlug = {
   slug: number;
 };
 
@@ -50,7 +50,7 @@ const createNewGroup = async ({ userId, name }: CreateNewGroupRequest) => {
   return group;
 };
 
-const deleteGroupById = async ({ slug }: DeleteGroupRequest) => {
+const deleteGroupById = async ({ slug }: RequestWithSlug) => {
   const token = authStorage.getAccessToken();
 
   if (!token) return;
@@ -75,11 +75,23 @@ const updateGroupNameById = async (data: UpdateGroupNameRequest) => {
   return group;
 };
 
+const getGroupById = async ({ slug }: RequestWithSlug) => {
+  const token = authStorage.getAccessToken();
+
+  if (!token) return;
+
+  const res = await playersGroupRequest.doGet({ url: `${slug}`, token });
+
+  const group = (await res.data) as GroupResponse;
+  return group;
+};
+
 const groupService = {
   fetchAllGroups,
   createNewGroup,
   deleteGroupById,
   updateGroupNameById,
+  getGroupById,
 };
 
 export default groupService;
