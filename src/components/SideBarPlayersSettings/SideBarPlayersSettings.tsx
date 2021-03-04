@@ -1,36 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RootState } from '../../store/features';
+import { useSelector } from 'react-redux';
 
 import AddNewPlayerForm from '../Forms/AddNewPlayerForm/AddNewPlayerForm';
-import {
-  CircularProgress,
-  IconButton,
-  Menu,
-  MenuItem,
-} from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
+import SideBarPlayerList from './SideBarPlayerList';
+import SideBarGroupSettings from './SideBarGroupSettings';
 import FormField from '../Input/FormField';
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import GroupIcon from '@material-ui/icons/Group';
 
-import SideBarPlayerList from './SideBarPlayerList';
-import SideBarGroupSettings from './SideBarGroupSettings';
-import { RootState } from '../../store/features';
-import { useDispatch, useSelector } from 'react-redux';
-import playerService from '../../services/players.service';
-import useAuth from '../../services/authentication';
-import { PlayerResponse } from '../../types/main.types';
-import { setPlayers } from '../../store/features/players';
-import userService from '../../services/user.service';
-import { getAllGroups } from '../../store/features/groups.feature';
-import groupService from '../../services/groups.service';
-
-interface Props {}
-
-const SideBarPlayersSettings = (props: Props) => {
+const SideBarPlayersSettings = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
 
   const { groups, players } = useSelector((state: RootState) => state);
 

@@ -17,7 +17,6 @@ import {
 } from '../../store/features/players';
 
 import playerService from '../../services/players.service';
-import { PlayerResponse } from '../../types/main.types';
 import { RootState } from '../../store/features';
 
 interface Props {

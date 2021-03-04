@@ -1,79 +1,108 @@
-import { Card, Fab, Paper, TextField } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, DragEvent, MouseEvent, useState } from 'react';
+import Paper from '@material-ui/core/Paper';
 import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
-
 import SideBarGroupCard from './SideBarGroupCard';
-import SideBarPlayerList from './SideBarPlayerList';
-import useAuth from '../../services/authentication';
-import groupService from '../../services/groups.service';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllGroups } from '../../store/features/groups.feature';
 import { RootState } from '../../store/features';
+import { useSelector } from 'react-redux';
 import CloseButton from '../Buttons/CloseButton/CloseButton';
-import CButton from '../Buttons/CustomButton/CustomButton';
-import FormField from '../Input/FormField';
-import GroupCard from '../GroupCard/GroupCard';
-import AddIcon from '@material-ui/icons/Add';
 import colors from '../../styles/colors';
-import { orange } from '@material-ui/core/colors';
 import CreateNewGroupForm from './CreateNewGroupForm';
 import GroupPlayerList from '../GroupsModal/GroupPlayerList';
+import { MenuItem } from '@material-ui/core';
+import FormField from '../Input/FormField';
+import Typography from '@material-ui/core/Typography';
+import { GroupResponse } from '../../types/main.types';
 
 interface Props {
   open: boolean;
   onCloseIconClick: () => void;
 }
 
+enum SelectionMethod {
+  single = 'single',
+  multiple = 'multiple',
+}
+
 const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
   const { groups, players } = useSelector((state: RootState) => state);
-  const dispatch = useDispatch();
-  const { user } = useAuth();
 
-  const handleCloseIconClick = () => {
-    onCloseIconClick();
+  const [activeGroup, setActiveGroup] = useState<
+    GroupResponse & {
+      isEdit: boolean;
+    }
+  >(groups[0]);
+
+  const handleGroupSelectEvent = (event: ChangeEvent<HTMLInputElement>) => {
+    const groupId = event.target.value;
+
+    const foundGroup = groups.find((group) => group.id === Number(groupId));
+
+    if (foundGroup) {
+      setActiveGroup(foundGroup);
+    }
   };
 
-  useEffect(() => {
-    if (!user) return;
+  const handleClose = (event: any) => {
+    if (event.target.className === 'MuiBackdrop-root') onCloseIconClick();
+  };
 
-    // groupService
-    //   .fetchAllGroups({ userId: user.id })
-    //   .then((res) => {
-    //     if (res) {
-    //       dispatch(getAllGroups(res));
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }, [dispatch, user]);
+  const handleDeleteEvent = () => {
+    console.log(activeGroup.id);
+    setActiveGroup(groups[0]);
+  };
 
   return (
     <>
-      <CustomBackdrop open={open} zIndex={1001}>
+      <CustomBackdrop open={open} zIndex={1001} onClick={handleClose}>
         <div style={{ width: '200px' }}></div>
         <Paper
           elevation={3}
           style={{
             display: 'flex',
             flexDirection: 'column',
-            padding: '1rem',
+            gap: '1rem',
+            padding: '2rem',
             minWidth: '400px',
             maxWidth: '1200px',
             backgroundColor: colors.sideColor,
           }}
         >
-          <CloseButton
-            style={{ alignSelf: 'flex-end', color: colors.green }}
-            onClick={handleCloseIconClick}
-          />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+
+              justifyContent: 'flex-end',
+            }}
+          >
+            <div>
+              <Typography color="primary" variant="h6">
+                Choose the group
+              </Typography>
+              <FormField
+                select
+                label=""
+                value={activeGroup.id}
+                style={{ marginBottom: '0', width: 200, background: 'white' }}
+                fullWidth={false}
+                onChange={handleGroupSelectEvent}
+              >
+                {groups &&
+                  groups.length &&
+                  groups.map((group) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      {group.name}
+                    </MenuItem>
+                  ))}
+              </FormField>
+            </div>
+          </div>
 
           <div
             style={{
               display: 'flex',
               gap: '1rem',
               overflow: 'auto',
-              padding: '1rem',
             }}
           >
             <SideBarGroupCard
@@ -81,21 +110,36 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               isEdit={false}
               groupName="All Players"
               isEditable={false}
+              onDelete={() => {}}
             >
-              <GroupPlayerList players={players} />
+              <GroupPlayerList
+                isSelectable={true}
+                players={players}
+                isDraggable={true}
+                deleteButton={false}
+                groupId={0}
+              />
             </SideBarGroupCard>
-            {groups.length
-              ? groups.map((group) => (
-                  <SideBarGroupCard
-                    groupId={group.id}
-                    isEdit={group.isEdit}
-                    groupName={group.name}
-                    isEditable={true}
-                    key={group.id}
-                  ></SideBarGroupCard>
-                ))
-              : null}
+
+            <SideBarGroupCard
+              groupId={activeGroup.id}
+              isEdit={activeGroup.isEdit}
+              groupName={activeGroup.name}
+              isEditable={true}
+              onDelete={handleDeleteEvent}
+            >
+              <GroupPlayerList
+                isDraggable={false}
+                isSelectable={false}
+                groupId={activeGroup.id}
+                players={
+                  groups.find((group) => group.id === activeGroup.id)!.players
+                }
+                deleteButton={true}
+              />
+            </SideBarGroupCard>
           </div>
+
           <CreateNewGroupForm />
         </Paper>
       </CustomBackdrop>

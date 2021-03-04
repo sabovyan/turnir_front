@@ -21,6 +21,20 @@ type UpdateGroupNameRequest = {
   groupId: number;
 };
 
+type PlayerId = {
+  id: number;
+};
+
+type addMultiplePlayersRequest = {
+  groupId: number;
+  playerIds: PlayerId[];
+};
+
+type GroupIdAndPlayerId = {
+  groupId: number;
+  playerId: number;
+};
+
 const fetchAllGroups = async ({ userId }: FetchAllGroupsRequest) => {
   const token = authStorage.getAccessToken();
 
@@ -86,12 +100,66 @@ const getGroupById = async ({ slug }: RequestWithSlug) => {
   return group;
 };
 
+const addSinglePlayerToGroup = async ({
+  groupId,
+  playerId,
+}: GroupIdAndPlayerId) => {
+  const token = authStorage.getAccessToken();
+
+  if (!token) return;
+
+  const res = await playersGroupRequest.doUpdate({
+    url: 'addOnePlayer',
+    token,
+    data: {
+      groupId,
+      playerId,
+    },
+  });
+
+  const group = (await res.data) as GroupResponse;
+  return group;
+};
+
+const addMultiplePlayersToGroup = async (data: addMultiplePlayersRequest) => {
+  const token = authStorage.getAccessToken();
+
+  if (!token) return;
+
+  const res = await playersGroupRequest.doUpdate({
+    url: 'addPlayers',
+    token,
+    data,
+  });
+
+  const group = (await res.data) as GroupResponse;
+  return group;
+};
+
+const removePlayerFromGroup = async (data: GroupIdAndPlayerId) => {
+  const token = authStorage.getAccessToken();
+
+  if (!token) return;
+
+  const res = await playersGroupRequest.doUpdate({
+    url: 'removePlayer',
+    token,
+    data,
+  });
+
+  const group = (await res.data) as GroupResponse;
+  return group;
+};
+
 const groupService = {
   fetchAllGroups,
   createNewGroup,
   deleteGroupById,
   updateGroupNameById,
   getGroupById,
+  addSinglePlayerToGroup,
+  addMultiplePlayersToGroup,
+  removePlayerFromGroup,
 };
 
 export default groupService;

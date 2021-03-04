@@ -24,8 +24,6 @@ import './SideBar.css';
 import userService from '../../services/user.service';
 import { setPlayers } from '../../store/features/players';
 import { getAllGroups } from '../../store/features/groups.feature';
-import playerService from '../../services/players.service';
-import groupService from '../../services/groups.service';
 
 export const signCardDisplayContext = createContext<{
   state: boolean;
@@ -114,26 +112,10 @@ const SideBar: FC = () => {
   useEffect(() => {
     if (!user) return;
 
-    // playerService.fetchAllPlayers({ userId: user.id }).then((res) => {
-    //   console.log(res);
-    //   if (res) {
-    //     dispatch(setPlayers(res));
-    //   }
-    // });
-
-    // groupService.fetchAllGroups({ userId: user.id }).then((res) => {
-    //   console.log(res);
-    //   if (res) {
-    //     dispatch(getAllGroups(res));
-    //   }
-    // });
-
     userService
       .getGroupsAndPlayersByUserId(user.id)
       .then((res) => {
         if (res) {
-          console.log(res);
-
           const groups = res.PlayerGroup;
           const players = res.player;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { DragEvent } from 'react';
 
 import { CardContentProps, List } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,17 +10,20 @@ import CardContent from '@material-ui/core/CardContent';
 import GroupCard from '../GroupCard/GroupCard';
 import GroupNameEditForm from '../Forms/EditForm/GroupNameEditForm';
 import groupService from '../../services/groups.service';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   changeGroupEditStatusById,
   removeGroup,
+  updatePlayersInGroup,
 } from '../../store/features/groups.feature';
+import { RootState } from '../../store/features';
 
 interface Props extends CardContentProps {
   groupName: string;
   isEditable: boolean;
   isEdit: boolean;
   groupId: number;
+  onDelete: () => void;
 }
 
 const SideBarGroupCard = ({
@@ -29,18 +32,54 @@ const SideBarGroupCard = ({
   isEditable,
   isEdit,
   groupId,
+  onDelete,
 }: Props) => {
   const dispatch = useDispatch();
+  const playersToTransfer = useSelector(
+    (state: RootState) => state.playersToTransfer,
+  );
 
   const handleDeleteIconClick = (id: number) => async () => {
     const res = await groupService.deleteGroupById({ slug: id });
 
     if (res) {
+      onDelete();
       dispatch(removeGroup(res));
     }
   };
   const handleEditIconClick = (id: number) => async () => {
     dispatch(changeGroupEditStatusById({ id }));
+  };
+
+  const handleDragOverEvent = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDropEvent = async (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let group;
+
+    if (!playersToTransfer) return;
+
+    if (!(playersToTransfer instanceof Array)) {
+      group = await groupService.addSinglePlayerToGroup({
+        groupId,
+        playerId: playersToTransfer.id,
+      });
+    } else {
+      const playerIds = playersToTransfer.map((player) => ({ id: player.id }));
+
+      group = await groupService.addMultiplePlayersToGroup({
+        groupId,
+        playerIds,
+      });
+    }
+
+    if (!group) return;
+    dispatch(updatePlayersInGroup(group));
   };
 
   return (
@@ -82,6 +121,8 @@ const SideBarGroupCard = ({
               padding: '1rem',
               height: '500px',
             }}
+            onDragOver={isEditable ? handleDragOverEvent : undefined}
+            onDrop={handleDropEvent}
           >
             {children}
           </List>

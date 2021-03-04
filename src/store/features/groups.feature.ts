@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GroupResponse } from '../../types/main.types';
+import { GroupResponse, PlayerResponse } from '../../types/main.types';
 
 const initialState: (GroupResponse & { isEdit: boolean })[] = [];
 
@@ -53,6 +53,39 @@ const { reducer, actions } = createSlice({
     removeGroup: (state, { payload: { id } }: PayloadAction<GroupResponse>) => {
       return state.filter((player) => player.id !== id);
     },
+
+    updateGroupPlayersWidthOnePlayer: (
+      state,
+      {
+        payload: { player, groupId },
+      }: PayloadAction<{ player: PlayerResponse; groupId: number }>,
+    ) => {
+      const activeGroup = state.find((group) => group.id === groupId);
+
+      if (!activeGroup) return;
+
+      if (activeGroup.players.length) {
+        const isPlayerExists = activeGroup.players.some(
+          (existingPlayers) => existingPlayers.id === player.id,
+        );
+        if (isPlayerExists) return;
+      }
+
+      return state.map((group) =>
+        groupId === group.id
+          ? { ...group, players: [...group.players, player] }
+          : group,
+      );
+    },
+
+    updatePlayersInGroup: (
+      state,
+      { payload: { id, players } }: PayloadAction<GroupResponse>,
+    ) => {
+      return state.map((group) =>
+        group.id === id ? { ...group, players } : group,
+      );
+    },
   },
 });
 
@@ -65,4 +98,5 @@ export const {
   changeGroupEditStatusById,
   updateGroupNameById,
   updateGroupEditStatus,
+  updatePlayersInGroup,
 } = actions;

@@ -39,6 +39,11 @@ const CreateNewGroupForm = () => {
         dispatch(addNewGroup(res));
       }
     } catch (error) {
+      if (!error.response) {
+        setError('Network Error');
+        return;
+      }
+
       setError(error.response.data.error);
     }
 
@@ -51,7 +56,7 @@ const CreateNewGroupForm = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        marginTop: '1rem',
+        // marginTop: '1rem',
         gap: '1rem',
         alignSelf: 'flex-end',
       }}

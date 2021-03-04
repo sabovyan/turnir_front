@@ -9,7 +9,7 @@ const GroupCard = ({ children, cssStyles, ...props }: Props) => {
   return (
     <Card
       style={{
-        minWidth: '370px',
+        minWidth: '380px',
         minHeight: 500,
         boxShadow: '0 0 1px 1px #c8c8c8',
         ...cssStyles,
