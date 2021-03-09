@@ -15,6 +15,8 @@ interface Props {
   isFirstRound: boolean;
   isFinal: boolean;
   roundIndex: number;
+  maxHeight: number;
+  numberOfGamesInOneRound: number;
 }
 
 const EliminationGameRectangle = ({
@@ -25,23 +27,18 @@ const EliminationGameRectangle = ({
   isFirstRound,
   isFinal,
   roundIndex,
+  maxHeight,
+  numberOfGamesInOneRound,
 }: Props) => {
   return (
     <div className={styles.eliminationGameWrapper}>
       <div className="backLine" style={{ display: 'flex' }}>
         <div
           style={{
-            width: '1px',
-            height: '100px',
-            background: !isFirstRound ? 'green' : 'none',
-          }}
-        ></div>
-        <div
-          style={{
             width: '49px',
             height: '1px',
-            background: !isFirstRound ? 'green' : 'none',
-            transform: 'translate(0px,50px)',
+            background: !isFirstRound ? 'black' : 'none',
+            transform: 'translate(0px, 0)',
           }}
         ></div>
       </div>
@@ -77,25 +74,31 @@ const EliminationGameRectangle = ({
           />
         </div>
       </div>
-      <div className="frontLines" style={{ display: 'flex' }}>
+      <div
+        className="frontLines"
+        style={{
+          display: 'flex',
+          transform: `translate(0, ${
+            maxHeight / numberOfGamesInOneRound / 4
+          }px)`,
+        }}
+      >
         <div
           style={{
             width: '50px',
             height: '1px',
-            background: !isFinal ? 'none' : 'red',
-            transform: isEven
-              ? `translate(0, ${((roundIndex + 1) * 50) / 2}px)`
-              : `translate(0, ${((roundIndex + 1) * 50) / 2}px)`,
+            background: !isFinal ? 'none' : 'black',
+            // transform: `translate(0, ${100}px)`,
           }}
         ></div>
         <div
           style={{
             width: '1px',
-            height: `${(roundIndex + 1) * 50}px`,
+            height: `${maxHeight / numberOfGamesInOneRound / 2}px`,
             background: !isFinal ? 'none' : 'green',
             transform: isEven
-              ? `translate(0, -${((roundIndex + 1) * 50) / 2}px)`
-              : `translate(0, ${((roundIndex + 1) * 50) / 2}px)`,
+              ? `translate(0, -${maxHeight / numberOfGamesInOneRound / 2}px)`
+              : `translate(0, ${0}px)`,
           }}
         ></div>
       </div>
@@ -105,6 +108,7 @@ const EliminationGameRectangle = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'space-between',
             background: '#363636',
             color: 'white',
             padding: '1rem',

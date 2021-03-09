@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 
 import ListSubheader from '@material-ui/core/ListSubheader';
 import SetupListItem from './SetupListItem';
+import Typography from '@material-ui/core/Typography';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -96,17 +97,19 @@ const SetupList = ({ players }: Props) => {
       style={{
         boxShadow: '3px 0px 3px #dadada',
         minWidth: '280px',
+        height: 'calc(100vh - 100px)',
+        overflowY: 'auto',
       }}
     >
-      <ListSubheader
+      <Typography
         style={{
           display: 'flex',
-          gap: '1rem',
+          color: '#34343456',
         }}
       >
-        <span>#</span>
-        <span>{t('Participants')}</span>
-      </ListSubheader>
+        <span style={{ margin: '0 1rem' }}>#</span>
+        <span style={{ margin: '0 1rem 0 0' }}>{t('Participants')}</span>
+      </Typography>
       {players.length > 0 &&
         players.map((pl, idx) => (
           <SetupListItem

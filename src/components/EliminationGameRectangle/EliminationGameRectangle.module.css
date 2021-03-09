@@ -1,7 +1,9 @@
 .eliminationGameWrapper {
-  max-height: 100px;
+  /* min-width: 400px; */
   display: flex;
   align-items: center;
+  margin: 10px 0;
+  /* border: 1px solid red; */
 }
 
 .eliminationGameContainer {
