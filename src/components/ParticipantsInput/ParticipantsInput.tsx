@@ -46,7 +46,6 @@ interface IParticipantsInputProps {
   name: string;
   goBackToCards: () => void;
   cardBackgroundColor: string;
-  selectedGroup: number | false;
 }
 
 const ParticipantInput = ({
@@ -54,7 +53,6 @@ const ParticipantInput = ({
   name,
   goBackToCards,
   cardBackgroundColor,
-  selectedGroup,
 }: IParticipantsInputProps) => {
   const {
     settingsInfo: { players },
@@ -314,7 +312,7 @@ const ParticipantInput = ({
     // if (selectedGroup) {
     //   setPlayersList(players.map(createNewPlayer));
     // }
-  }, [dispatch, players, playersList, selectedGroup]);
+  }, [dispatch, players, playersList]);
 
   return (
     <div className={styles.container}>

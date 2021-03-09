@@ -38,19 +38,14 @@ const StyledMenu = withStyles({
   />
 ));
 
-interface IProps {
-  selectedGroup: number | false;
-  handleListItemClick: (id: number) => void;
-}
-
-const TopBarGroupList = ({ selectedGroup, handleListItemClick }: IProps) => {
+const TopBarGroupList = () => {
   const { groups } = useSelector((state: RootState) => state);
 
-  // const [selectedGroup, setSelectedGroup] = useState<number | false>(false);
+  const [selectedGroup, setSelectedGroup] = useState<number | false>(false);
 
-  // const handleListItemClick = (id: number) => {
-  //   setSelectedGroup((state) => (id === state ? false : id));
-  // };
+  const handleListItemClick = (id: number) => {
+    setSelectedGroup((state) => (id === state ? false : id));
+  };
 
   const { t } = useTranslation();
 

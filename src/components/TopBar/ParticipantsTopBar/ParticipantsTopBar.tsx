@@ -15,15 +15,9 @@ import TopBarGroupList from './TopBarGroupList';
 
 interface IParticipantsTopBarProps {
   view: setPlayersSettingsView;
-  selectedGroup: number | false;
-  handleListItemClick: (id: number) => void;
 }
 
-const ParticipantsTopBar = ({
-  view,
-  selectedGroup,
-  handleListItemClick,
-}: IParticipantsTopBarProps) => {
+const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -50,12 +44,7 @@ const ParticipantsTopBar = ({
           {t('Add Participants')}
         </Typography>
         <div>
-          {view !== 'cards' && (
-            <TopBarGroupList
-              selectedGroup={selectedGroup}
-              handleListItemClick={handleListItemClick}
-            />
-          )}
+          {view !== 'cards' && <TopBarGroupList />}
 
           <BackButton
             onClick={handleBackButtonClick}
