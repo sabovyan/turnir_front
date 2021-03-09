@@ -18,10 +18,17 @@ const Participants = (props: Props) => {
   const { tournamentType } = useSelector(
     (state: RootState) => state.settingsInfo,
   );
+
   const history = useHistory();
   const [view, setView] = useState<setPlayersSettingsView>(
     setPlayersSettingsView.cards,
   );
+
+  const [selectedGroup, setSelectedGroup] = useState<number | false>(false);
+
+  const handleListItemClick = (id: number) => {
+    setSelectedGroup((state) => (id === state ? false : id));
+  };
 
   const handleSingleCardClick = (type: setPlayersSettingsView) => {
     setView(type);
@@ -39,7 +46,11 @@ const Participants = (props: Props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <ParticipantsTopBar view={view} />
+      <ParticipantsTopBar
+        view={view}
+        selectedGroup={selectedGroup}
+        handleListItemClick={handleListItemClick}
+      />
 
       {view === 'cards' ? (
         <ParticipantCards onCardClick={handleSingleCardClick} />
@@ -73,6 +84,7 @@ const Participants = (props: Props) => {
               ? colors.DrawYourPartner
               : 'black'
           }
+          selectedGroup={selectedGroup}
         />
       )}
     </div>

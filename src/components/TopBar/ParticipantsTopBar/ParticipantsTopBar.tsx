@@ -1,5 +1,5 @@
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -11,11 +11,19 @@ import CButton from '../../Buttons/CustomButton/CustomButton';
 import BasicToolBar from '../BasicToolBar/BasicToolBar';
 import BasicTopBar from '../BasicTopBar/BasicTopBar';
 
+import TopBarGroupList from './TopBarGroupList';
+
 interface IParticipantsTopBarProps {
   view: setPlayersSettingsView;
+  selectedGroup: number | false;
+  handleListItemClick: (id: number) => void;
 }
 
-const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
+const ParticipantsTopBar = ({
+  view,
+  selectedGroup,
+  handleListItemClick,
+}: IParticipantsTopBarProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -30,6 +38,8 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
     if (players.length) {
       dispatch(createGamesAndPlayersForSetup({ players }));
       history.push('/setup');
+    } else {
+      console.log('players are empty');
     }
   };
 
@@ -40,9 +50,21 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
           {t('Add Participants')}
         </Typography>
         <div>
-          <BackButton onClick={handleBackButtonClick} />
           {view !== 'cards' && (
-            <CButton text={t('Next')} onClick={handleNextButtonClick} />
+            <TopBarGroupList
+              selectedGroup={selectedGroup}
+              handleListItemClick={handleListItemClick}
+            />
+          )}
+
+          <BackButton
+            onClick={handleBackButtonClick}
+            style={{ borderRadius: 0 }}
+          />
+          {view !== 'cards' && (
+            <>
+              <CButton text={t('Next')} onClick={handleNextButtonClick} />
+            </>
           )}
         </div>
       </BasicToolBar>

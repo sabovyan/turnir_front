@@ -15,13 +15,19 @@ import Card from '@material-ui/core/Card';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ParticipantsInput.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setResponseStatus } from '../../store/features/formResponseStatus';
-import { getPlayers } from '../../store/features/settingsInfo';
+import {
+  addNewPlayer,
+  deletePlayerByName,
+  editPlayerName,
+  getPlayers,
+} from '../../store/features/settingsInfo';
 import ParticipantsInputForm from './PartisipantInputForm/ParticipantsInputForm';
 import { Player } from '../../types/main.types';
 import { generateId } from '../ParticipantsInputList/ParticipantsInput.util';
+import { RootState } from '../../store/features';
 
 const getPlayerId = generateId();
 
@@ -40,15 +46,24 @@ interface IParticipantsInputProps {
   name: string;
   goBackToCards: () => void;
   cardBackgroundColor: string;
+  selectedGroup: number | false;
 }
+
 const ParticipantInput = ({
   icon,
   name,
   goBackToCards,
   cardBackgroundColor,
+  selectedGroup,
 }: IParticipantsInputProps) => {
+  const {
+    settingsInfo: { players },
+  } = useSelector((state: RootState) => state);
+
   const [currentPlayerName, setCurrentPlayerName] = useState<string>('');
-  const [playersList, setPlayersList] = useState<Player[] | undefined>();
+  const [playersList, setPlayersList] = useState<Player[]>(
+    players.map(createNewPlayer),
+  );
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -89,11 +104,8 @@ const ParticipantInput = ({
       return;
     }
 
-    setPlayersList((prevList) =>
-      prevList
-        ? [...prevList, createNewPlayer({ name: currentPlayerName.trim() })]
-        : [createNewPlayer({ name: currentPlayerName.trim() })],
-    );
+    dispatch(addNewPlayer({ name: currentPlayerName.trim() }));
+
     setCurrentPlayerName('');
   };
 
@@ -170,12 +182,17 @@ const ParticipantInput = ({
     );
   };
 
-  const applyEditedNameOfPlayer = (id: number, value: string | undefined) => {
+  const applyEditedNameOfPlayer = (
+    id: number,
+    value: string | undefined,
+    name: string,
+  ) => {
     if (!playersList || !playersList.length) {
       return;
     }
 
     if (!value) {
+      dispatch(editPlayerName({ prevName: name, newName: name }));
       setPlayersList(
         (state) =>
           state &&
@@ -201,11 +218,13 @@ const ParticipantInput = ({
       return;
     }
 
+    dispatch(editPlayerName({ prevName: name, newName: value }));
+
     setPlayersList(
       (state) =>
         state &&
         state.map((player) =>
-          player.id === id ? { ...player, name: value, edit: false } : player,
+          player.id === id ? { ...player, edit: false, name: value } : player,
         ),
     );
 
@@ -228,11 +247,15 @@ const ParticipantInput = ({
     id: number,
     value: string | undefined,
   ) => {
-    applyEditedNameOfPlayer(id, value);
+    applyEditedNameOfPlayer(id, value, name);
   };
 
-  const handlePlayerNameBlur = (id: number, value: string | undefined) => {
-    applyEditedNameOfPlayer(id, value);
+  const handlePlayerNameBlur = (
+    id: number,
+    value: string | undefined,
+    name: string,
+  ) => {
+    applyEditedNameOfPlayer(id, value, name);
   };
 
   const handleListItemClick = (id: number) => {
@@ -272,18 +295,26 @@ const ParticipantInput = ({
   };
 
   const handlePlayerDelete = (id: number) => {
+    const foundPlayers =
+      playersList && playersList.find((player) => player.id === id);
+    if (!foundPlayers) return;
+
+    dispatch(deletePlayerByName({ name: foundPlayers.name }));
+
     setPlayersList(
       (state) => state && state.filter((player) => player.id !== id),
     );
   };
 
   useEffect(() => {
-    if (playersList && playersList.length) {
-      const currentPlayers = playersList.map(({ name }) => ({ name }));
-
-      dispatch(getPlayers({ players: currentPlayers }));
+    /* [B.U.G.]: needs different solution */
+    if (playersList.length !== players.length) {
+      setPlayersList(players.map(createNewPlayer));
     }
-  }, [dispatch, playersList]);
+    // if (selectedGroup) {
+    //   setPlayersList(players.map(createNewPlayer));
+    // }
+  }, [dispatch, players, playersList, selectedGroup]);
 
   return (
     <div className={styles.container}>

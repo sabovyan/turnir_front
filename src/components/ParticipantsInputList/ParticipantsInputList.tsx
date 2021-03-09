@@ -25,7 +25,11 @@ interface Props {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
 
-  OnPlayerNameBlur: (id: number, value: string | undefined) => void;
+  OnPlayerNameBlur: (
+    id: number,
+    value: string | undefined,
+    name: string,
+  ) => void;
   onEditFormSubmit: (id: number, value: string | undefined) => void;
   onListItemClick: (id: number) => void;
   onEditIconClick: (id: number) => void;
@@ -57,10 +61,12 @@ const ParticipantsInputList = ({
     onPlayerNameChange(id, event);
   };
 
-  const handlePlayerNameBlur = (id: number, value: string | undefined) => (
-    event: FocusEvent<HTMLInputElement>,
-  ) => {
-    OnPlayerNameBlur(id, value);
+  const handlePlayerNameBlur = (
+    id: number,
+    value: string | undefined,
+    name: string,
+  ) => (event: FocusEvent<HTMLInputElement>) => {
+    OnPlayerNameBlur(id, value, name);
   };
 
   const handleListItemClick = (id: number) => (
@@ -94,7 +100,6 @@ const ParticipantsInputList = ({
                 onClick={handleListItemClick(el.id)}
                 onMouseEnter={handleListItemMouseOver(el.id)}
                 onMouseOver={handleListItemMouseOver(el.id)}
-                // onMouseOut={handleListItemMouseOver(el.id)}
                 ref={el.ref}
                 id={String(el.name)}
               >
@@ -136,7 +141,7 @@ const ParticipantsInputList = ({
                   autoFocus
                   fullWidth
                   style={{ fontSize: '1.1rem' }}
-                  onBlur={handlePlayerNameBlur(el.id, el.draft)}
+                  onBlur={handlePlayerNameBlur(el.id, el.draft, el.name)}
                   onChange={handlePlayerNameChange(el.id)}
                 />
               </form>

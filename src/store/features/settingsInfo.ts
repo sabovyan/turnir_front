@@ -16,6 +16,7 @@ const initialState: tournamentSettings = {
   goalsToWin: 7,
   winningSets: 1,
   tournamentType: TournamentType.none,
+  // players: [],
   players: [
     { name: 'alpha' },
     { name: 'betta' },
@@ -67,9 +68,7 @@ const { reducer, actions } = createSlice({
 
     getPlayers: (
       state,
-      {
-        payload: { players },
-      }: PayloadAction<{ players: Pick<Player, 'name'>[] }>,
+      { payload: { players } }: PayloadAction<{ players: { name: string }[] }>,
     ) => {
       const settingsInfoPlayers: SettingsInfoPlayers[] = players.map(
         ({ name }) => ({
@@ -77,6 +76,33 @@ const { reducer, actions } = createSlice({
         }),
       );
       state.players = settingsInfoPlayers;
+    },
+
+    deletePlayerByName: (
+      state,
+      { payload: { name } }: PayloadAction<{ name: string }>,
+    ) => {
+      const players = state.players.filter((player) => player.name !== name);
+      state.players = players;
+      return state;
+    },
+
+    addNewPlayer: (state, { payload }: PayloadAction<{ name: string }>) => {
+      const players = [...state.players, payload];
+      state.players = players;
+    },
+
+    editPlayerName: (
+      state,
+      {
+        payload: { prevName, newName },
+      }: PayloadAction<{ prevName: string; newName: string }>,
+    ) => {
+      state.players = state.players.map((player) =>
+        player.name === prevName ? { ...player, name: newName } : player,
+      );
+
+      return state;
     },
   },
 });
@@ -87,5 +113,8 @@ export const {
   getPlayers,
   setGoalsQuantity,
   setWinningSets,
+  deletePlayerByName,
+  addNewPlayer,
+  editPlayerName,
 } = actions;
 export default reducer;

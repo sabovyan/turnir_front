@@ -234,7 +234,7 @@ const useProvideAuth = (): IAuthProvider => {
               console.log(err);
             });
         }
-      }, 2 * 60 * 1000);
+      }, 3 * 60 * 1000);
     }
     return (): void => {
       clearInterval(timerId);

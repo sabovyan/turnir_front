@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Button from '@material-ui/core/Button';
 import IButton from './CButton.type';
-import { orange } from '@material-ui/core/colors';
+import colors from '../../../styles/colors';
 
 const CButton: FC<IButton> = ({ text, cssStyles, ...props }) => {
   return (
@@ -9,7 +9,7 @@ const CButton: FC<IButton> = ({ text, cssStyles, ...props }) => {
       variant="contained"
       color="primary"
       style={{
-        background: orange[800],
+        background: colors.orange,
         alignSelf: 'center',
         padding: '10px 2rem',
         ...cssStyles,
