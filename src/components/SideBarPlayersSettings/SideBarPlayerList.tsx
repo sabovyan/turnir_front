@@ -66,9 +66,8 @@ const SideBarPlayerList = ({ selectedGroupId }: Props) => {
           height: '500px',
         }}
       >
-        {selectedGroupId === 'all'
-          ? allPlayers.length &&
-            allPlayers.map((player) =>
+        {selectedGroupId === 'all' && allPlayers.length
+          ? allPlayers.map((player) =>
               !player.isEdit ? (
                 <ListItem
                   style={{

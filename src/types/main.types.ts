@@ -96,6 +96,7 @@ export type SetupState = {
   players: SetupPlayer[];
   games: SetupGame[];
   rounds: SetupRound[];
+  gameForThirdPlace: boolean;
 };
 
 export type SetupRound = {
@@ -116,3 +117,5 @@ export type GroupResponse = {
   userId: number;
   players: PlayerResponse[];
 };
+
+export type PlayerWithInputValue = PlayerResponse & { inputValue?: string };

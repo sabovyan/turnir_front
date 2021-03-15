@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
@@ -57,16 +57,6 @@ const DigitBoard = ({ name }: Props) => {
     setActiveDigitPosition(currentDigitIndex);
   };
 
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setInitMovement(false);
-    }, 1200);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  });
-
   return (
     <div className={styles.digitBoard}>
       <Typography
@@ -91,63 +81,58 @@ const DigitBoard = ({ name }: Props) => {
             width: boardWith,
             display: 'flex',
             justifyContent: 'flex-start',
+            position: 'relative',
+            // transform: `translateX(-${scoreTranslate}px)`,
+            // transition: `transform 200ms cubic-bezier(.16,.63,.67,.93) 200ms`,
+            border: `1px solid ${orange[600]}`,
             overflow: 'hidden',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              width: (boardWith / 8) * digits.array.length,
-
-              position: 'relative',
-              transform: `translateX(-${scoreTranslate}px)`,
-              transition: `transform 200ms cubic-bezier(.16,.63,.67,.93) 200ms`,
-            }}
-          >
-            {digits.array.map((el, idx) => (
-              <div
-                style={{
-                  textAlign: 'center',
-                  // minWidth: initMovement ? boardWith / 5 : boardWith / 8,
-                  minWidth: boardWith / 8,
-                  // transition: 'min-width 400ms linear ',
-                  height: boardWith / 8,
-                  lineHeight: boardWith / 128,
-                  cursor: 'pointer',
-                  zIndex: 1,
-                  transform: `translateX(${
-                    initMovement && idx > digits.array.length - 4 ? 200 : 0
-                  }px)`,
-                  transition: `transform ${
-                    digits.array.length - idx - 4
-                  }00ms linear`,
-                }}
-                key={el}
-                onClick={handleDigitClick(el)}
-              >
-                {el}
-              </div>
-            ))}
+          {/* {digits.array.map((el, idx) => (
             <div
-              className={'allowMove'}
               style={{
-                background: orange[600],
-                width: boardWith / 8,
-                height: boardWith / 8,
-                color: 'white',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                zIndex: 0,
-                borderRadius: '50%',
-                transform: `translateX(${
-                  activeDigitPosition * (boardWith / 8)
-                }px)`,
-                transition: 'transform 200ms linear',
+                textAlign: 'center',
+                // position: 'absolute',
+                top: '0',
+                left: `${(boardWith / 8) * (idx + 1)}px`,
+                width: (boardWith / 8) * digits.array.length,
+                // // transition: 'min-width 400ms linear ',
+                // height: boardWith / 8,
+                // lineHeight: boardWith / 128,
+                // cursor: 'pointer',
+                // // zIndex: 1,
+                // // transform: `translateX(${
+                // //   initMovement && idx > digits.array.length - 4 ? 200 : 0
+                // // }px)`,
+                // // transition: `transform ${
+                // //   digits.array.length - idx - 4
+                // // }00ms linear`,
+                color: orange[600],
               }}
-            />
-          </div>
+              key={el}
+              onClick={handleDigitClick(el)}
+            >
+              {el}
+            </div>
+          ))} */}
+          {/* <div
+            className={'allowMove'}
+            style={{
+              background: orange[600],
+              width: boardWith / 8,
+              height: boardWith / 8,
+              color: 'white',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 0,
+              borderRadius: '50%',
+              transform: `translateX(${
+                activeDigitPosition * (boardWith / 8)
+              }px)`,
+              transition: 'transform 200ms linear',
+            }}
+          /> */}
         </div>
         <AddIcon onClick={handleAddIconClick} style={{ cursor: 'pointer' }} />
       </div>

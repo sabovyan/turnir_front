@@ -19,10 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setResponseStatus } from '../../store/features/formResponseStatus';
 import {
-  addNewPlayer,
   deletePlayerByName,
   editPlayerName,
-  getPlayers,
 } from '../../store/features/settingsInfo';
 import ParticipantsInputForm from './PartisipantInputForm/ParticipantsInputForm';
 import { Player } from '../../types/main.types';
@@ -31,13 +29,13 @@ import { RootState } from '../../store/features';
 
 const getPlayerId = generateId();
 
-const createNewPlayer = ({ name }: { name: string }) => {
+const createNewPlayer = ({ name, id }: { name: string; id: number }) => {
   return {
     name: name.trim(),
     ref: createRef<HTMLDivElement>(),
     focus: false,
     edit: false,
-    id: getPlayerId(),
+    id,
   };
 };
 
@@ -55,12 +53,11 @@ const ParticipantInput = ({
   cardBackgroundColor,
 }: IParticipantsInputProps) => {
   const {
-    settingsInfo: { players },
+    settingsInfo: { tournamentPlayers },
   } = useSelector((state: RootState) => state);
 
-  const [currentPlayerName, setCurrentPlayerName] = useState<string>('');
   const [playersList, setPlayersList] = useState<Player[]>(
-    players.map(createNewPlayer),
+    tournamentPlayers.map(createNewPlayer),
   );
 
   const dispatch = useDispatch();
@@ -69,45 +66,6 @@ const ParticipantInput = ({
   const handleCloseButtonClick = () => {
     goBackToCards();
   };
-
-  const handleNameInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setCurrentPlayerName(value);
-  };
-
-  const handleNameInputSubmit = (event: FormEvent<HTMLElement>) => {
-    event.preventDefault();
-    if (!currentPlayerName.length) {
-      dispatch(
-        setResponseStatus({
-          type: 'error',
-          message: "Please fill in the player's name",
-          open: true,
-        }),
-      );
-      return;
-    }
-
-    const isPLayerExists =
-      playersList !== undefined &&
-      playersList.some((el) => el.name === currentPlayerName.trim());
-    if (isPLayerExists) {
-      dispatch(
-        setResponseStatus({
-          type: 'error',
-          message: 'Names of the players should be different',
-          open: true,
-        }),
-      );
-      return;
-    }
-
-    dispatch(addNewPlayer({ name: currentPlayerName.trim() }));
-
-    setCurrentPlayerName('');
-  };
-
-  /* players list control zone */
 
   const setFocusedPlayer = (indicator: number) => {
     setPlayersList(
@@ -305,18 +263,14 @@ const ParticipantInput = ({
   };
 
   useEffect(() => {
-    /* [B.U.G.]: needs different solution */
-    if (playersList.length !== players.length) {
-      setPlayersList(players.map(createNewPlayer));
+    if (playersList.length !== tournamentPlayers.length) {
+      setPlayersList(tournamentPlayers.map(createNewPlayer));
     }
-    // if (selectedGroup) {
-    //   setPlayersList(players.map(createNewPlayer));
-    // }
-  }, [dispatch, players, playersList]);
+  }, [dispatch, tournamentPlayers, playersList]);
 
   return (
     <div className={styles.container}>
-      <Card raised style={{ minWidth: 500 }}>
+      <Card raised style={{ minWidth: 500, maxWidth: 500 }}>
         <div
           className={styles.hero}
           style={{
@@ -337,11 +291,8 @@ const ParticipantInput = ({
         </div>
 
         <div className={styles.inputContainer}>
-          <ParticipantsInputForm
-            currentPlayerName={currentPlayerName}
-            handleNameInputChange={handleNameInputChange}
-            handleNameInputSubmit={handleNameInputSubmit}
-          />
+          <ParticipantsInputForm />
+
           <ParticipantsInputList
             playersList={playersList}
             handleListItemKeyEvent={handleListNavigation}

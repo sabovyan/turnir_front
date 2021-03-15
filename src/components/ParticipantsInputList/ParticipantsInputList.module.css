@@ -2,19 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+
   height: 400px;
   overflow-y: scroll;
-  margin: 10px;
+
 }
 
-.inputList::-webkit-scrollbar {
-  width: 2px;
-}
-
-.inputList::-webkit-scrollbar-thumb {
-  background-color: #34a034;
-}
 
 .inputListItem {
   display: flex;

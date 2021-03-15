@@ -15,7 +15,7 @@ interface Props {
   id: number;
 }
 
-const PlayerNameEdit = ({ value, id }: Props) => {
+const PlayerNameEditForm = ({ value, id }: Props) => {
   const [name, setName] = useState<string>(value);
   const [error, setError] = useState('');
   const { user } = useAuth();
@@ -44,7 +44,9 @@ const PlayerNameEdit = ({ value, id }: Props) => {
       return;
     }
 
-    const isPlayerExits = players.some((player) => player.name === name);
+    const isPlayerExits = players.some(
+      (player) => player.name === name && id !== player.id,
+    );
 
     if (isPlayerExits) {
       setError("player's name already exits");
@@ -90,4 +92,4 @@ const PlayerNameEdit = ({ value, id }: Props) => {
   );
 };
 
-export default PlayerNameEdit;
+export default PlayerNameEditForm;

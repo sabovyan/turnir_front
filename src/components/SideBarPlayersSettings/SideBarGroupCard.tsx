@@ -17,6 +17,7 @@ import {
   updatePlayersInGroup,
 } from '../../store/features/groups.feature';
 import { RootState } from '../../store/features';
+import { nullifyTransfer } from '../../store/features/playersToTransfer.feature';
 
 interface Props extends CardContentProps {
   groupName: string;
@@ -71,7 +72,6 @@ const SideBarGroupCard = ({
       });
     } else {
       const playerIds = playersToTransfer.map((player) => ({ id: player.id }));
-
       group = await groupService.addMultiplePlayersToGroup({
         groupId,
         playerIds,
@@ -80,6 +80,7 @@ const SideBarGroupCard = ({
 
     if (!group) return;
     dispatch(updatePlayersInGroup(group));
+    dispatch(nullifyTransfer(null));
   };
 
   return (
@@ -121,8 +122,9 @@ const SideBarGroupCard = ({
               padding: '1rem',
               height: '500px',
             }}
+            draggable
             onDragOver={isEditable ? handleDragOverEvent : undefined}
-            onDrop={handleDropEvent}
+            onDrop={isEditable ? handleDropEvent : undefined}
           >
             {children}
           </List>

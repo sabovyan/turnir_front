@@ -16,7 +16,7 @@ import ImportIcon from '@material-ui/icons/SystemUpdateAlt';
 import colors from '../../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/features';
-import { getPlayers } from '../../../store/features/settingsInfo';
+import { setTournamentPlayers } from '../../../store/features/settingsInfo';
 
 const StyledMenu = withStyles({
   paper: {
@@ -39,11 +39,13 @@ const StyledMenu = withStyles({
 ));
 
 const TopBarGroupList = () => {
-  const { groups } = useSelector((state: RootState) => state);
+  const { groups, players } = useSelector((state: RootState) => state);
 
-  const [selectedGroup, setSelectedGroup] = useState<number | false>(false);
+  const [selectedGroup, setSelectedGroup] = useState<number | 'all' | false>(
+    false,
+  );
 
-  const handleListItemClick = (id: number) => {
+  const handleListItemClick = (id: number | 'all') => {
     setSelectedGroup((state) => (id === state ? false : id));
   };
 
@@ -61,22 +63,29 @@ const TopBarGroupList = () => {
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (id: number) => () => {
+  const handleMenuItemClick = (id: number | 'all') => () => {
     handleListItemClick(id);
 
     if (id === selectedGroup) {
-      dispatch(getPlayers({ players: [] }));
+      dispatch(setTournamentPlayers({ players: [] }));
     } else {
+      if (id === 'all') {
+        const currentPlayers = players.map(({ name, id }) => ({ name, id }));
+        dispatch(setTournamentPlayers({ players: currentPlayers }));
+        return;
+      }
+
       const currentGroup = groups.find((group) => id === group.id);
 
       if (!currentGroup) return;
 
-      const currentPlayers = currentGroup.players.map(({ name }) => ({
+      const currentPlayers = currentGroup.players.map(({ name, id }) => ({
         name,
+        id,
       }));
-      dispatch(getPlayers({ players: currentPlayers }));
+      dispatch(setTournamentPlayers({ players: currentPlayers }));
     }
-    setAnchorEl(null);
+    // setAnchorEl(null);
   };
 
   return (
@@ -93,6 +102,20 @@ const TopBarGroupList = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem
+          key="all"
+          data-id={'all'}
+          button
+          onClick={handleMenuItemClick('all')}
+          style={{
+            background: selectedGroup === 'all' ? colors.green : 'white',
+            color: selectedGroup === 'all' ? colors.white : 'black',
+            minWidth: '200px',
+          }}
+        >
+          <ListItemText primary={'All'} />
+        </MenuItem>
+
         {groups &&
           groups.map((group) => (
             <MenuItem
@@ -103,6 +126,7 @@ const TopBarGroupList = () => {
               style={{
                 background: selectedGroup === group.id ? colors.green : 'white',
                 color: selectedGroup === group.id ? colors.white : 'black',
+                minWidth: '200px',
               }}
             >
               <ListItemText primary={group.name} />

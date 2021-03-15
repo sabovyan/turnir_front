@@ -11,7 +11,7 @@ import EliminationGameRectangle from '../../components/EliminationGameRectangle/
 interface Props {}
 
 const Setup = (props: Props) => {
-  const { players, games, rounds } = useSelector(
+  const { players, rounds, gameForThirdPlace } = useSelector(
     (state: RootState) => state.gamesForSetup,
   );
 
@@ -21,7 +21,7 @@ const Setup = (props: Props) => {
     if (players.length < 1) {
       history.push('/');
     }
-  }, []);
+  }, [history, players.length]);
 
   return (
     <div>
@@ -43,8 +43,11 @@ const Setup = (props: Props) => {
         >
           {rounds &&
             rounds.map((round, roundIndex) => (
-              <div style={{ width: '300px' }}>
-                <Typography style={{ padding: '1rem', textAlign: 'center' }}>
+              <div style={{ width: '300px' }} key={round.name}>
+                <Typography
+                  color="textSecondary"
+                  style={{ padding: '1rem', textAlign: 'center' }}
+                >
                   {round.name}
                 </Typography>
                 <div
@@ -54,69 +57,59 @@ const Setup = (props: Props) => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-around',
+                    position: 'relative',
                   }}
                 >
-                  {round.games.map((game, idx) => (
-                    <EliminationGameRectangle
-                      key={game.id}
-                      player1={game.player1 ? game.player1.name : ''}
-                      player2={!game.player2 ? ' ' : game.player2.name}
-                      isGameStarted={false}
-                      isEven={idx % 2 === 0 ? false : true}
-                      isFirstRound={roundIndex === 0 ? true : false}
-                      isFinal={roundIndex === rounds.length - 1 ? false : true}
-                      roundIndex={roundIndex}
-                      maxHeight={rounds[0].games.length * 100}
-                      numberOfGamesInOneRound={round.games.length}
-                    />
-                  ))}
+                  {round.games.map((game, idx) =>
+                    roundIndex === rounds.length - 1 &&
+                    round.games.length === 2 ? (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: idx === 0 ? '50%' : '30%',
+                          transform:
+                            idx === 0
+                              ? `translate(0,${50}%)`
+                              : 'translate(0, 0px)',
+                        }}
+                      >
+                        <EliminationGameRectangle
+                          key={game.id}
+                          player1={game.player1 ? game.player1.name : ''}
+                          player2={!game.player2 ? ' ' : game.player2.name}
+                          isGameStarted={false}
+                          isEven={idx % 2 === 0 ? false : true}
+                          isFirstRound={roundIndex === 0 ? true : false}
+                          isFinal={
+                            roundIndex === rounds.length - 1 ? false : true
+                          }
+                          maxHeight={
+                            idx === 0 ? rounds[0].games.length * 100 : 100
+                          }
+                          numberOfGamesInOneRound={round.games.length}
+                          label={idx === 1 ? 'Third place' : undefined}
+                        />
+                      </div>
+                    ) : (
+                      <EliminationGameRectangle
+                        key={game.id}
+                        player1={game.player1 ? game.player1.name : ''}
+                        player2={!game.player2 ? ' ' : game.player2.name}
+                        isGameStarted={false}
+                        isEven={idx % 2 === 0 ? false : true}
+                        isFirstRound={roundIndex === 0 ? true : false}
+                        isFinal={
+                          roundIndex === rounds.length - 1 ? false : true
+                        }
+                        maxHeight={rounds[0].games.length * 100}
+                        numberOfGamesInOneRound={round.games.length}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
             ))}
         </div>
-        {/* <div
-          style={{
-            width: 'calc(100vw - 340px)',
-            // height: 'calc(100vh - 90px)',
-            paddingLeft: '20px',
-            display: 'flex',
-            overflow: 'scroll',
-          }}
-        >
-          {rounds &&
-            rounds.map((round, roundIndex) => (
-              <div style={{ width: '300px' }}>
-                <Typography style={{ padding: '1rem', textAlign: 'center' }}>
-                  {round.name}
-                </Typography>
-                <div
-                  style={{
-                    height: '800px',
-                    display: 'Grid',
-                    gridTemplateRows: `repeat(${round.games.length}, 100px)`,
-                    alignContent: 'center',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    justifyItems: 'center',
-                    width: '350px',
-                  }}
-                >
-                  {round.games.map((game, idx) => (
-                    <EliminationGameRectangle
-                      key={game.id}
-                      player1={game.player1 ? game.player1.name : ''}
-                      player2={!game.player2 ? ' ' : game.player2.name}
-                      isGameStarted={false}
-                      isEven={idx % 2 === 0 ? false : true}
-                      isFirstRound={roundIndex === 0 ? true : false}
-                      isFinal={roundIndex === rounds.length - 1 ? false : true}
-                      roundIndex={roundIndex}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-        </div> */}
       </div>
     </div>
   );

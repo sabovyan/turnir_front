@@ -22,15 +22,17 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { players } = useSelector((state: RootState) => state.settingsInfo);
+  const { tournamentPlayers } = useSelector(
+    (state: RootState) => state.settingsInfo,
+  );
 
   const handleBackButtonClick = () => {
     history.goBack();
   };
 
   const handleNextButtonClick = () => {
-    if (players.length) {
-      dispatch(createGamesAndPlayersForSetup({ players }));
+    if (tournamentPlayers.length) {
+      dispatch(createGamesAndPlayersForSetup({ players: tournamentPlayers }));
       history.push('/setup');
     } else {
       console.log('players are empty');

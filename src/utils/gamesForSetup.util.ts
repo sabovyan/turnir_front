@@ -1,4 +1,4 @@
-import { SetupGame } from '../types/main.types';
+import { SetupGame } from 'src/types/main.types';
 import deepCopyArray from './deepCopy';
 import generateGames from './generateGames';
 import generateRounds from './generateRounds';

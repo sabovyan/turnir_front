@@ -2,6 +2,7 @@ import {
   createSlice,
   PayloadAction,
   SliceCaseReducers,
+  Action,
 } from '@reduxjs/toolkit';
 import { PlayerResponse } from '../../types/main.types';
 
@@ -28,10 +29,14 @@ const { reducer, actions } = createSlice<
       const newState = payload;
       return newState;
     },
-    // removePlayer
+
+    nullifyTransfer: (state, { payload }: PayloadAction<null>) => {
+      state = payload;
+      return state;
+    },
   },
 });
 
 export default reducer;
 
-export const { setSinglePlayer, setMultiplePlayers } = actions;
+export const { setSinglePlayer, setMultiplePlayers, nullifyTransfer } = actions;

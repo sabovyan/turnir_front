@@ -88,7 +88,10 @@ const ParticipantsInputList = ({
   };
 
   return (
-    <List className={styles.inputList} style={{ margin: 10, padding: '1rem' }}>
+    <List
+      className={styles.inputList}
+      style={{ margin: '1rem', padding: '0 1rem 1rem' }}
+    >
       {playersList && playersList.length
         ? playersList.map((el, idx) =>
             !el.edit ? (
@@ -109,12 +112,6 @@ const ParticipantsInputList = ({
                 </div>
                 {el.focus && (
                   <div className={styles.inputListItemButtons}>
-                    <IconButton
-                      style={{ borderRadius: 0 }}
-                      onClick={handleEditIconClick(el.id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
                     <IconButton
                       style={{ borderRadius: 0 }}
                       onClick={handleDeleteIconClick(el.id)}

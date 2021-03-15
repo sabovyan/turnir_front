@@ -59,7 +59,7 @@ const SideBarPlayersSettings = () => {
     setGroupsValue(currentValue);
   };
 
-  return !groups.length || !players.length ? (
+  return !groups || !players ? (
     <CircularProgress />
   ) : (
     <>
@@ -134,13 +134,13 @@ const SideBarPlayersSettings = () => {
         >
           <MenuItem value="all">All</MenuItem>
 
-          {groups &&
-            groups.length &&
-            groups.map((group) => (
-              <MenuItem key={group.id} value={group.id}>
-                {group.name}
-              </MenuItem>
-            ))}
+          {groups && groups.length
+            ? groups.map((group) => (
+                <MenuItem key={group.id} value={group.id}>
+                  {group.name}
+                </MenuItem>
+              ))
+            : null}
         </FormField>
 
         <SideBarPlayerList selectedGroupId={groupsValue} />

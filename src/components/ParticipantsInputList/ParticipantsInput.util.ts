@@ -1,4 +1,9 @@
-import { Player } from '../../types/main.types';
+import { SettingsInfoPlayers } from 'src/store/features/settingsInfo';
+import {
+  Player,
+  PlayerResponse,
+  PlayerWithInputValue,
+} from '../../types/main.types';
 
 export const checkIfPlayersNameExist = (
   players: Player[],
@@ -16,4 +21,31 @@ export const generateId = () => {
     id += 1;
     return id;
   };
+};
+
+export const findPlayerByName = (value: string) => (
+  player: PlayerResponse | SettingsInfoPlayers,
+) => player.name.toLowerCase().includes(value.toLowerCase());
+
+export const getAvailablePlayers = (
+  tournamentPlayers: SettingsInfoPlayers[],
+  possiblePlayers: PlayerResponse[],
+  value: string,
+): PlayerWithInputValue[] => {
+  const foundPlayersInTournament = tournamentPlayers.filter(
+    findPlayerByName(value),
+  );
+
+  const possiblePlayersInGeneral = possiblePlayers.filter(
+    findPlayerByName(value),
+  );
+
+  if (foundPlayersInTournament.length) {
+    const players = possiblePlayersInGeneral.filter(
+      (player) => !tournamentPlayers.some((pl) => pl.name === player.name),
+    );
+    return players;
+  }
+
+  return possiblePlayersInGeneral;
 };

@@ -18,6 +18,7 @@ import { PlayerResponse } from '../../types/main.types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/features';
 import {
+  nullifyTransfer,
   setMultiplePlayers,
   setSinglePlayer,
 } from '../../store/features/playersToTransfer.feature';
@@ -31,6 +32,7 @@ interface Props {
   isDraggable: boolean;
   deleteButton: boolean;
   groupId: number;
+  currentGroupId?: number;
 }
 
 const GroupPlayerList = ({
@@ -39,6 +41,7 @@ const GroupPlayerList = ({
   isDraggable,
   deleteButton,
   groupId,
+  currentGroupId,
 }: Props) => {
   const [selectedPlayers, setSelectedPlayers] = useState<PlayerResponse[]>();
 
@@ -65,29 +68,30 @@ const GroupPlayerList = ({
   };
 
   const handleDragEvent = (event: DragEvent<HTMLLIElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-
     const currentPlayerId = event.currentTarget.dataset.id;
     if (!Number(currentPlayerId)) return;
-
-    const foundPlayer = players.find(
-      (player) => player.id === Number(currentPlayerId),
-    );
-
-    if (!foundPlayer) return;
 
     if (selectedPlayers && selectedPlayers.length) {
       const foundPlayer = selectedPlayers.find(
         (player) => player.id === Number(currentPlayerId),
       );
 
-      if (!foundPlayer) return;
+      console.log({ foundPlayer });
+
+      if (!foundPlayer) {
+        dispatch(nullifyTransfer(null));
+        return;
+      }
 
       dispatch(setMultiplePlayers(selectedPlayers));
       return;
     }
 
+    const foundPlayer = players.find(
+      (player) => player.id === Number(currentPlayerId),
+    );
+
+    if (!foundPlayer) return;
     dispatch(setSinglePlayer(foundPlayer));
   };
 
@@ -108,7 +112,7 @@ const GroupPlayerList = ({
             <ListItem
               draggable={isDraggable}
               data-id={player.id}
-              onDrag={handleDragEvent}
+              onDragStart={handleDragEvent}
               style={{
                 backgroundColor: grey[100],
                 marginBottom: '10px',

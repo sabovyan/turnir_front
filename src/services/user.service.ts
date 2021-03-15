@@ -3,7 +3,7 @@ import { GroupResponse, PlayerResponse } from '../types/main.types';
 import authStorage from './storage';
 
 type groupsAndPlayersResponse = {
-  PlayerGroup: GroupResponse[];
+  group: GroupResponse[];
   player: PlayerResponse[];
 } | null;
 
