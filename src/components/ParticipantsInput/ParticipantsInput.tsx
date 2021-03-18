@@ -19,15 +19,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setResponseStatus } from '../../store/features/formResponseStatus';
 import {
-  deletePlayerByName,
+  deletePlayerFromTournament,
   editPlayerName,
 } from '../../store/features/settingsInfo';
 import ParticipantsInputForm from './PartisipantInputForm/ParticipantsInputForm';
 import { Player } from '../../types/main.types';
-import { generateId } from '../ParticipantsInputList/ParticipantsInput.util';
 import { RootState } from '../../store/features';
-
-const getPlayerId = generateId();
 
 const createNewPlayer = ({ name, id }: { name: string; id: number }) => {
   return {
@@ -255,7 +252,7 @@ const ParticipantInput = ({
       playersList && playersList.find((player) => player.id === id);
     if (!foundPlayers) return;
 
-    dispatch(deletePlayerByName({ name: foundPlayers.name }));
+    dispatch(deletePlayerFromTournament({ name: foundPlayers.name }));
 
     setPlayersList(
       (state) => state && state.filter((player) => player.id !== id),
@@ -300,7 +297,6 @@ const ParticipantInput = ({
             OnPlayerNameBlur={handlePlayerNameBlur}
             onEditFormSubmit={handlePlayerEditFormSubmit}
             onListItemClick={handleListItemClick}
-            onEditIconClick={handleEditIconClick}
             onListItemMouseOver={handleListItemMouseOver}
             onDeleteIconClick={handlePlayerDelete}
           />

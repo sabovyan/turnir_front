@@ -10,17 +10,43 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import BackButton from '../../Buttons/BackButton/BackButton';
 import CButton from '../../Buttons/CustomButton/CustomButton';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { toggleThirdPlaceRound } from '../../../store/features/gamesForSetup';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  toggleThirdPlaceRound,
+  createGamesAndPlayersForSetup,
+} from '../../../store/features/gamesForSetup';
+import { RootState } from 'src/store/features';
+import shuffleArray from 'src/utils/shufflePlayers';
+import { PlayerWithNameAndId } from 'src/types/main.types';
+import { useHistory } from 'react-router';
 
 interface Props {}
 
 const SetupTopBar = (props: Props) => {
+  const { players, hasThirdPlaceGame } = useSelector(
+    (state: RootState) => state.gamesForSetup,
+  );
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleCheckBoxChange = (event: ChangeEvent<{}>, checked: boolean) => {
     dispatch(toggleThirdPlaceRound(checked));
+  };
+
+  const handlePlayersShuffle = () => {
+    const shuffledPlayers = shuffleArray<PlayerWithNameAndId>(players);
+
+    dispatch(
+      createGamesAndPlayersForSetup({
+        players: shuffledPlayers,
+      }),
+    );
+  };
+
+  const handleBackButtonClick = () => {
+    history.goBack();
   };
 
   return (
@@ -31,14 +57,15 @@ const SetupTopBar = (props: Props) => {
         </Typography>
         <div>
           <FormControlLabel
+            checked={hasThirdPlaceGame}
             control={<Checkbox name="thirdPlace" color="primary" />}
             label="Match for Third Place"
             onChange={handleCheckBoxChange}
           />
-          <IconButton>
+          <IconButton onClick={handlePlayersShuffle}>
             <ShuffleIcon />
           </IconButton>
-          <BackButton />
+          <BackButton onClick={handleBackButtonClick} />
           <CButton text={t('Start')} />
         </div>
       </BasicToolBar>

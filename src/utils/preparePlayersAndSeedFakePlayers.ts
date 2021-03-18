@@ -1,15 +1,14 @@
-import { SetupPlayer } from '../types/main.types';
-import makeId from './makeId';
+import { Player, PlayerWithNameAndId } from '../types/main.types';
+import { makeFakeId } from './makeId';
 
-const preparePlayersForGamesAndSeedFakePlayers = (
-  players: { name: string }[],
+const setPlayersForGamesAndSeedFakePlayers = (
+  players: Pick<Player, 'name' | 'id'>[],
   gamesQuantity: number,
 ) => {
-  const generateId = makeId();
+  const generateFakeId = makeFakeId();
 
-  let copiedArray: SetupPlayer[] = players.map((player) => ({
+  let copiedArray: PlayerWithNameAndId[] = players.map((player) => ({
     ...player,
-    id: generateId(),
   }));
 
   const fakePlayer = {
@@ -17,10 +16,10 @@ const preparePlayersForGamesAndSeedFakePlayers = (
   };
 
   while (copiedArray.length / gamesQuantity < 2) {
-    copiedArray.push({ ...fakePlayer, id: generateId() });
+    copiedArray.push({ ...fakePlayer, id: generateFakeId() });
   }
 
   return copiedArray;
 };
 
-export default preparePlayersForGamesAndSeedFakePlayers;
+export default setPlayersForGamesAndSeedFakePlayers;

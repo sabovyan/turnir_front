@@ -3,13 +3,16 @@ import deepCopyArray from './deepCopy';
 import generateGames from './generateGames';
 import generateRounds from './generateRounds';
 
-import preparePlayersForGamesAndSeedFakePlayers from './preparePlayersAndSeedFakePlayers';
+import setPlayersForGamesAndSeedFakePlayers from './preparePlayersAndSeedFakePlayers';
 
 const getQuantityOfGamesForTheFirstRound = (n: number) => {
   return 2 ** Math.ceil(Math.log(n) / Math.log(2) - 1);
 };
 
-export const createSetupGamesAndPlayers = (players: { name: string }[]) => {
+export const createSetupGamesAndPlayers = (
+  players: { name: string }[],
+  hasThirdPlaceGame: boolean,
+) => {
   let playersCopy = deepCopyArray(players);
 
   const { length } = playersCopy;
@@ -18,13 +21,17 @@ export const createSetupGamesAndPlayers = (players: { name: string }[]) => {
   );
 
   if (length / quantityOfGamesForTheFirstRound !== 2) {
-    playersCopy = preparePlayersForGamesAndSeedFakePlayers(
+    playersCopy = setPlayersForGamesAndSeedFakePlayers(
       playersCopy,
       quantityOfGamesForTheFirstRound,
     );
   }
 
-  const games = generateGames(playersCopy, quantityOfGamesForTheFirstRound);
+  const games = generateGames(
+    playersCopy,
+    quantityOfGamesForTheFirstRound,
+    hasThirdPlaceGame,
+  );
 
   const quantityOfRounds = Math.log(playersCopy.length) / Math.log(2);
 

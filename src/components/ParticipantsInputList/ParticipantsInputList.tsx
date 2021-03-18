@@ -32,7 +32,6 @@ interface Props {
   ) => void;
   onEditFormSubmit: (id: number, value: string | undefined) => void;
   onListItemClick: (id: number) => void;
-  onEditIconClick: (id: number) => void;
   onListItemMouseOver: (id: number) => void;
   onDeleteIconClick: (id: number) => void;
 }
@@ -44,7 +43,6 @@ const ParticipantsInputList = ({
   OnPlayerNameBlur,
   onEditFormSubmit,
   onListItemClick,
-  onEditIconClick,
   onListItemMouseOver,
   onDeleteIconClick,
 }: Props) => {
@@ -73,10 +71,6 @@ const ParticipantsInputList = ({
     event: MouseEvent<HTMLDivElement>,
   ) => {
     onListItemClick(id);
-  };
-
-  const handleEditIconClick = (id: number) => () => {
-    onEditIconClick(id);
   };
 
   const handleListItemMouseOver = (id: number) => () => {

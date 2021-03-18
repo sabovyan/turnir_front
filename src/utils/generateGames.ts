@@ -1,4 +1,4 @@
-import { SetupGame, SetupPlayer } from '../types/main.types';
+import { SetupGame, PlayerWithNameAndId } from '../types/main.types';
 import makeId from './makeId';
 
 enum TURN {
@@ -7,8 +7,9 @@ enum TURN {
 }
 
 const generateGames = (
-  players: SetupPlayer[],
+  players: PlayerWithNameAndId[],
   quantityOfGamesForTheFirstRound: number,
+  hasThirdPlaceGame: boolean,
 ) => {
   const generateGamesId = makeId();
 
@@ -45,6 +46,10 @@ const generateGames = (
 
       return acc;
     }, games);
+
+  if (hasThirdPlaceGame) {
+    totalGames.push({ id: generateGamesId() });
+  }
 
   return totalGames;
 };

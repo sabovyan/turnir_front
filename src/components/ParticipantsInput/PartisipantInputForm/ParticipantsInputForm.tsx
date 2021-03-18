@@ -14,9 +14,8 @@ import {
 } from 'src/store/features/settingsInfo';
 import { addNewPlayer } from 'src/store/features/players';
 import { RootState } from 'src/store/features';
-import { Chip } from '@material-ui/core';
+import { Chip, ListItem, ListItemText } from '@material-ui/core';
 import { PlayerResponse } from 'src/types/main.types';
-import { relative } from 'path';
 import InputWithSearch from 'src/components/ParticipantsInputList/InputWithSearch';
 
 const findPlayerByName = (value: string) => (
@@ -48,6 +47,7 @@ const getUniquePlayers = (
 
 const ParticipantsInputForm = () => {
   const { t } = useTranslation();
+  const { players } = useSelector((state: RootState) => state);
 
   return (
     <div style={{ margin: '10px', padding: '1rem', position: 'relative' }}>
@@ -58,6 +58,24 @@ const ParticipantsInputForm = () => {
         {t('Enter names of the players')}
       </Typography>
       <InputWithSearch />
+      {/* <div>
+        <FormField label="" />
+        <div style={{ position: 'absolute', zIndex: 1 }}>
+
+          {players.map((player) => (
+            <ListItem
+              key={player.id}
+              style={{
+                borderRadius: 0,
+                backgroundColor: 'white',
+                textAlign: 'start',
+              }}
+            >
+              <ListItemText>{player.name}</ListItemText>
+            </ListItem>
+          ))}
+        </div> 
+      </div>*/}
     </div>
   );
 };

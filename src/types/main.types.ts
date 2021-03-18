@@ -80,23 +80,23 @@ export type Player = {
   draft?: string;
 };
 
-export type SetupPlayer = {
+export type PlayerWithNameAndId = {
   name: string;
   id: number;
 };
 
 export type SetupGame = {
-  player1?: SetupPlayer;
-  player2?: SetupPlayer;
+  player1?: PlayerWithNameAndId;
+  player2?: PlayerWithNameAndId;
   next?: number | null;
   id: number;
 };
 
 export type SetupState = {
-  players: SetupPlayer[];
+  players: PlayerWithNameAndId[];
   games: SetupGame[];
   rounds: SetupRound[];
-  gameForThirdPlace: boolean;
+  hasThirdPlaceGame: boolean;
 };
 
 export type SetupRound = {

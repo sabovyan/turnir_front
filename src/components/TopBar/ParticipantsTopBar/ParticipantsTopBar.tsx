@@ -32,7 +32,11 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
 
   const handleNextButtonClick = () => {
     if (tournamentPlayers.length) {
-      dispatch(createGamesAndPlayersForSetup({ players: tournamentPlayers }));
+      dispatch(
+        createGamesAndPlayersForSetup({
+          players: tournamentPlayers,
+        }),
+      );
       history.push('/setup');
     } else {
       console.log('players are empty');

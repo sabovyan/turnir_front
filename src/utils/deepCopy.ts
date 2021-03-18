@@ -1,8 +1,8 @@
-import { SetupPlayer } from '../types/main.types';
+import { PlayerWithNameAndId } from '../types/main.types';
 
 const deepCopyArray = (
   array: { name: string; id?: number }[],
-): SetupPlayer[] => {
+): PlayerWithNameAndId[] => {
   return JSON.parse(JSON.stringify(array));
 };
 

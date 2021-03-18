@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   SetupGame,
-  SetupPlayer,
-  SetupRound,
+  PlayerWithNameAndId,
   SetupState,
 } from '../../types/main.types';
 import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
@@ -11,7 +10,7 @@ const initialState: SetupState = {
   games: [],
   players: [],
   rounds: [],
-  gameForThirdPlace: false,
+  hasThirdPlaceGame: false,
 };
 
 const { reducer, actions } = createSlice({
@@ -19,18 +18,25 @@ const { reducer, actions } = createSlice({
   initialState,
   reducers: {
     createGamesAndPlayersForSetup: (
-      _state,
+      state,
       {
         payload: { players },
-      }: PayloadAction<{ players: { name: string }[] | SetupPlayer[] }>,
+      }: PayloadAction<{
+        players: { name: string }[] | PlayerWithNameAndId[];
+      }>,
     ) => {
-      const newState = createSetupGamesAndPlayers(players);
-      return { ...newState, gameForThirdPlace: false };
+      const newState = createSetupGamesAndPlayers(
+        players,
+        state.hasThirdPlaceGame,
+      );
+      return { ...state, ...newState };
     },
 
     UpdatePlayersOrder: (
       state,
-      { payload: { players } }: PayloadAction<{ players: SetupPlayer[] }>,
+      {
+        payload: { players },
+      }: PayloadAction<{ players: PlayerWithNameAndId[] }>,
     ) => ({
       ...state,
       players,
@@ -47,6 +53,7 @@ const { reducer, actions } = createSlice({
       } else {
         finalRoundGames.pop();
       }
+      state.hasThirdPlaceGame = payload;
     },
   },
 });

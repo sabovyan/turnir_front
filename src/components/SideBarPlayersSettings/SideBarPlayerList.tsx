@@ -18,6 +18,7 @@ import {
 
 import playerService from '../../services/players.service';
 import { RootState } from '../../store/features';
+import { deletePlayerFromTournament } from 'src/store/features/settingsInfo';
 
 interface Props {
   selectedGroupId: 'all' | number;
@@ -45,6 +46,7 @@ const SideBarPlayerList = ({ selectedGroupId }: Props) => {
     const deletedPlayer = await playerService.deletePlayer({ slug: id });
     if (deletedPlayer) {
       dispatch(removePlayer(deletedPlayer));
+      dispatch(deletePlayerFromTournament({ name: deletedPlayer.name }));
     }
   };
 

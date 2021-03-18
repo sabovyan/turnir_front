@@ -81,7 +81,7 @@ const { reducer, actions } = createSlice({
       state.tournamentPlayers = settingsInfoPlayers;
     },
 
-    deletePlayerByName: (
+    deletePlayerFromTournament: (
       state,
       { payload: { name } }: PayloadAction<{ name: string }>,
     ) => {
@@ -121,7 +121,7 @@ export const {
   setTournamentPlayers,
   setGoalsQuantity,
   setWinningSets,
-  deletePlayerByName,
+  deletePlayerFromTournament,
   addNewPlayerToTournament,
   editPlayerName,
 } = actions;

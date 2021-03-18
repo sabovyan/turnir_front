@@ -11,6 +11,7 @@ import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
 import { addNewPlayer } from 'src/store/features/players';
 import { getAvailablePlayers } from './ParticipantsInput.util';
+import CButton from '../Buttons/CustomButton/CustomButton';
 
 const emptyValue: PlayerResponse = {
   id: -1,
@@ -35,7 +36,7 @@ export default function InputWithSearch() {
     newValue: string | PlayerWithInputValue | null,
   ) => {
     if (!newValue || !user) return;
-
+    /* TODO  create a new player also with string */
     if (typeof newValue === 'string') {
       setValue(emptyValue);
     } else if (newValue) {
@@ -49,7 +50,7 @@ export default function InputWithSearch() {
           if (res) {
             dispatch(addNewPlayerToTournament({ name: res.name, id: res.id }));
             dispatch(addNewPlayer(res));
-            // setValue(emptyValue);
+            setValue(emptyValue);
           }
         } catch (error) {
           dispatch(
@@ -59,12 +60,13 @@ export default function InputWithSearch() {
               open: true,
             }),
           );
-          // setValue(emptyValue);
+          setValue(emptyValue);
         }
       } else {
         dispatch(
           addNewPlayerToTournament({ name: newValue.name, id: newValue.id }),
         );
+        setValue(emptyValue);
       }
     }
     setValue(emptyValue);
@@ -73,6 +75,7 @@ export default function InputWithSearch() {
   return (
     <Autocomplete
       value={value}
+      key={123}
       fullWidth
       onChange={handleAutoCompleteChange}
       filterOptions={(options, params) => {
@@ -86,12 +89,11 @@ export default function InputWithSearch() {
           (player) => player.name === params.inputValue,
         );
 
-        // Suggest the creation of a new value
         if (!existingPlayer && params.inputValue.trim() !== '') {
           availablePlayers.push({
             id: 0,
-            inputValue: params.inputValue,
             name: `Add "${params.inputValue}"`,
+            inputValue: params.inputValue,
             tournamentId: 0,
             userId: 0,
           });
@@ -103,17 +105,6 @@ export default function InputWithSearch() {
       clearOnBlur
       clearText="clear"
       options={players}
-      getOptionLabel={(option) => {
-        if (typeof option === 'string') {
-          return option;
-        }
-
-        if (option.name) {
-          return option.name;
-        }
-
-        return option.name;
-      }}
       renderOption={(option) => option.name}
       freeSolo
       renderInput={(params) => <TextField {...params} />}

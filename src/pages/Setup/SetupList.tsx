@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { SetupPlayer } from '../../types/main.types';
+import { PlayerWithNameAndId } from '../../types/main.types';
 import {
   createGamesAndPlayersForSetup,
   UpdatePlayersOrder,
@@ -18,12 +18,12 @@ type DragState = {
   draggedFrom: null | number;
   draggedTo: null | number;
   isDragging: boolean;
-  originalOrder: SetupPlayer[] | [];
-  updatedOrder: SetupPlayer[] | [];
+  originalOrder: PlayerWithNameAndId[] | [];
+  updatedOrder: PlayerWithNameAndId[] | [];
 };
 
 interface Props {
-  players: SetupPlayer[];
+  players: PlayerWithNameAndId[];
 }
 
 const SetupList = ({ players }: Props) => {
