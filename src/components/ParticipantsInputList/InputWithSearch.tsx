@@ -2,10 +2,7 @@ import React, { ChangeEvent } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { PlayerResponse, PlayerWithInputValue } from 'src/types/main.types';
-import {
-  addNewPlayerToTournament,
-  SettingsInfoPlayers,
-} from 'src/store/features/settingsInfo';
+import { addNewPlayerToTournament } from 'src/store/features/settingsInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/features';
 import playerService from 'src/services/players.service';
@@ -13,10 +10,7 @@ import useAuth from 'src/services/authentication';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
 import { addNewPlayer } from 'src/store/features/players';
-import {
-  findPlayerByName,
-  getAvailablePlayers,
-} from './ParticipantsInput.util';
+import { getAvailablePlayers } from './ParticipantsInput.util';
 
 const emptyValue: PlayerResponse = {
   id: -1,
@@ -43,15 +37,6 @@ export default function InputWithSearch() {
     if (!newValue || !user) return;
 
     if (typeof newValue === 'string') {
-      // const foundPlayer = players.find(findPlayerByName(newValue));
-      // if (foundPlayer) {
-      //   dispatch(
-      //     addNewPlayerToTournament({
-      //       id: foundPlayer.id,
-      //       name: foundPlayer.name,
-      //     }),
-      //   );
-      // }
       setValue(emptyValue);
     } else if (newValue) {
       if (newValue.id === 0) {
@@ -64,10 +49,8 @@ export default function InputWithSearch() {
           if (res) {
             dispatch(addNewPlayerToTournament({ name: res.name, id: res.id }));
             dispatch(addNewPlayer(res));
-            setValue(emptyValue);
+            // setValue(emptyValue);
           }
-
-          return;
         } catch (error) {
           dispatch(
             setResponseStatus({
@@ -76,21 +59,21 @@ export default function InputWithSearch() {
               open: true,
             }),
           );
+          // setValue(emptyValue);
         }
       } else {
         dispatch(
           addNewPlayerToTournament({ name: newValue.name, id: newValue.id }),
         );
-        setValue(emptyValue);
       }
-
-      return;
     }
+    setValue(emptyValue);
   };
 
   return (
     <Autocomplete
       value={value}
+      fullWidth
       onChange={handleAutoCompleteChange}
       filterOptions={(options, params) => {
         const availablePlayers = getAvailablePlayers(
@@ -118,6 +101,7 @@ export default function InputWithSearch() {
       }}
       selectOnFocus
       clearOnBlur
+      clearText="clear"
       options={players}
       getOptionLabel={(option) => {
         if (typeof option === 'string') {
@@ -131,7 +115,6 @@ export default function InputWithSearch() {
         return option.name;
       }}
       renderOption={(option) => option.name}
-      style={{ width: 300 }}
       freeSolo
       renderInput={(params) => <TextField {...params} />}
     />

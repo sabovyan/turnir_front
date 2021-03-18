@@ -60,28 +60,38 @@ const EliminationGameRectangle = ({
         </div>
 
         <div className={styles.eliminationGameContainer}>
-          <div>
-            <Typography
-              style={{ maxHeight: '20px', minHeight: '20px', fontSize: '10px' }}
-              variant="body2"
-            >
-              {player1}
-            </Typography>
+          <Typography
+            style={{
+              maxHeight: '20px',
+              minHeight: '20px',
+              fontSize: '12px',
+              color: 'white',
+            }}
+            variant="body2"
+          >
+            {player1}
+          </Typography>
 
-            <Typography
-              style={{
-                alignSelf: 'flex-end',
-                minHeight: '20px',
-                fontSize: '10px',
-              }}
-            >
-              {isGameStarted && 'vs'}
-            </Typography>
+          <Typography
+            style={{
+              alignSelf: 'flex-end',
+              minHeight: '20px',
+              fontSize: '12px',
+              color: 'white',
+            }}
+          >
+            {isGameStarted && 'vs'}
+          </Typography>
 
-            <Typography style={{ minHeight: '20px', fontSize: '10px' }}>
-              {player2}
-            </Typography>
-          </div>
+          <Typography
+            style={{
+              minHeight: '20px',
+              fontSize: '12px',
+              color: 'white',
+            }}
+          >
+            {player2}
+          </Typography>
           <div className={styles.enterResult}>
             <CButton
               text="Enter Result"
@@ -141,11 +151,11 @@ const EliminationGameRectangle = ({
               }}
             >
               <DigitBoard name={player1} />
-              <div className={styles.scoreBoard}>
+              {/* <div className={styles.scoreBoard}>
                 <span>-</span>
                 <span>:</span>
                 <span>-</span>
-              </div>
+              </div> */}
               {/* <DigitBoard name={player2} /> */}
             </div>
             <ButtonGroup style={{ color: 'white', alignSelf: 'flex-end' }}>

@@ -14,23 +14,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* margin: 1rem 0; */
+  margin: 1rem 0;
+  align-items: center;
   /* gap: 1rem; */
-  /* align-items: center; */
 }
-
-/* .something {
-  animation: move 1200ms linear forwards;
-}
-
-@keyframes move {
-  0% {
-    transform: translate(150px);
-  }
-  50% {
-    transform: translate(-140px);
-  }
-  100% {
-    transform: translate(0px);
-  }
-} */

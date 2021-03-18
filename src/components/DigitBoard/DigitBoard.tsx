@@ -14,46 +14,62 @@ interface Props {
 const boardWith = 300;
 
 const DigitBoard = ({ name }: Props) => {
-  const [digits, setDigits] = useState<{ array: number[]; delayDiff: number }>({
-    array: Array(13)
+  const [digits, setDigits] = useState<number[]>(
+    Array(13)
       .fill(0)
       .map((el, idx) => el + idx),
-    delayDiff: 0,
-  });
+  );
+
+  const [delays, setDelays] = useState(
+    Array(13)
+      .fill(0)
+      .map((el, idx) => el + idx),
+  );
 
   const [activeDigitPosition, setActiveDigitPosition] = useState(-1);
 
-  const [initMovement, setInitMovement] = useState(false);
-
   const [scoreTranslate, setScoreTranslate] = useState(0);
 
+  const [count, setCount] = useState(0);
+
   const handleRemoveIconClick = () => {
+    setDelays(
+      Array(13)
+        .fill(12)
+        .map((el, idx) => el - idx),
+    );
+
+    setActiveDigitPosition((state) => state + 4);
+
     setScoreTranslate((state) => state - boardWith / 2);
-    setDigits((state) => ({
-      array: state.array.slice(0, state.array.length - 5),
-      delayDiff: state.delayDiff - 4,
-    }));
-    setInitMovement(true);
+    setDigits((state) => state.slice(0, state.length - 4));
+    setCount((state) => state - 1);
   };
 
   const handleAddIconClick = () => {
-    setScoreTranslate((state) => state + boardWith / 2);
+    setDelays(
+      Array(13)
+        .fill(0)
+        .map((el, idx) => el + idx),
+    );
 
+    setActiveDigitPosition((state) => state - 4);
+
+    setScoreTranslate((state) => state + boardWith / 2);
+    setCount((state) => state + 1);
     setDigits((state) => {
-      const newState = [...state.array];
+      const newState = [...state];
 
       for (let i = 0; i < 4; i += 1) {
         newState.push(newState[newState.length - 1] + 1);
       }
 
-      return { array: newState, delayDiff: state.delayDiff + 4 };
+      return newState;
     });
-
-    setInitMovement(true);
   };
 
   const handleDigitClick = (digit: number) => () => {
-    const currentDigitIndex = digits.array.findIndex((d) => d === digit);
+    const currentDigitIndex = digits.findIndex((d) => d === digit);
     setActiveDigitPosition(currentDigitIndex);
   };
 
@@ -66,75 +82,93 @@ const DigitBoard = ({ name }: Props) => {
       >
         {name}
       </Typography>
-      <div className={styles.digitBoardNumpad}>
+      <div
+        className={styles.digitBoardNumpad}
+        style={{ position: 'relative', overflow: 'hidden' }}
+      >
         {scoreTranslate > 0 ? (
           <RemoveIcon
-            style={{ cursor: 'pointer' }}
+            style={{
+              cursor: 'pointer',
+              width: boardWith / 8,
+              height: boardWith / 8,
+              background: 'black',
+              zIndex: 2,
+            }}
             onClick={handleRemoveIconClick}
           />
         ) : (
-          <span style={{ width: '24px' }}></span>
+          <span style={{ width: boardWith / 8 }}></span>
         )}
-
         <div
           style={{
             width: boardWith,
-            display: 'flex',
-            justifyContent: 'flex-start',
-            position: 'relative',
-            // transform: `translateX(-${scoreTranslate}px)`,
-            // transition: `transform 200ms cubic-bezier(.16,.63,.67,.93) 200ms`,
-            border: `1px solid ${orange[600]}`,
             overflow: 'hidden',
           }}
         >
-          {/* {digits.array.map((el, idx) => (
-            <div
-              style={{
-                textAlign: 'center',
-                // position: 'absolute',
-                top: '0',
-                left: `${(boardWith / 8) * (idx + 1)}px`,
-                width: (boardWith / 8) * digits.array.length,
-                // // transition: 'min-width 400ms linear ',
-                // height: boardWith / 8,
-                // lineHeight: boardWith / 128,
-                // cursor: 'pointer',
-                // // zIndex: 1,
-                // // transform: `translateX(${
-                // //   initMovement && idx > digits.array.length - 4 ? 200 : 0
-                // // }px)`,
-                // // transition: `transform ${
-                // //   digits.array.length - idx - 4
-                // // }00ms linear`,
-                color: orange[600],
-              }}
-              key={el}
-              onClick={handleDigitClick(el)}
-            >
-              {el}
-            </div>
-          ))} */}
-          {/* <div
+          <div
             className={'allowMove'}
             style={{
               background: orange[600],
               width: boardWith / 8,
               height: boardWith / 8,
-              color: 'white',
               position: 'absolute',
               top: 0,
-              left: 0,
+              // left: `${
+              //   activeDigitPosition > 7
+              //     ? ((activeDigitPosition - 4) * boardWith) / 8
+              //     : (activeDigitPosition * boardWith) / 8
+              // }px `,
+              left: `${(activeDigitPosition + 1) * (boardWith / 8)}px `,
               zIndex: 0,
               borderRadius: '50%',
-              transform: `translateX(${
-                activeDigitPosition * (boardWith / 8)
-              }px)`,
-              transition: 'transform 200ms linear',
+
+              transition: 'left 200ms linear',
             }}
-          /> */}
+          />
+          <div
+            style={{
+              width: boardWith * digits.length,
+              height: boardWith / 8,
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              position: 'relative',
+            }}
+          >
+            {digits.map((el, idx) => (
+              <div
+                key={el}
+                style={{
+                  width: boardWith / 8,
+                  height: boardWith / 8,
+                  lineHeight: boardWith / 128,
+                  position: 'absolute',
+                  top: '0',
+                  left: `${(boardWith / 8) * idx + 1 - scoreTranslate}px`,
+                  transition: `left 200ms ease-in-out  ${
+                    el - 4 * count <= 0 ? delays[0] : delays[el - 4 * count]
+                  }00ms`,
+                  cursor: 'pointer',
+                }}
+                onClick={handleDigitClick(el)}
+              >
+                {el}
+              </div>
+            ))}
+          </div>
         </div>
-        <AddIcon onClick={handleAddIconClick} style={{ cursor: 'pointer' }} />
+        <AddIcon
+          onClick={handleAddIconClick}
+          style={{
+            cursor: 'pointer',
+            width: boardWith / 8,
+            height: boardWith / 8,
+            background: 'black',
+            zIndex: 2,
+          }}
+        />
       </div>
     </div>
   );

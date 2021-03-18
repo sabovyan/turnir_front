@@ -11,7 +11,7 @@ import EliminationGameRectangle from '../../components/EliminationGameRectangle/
 interface Props {}
 
 const Setup = (props: Props) => {
-  const { players, rounds, gameForThirdPlace } = useSelector(
+  const { players, rounds } = useSelector(
     (state: RootState) => state.gamesForSetup,
   );
 
@@ -66,11 +66,11 @@ const Setup = (props: Props) => {
                       <div
                         style={{
                           position: 'absolute',
-                          bottom: idx === 0 ? '50%' : '30%',
+                          bottom: idx === 0 ? '50%' : '20%',
                           transform:
                             idx === 0
                               ? `translate(0,${50}%)`
-                              : 'translate(0, 0px)',
+                              : `translate(0, ${90}%)`,
                         }}
                       >
                         <EliminationGameRectangle
