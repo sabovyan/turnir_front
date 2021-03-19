@@ -15,13 +15,12 @@ const initialState: tournamentSettings = {
   goalsToWin: 7,
   winningSets: 1,
   tournamentType: TournamentType.none,
-  // tournamentPlayers: [],
   participants: [
     {
       name: 'alpha',
       players: [{ id: 0 }],
     },
-    { name: 'betta', players: [{ id: 1 }] },
+    { name: 'betta', players: [{ id: 1 }, { id: 2 }] },
     { name: 'gamma', players: [{ id: 3 }] },
     { name: 'delta', players: [{ id: 4 }] },
     { name: 'epsilon', players: [{ id: 5 }] },
@@ -68,63 +67,47 @@ const { reducer, actions } = createSlice({
       state.tournamentType = payload.tournamentType;
     },
 
-    // setTournamentPlayers: (
-    //   state,
-    //   {
-    //     payload: { players },
-    //   }: PayloadAction<{ players: { name: string; id: number }[] }>,
-    // ) => {
-    //   const settingsInfoPlayers: Participant[] = players.map(
-    //     ({ name, id }) => ({
-    //       name,
-    //       id,
-    //     }),
-    //   );
-    //   state.tournamentPlayers = settingsInfoPlayers;
-    // },
+    setTournamentParticipants: (
+      state,
+      {
+        payload: { players },
+      }: PayloadAction<{ players: { name: string; id: number }[] }>,
+    ) => {
+      state.participants = players.map(({ name, id }) => ({
+        name,
+        players: [
+          {
+            id,
+          },
+        ],
+      }));
+    },
 
     deletePlayerFromTournament: (
       state,
       { payload: { name } }: PayloadAction<{ name: string }>,
     ) => {
-      // const players = state.tournamentPlayers.filter(
-      //   (player) => player.name !== name,
-      // );
-      // state.tournamentPlayers = players;
-      return state;
+      state.participants = state.participants.filter(
+        (Participant) => Participant.name !== name,
+      );
     },
 
     addNewPlayerToTournament: (
       state,
-      { payload }: PayloadAction<{ name: string; id: number }>,
+      { payload }: PayloadAction<Participant>,
     ) => {
-      // const players = [...state.tournamentPlayers, payload];
-      // state.tournamentPlayers = players;
+      state.participants = [...state.participants, payload];
     },
-
-    //   editPlayerName: (
-    //     state,
-    //     {
-    //       payload: { prevName, newName },
-    //     }: PayloadAction<{ prevName: string; newName: string }>,
-    //   ) => {
-    //     state.tournamentPlayers = state.tournamentPlayers.map((player) =>
-    //       player.name === prevName ? { ...player, name: newName } : player,
-    //     );
-
-    //     return state;
-    //   },
   },
 });
 
 export const {
   setTablesQuantity,
   setTournamentType,
-  // setTournamentPlayers,
+  setTournamentParticipants,
   setGoalsQuantity,
   setWinningSets,
   deletePlayerFromTournament,
   addNewPlayerToTournament,
-  // editPlayerName,
 } = actions;
 export default reducer;

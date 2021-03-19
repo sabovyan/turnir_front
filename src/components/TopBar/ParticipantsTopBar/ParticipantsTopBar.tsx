@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../../store/features';
-// import { createGamesAndPlayersForSetup } from '../../../store/features/gamesForSetup';
+import { createGamesAndPlayersForSetup } from '../../../store/features/gamesForSetup';
 import { PlayersSettingsView } from '../../../types/main.types';
 import BackButton from '../../common/Buttons/BackButton/BackButton';
 import CButton from '../../common/Buttons/CustomButton/CustomButton';
@@ -31,16 +31,16 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   };
 
   const handleNextButtonClick = () => {
-    // if (participants.length) {
-    //   dispatch(
-    //     createGamesAndPlayersForSetup({
-    //       players: participants,
-    //     }),
-    //   );
-    //   history.push('/setup');
-    // } else {
-    //   console.log('players are empty');
-    // }
+    if (participants.length) {
+      dispatch(
+        createGamesAndPlayersForSetup({
+          players: participants,
+        }),
+      );
+      history.push('/setup');
+    } else {
+      console.log('players are empty');
+    }
   };
 
   return (

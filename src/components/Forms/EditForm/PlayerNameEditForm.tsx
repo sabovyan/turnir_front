@@ -7,7 +7,7 @@ import {
   changePlayerName,
   updatePlayerEditStatus,
 } from '../../../store/features/players';
-import ErrorMessage from '../../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
 import FormField from '../../Input/FormField';
 
 interface Props {

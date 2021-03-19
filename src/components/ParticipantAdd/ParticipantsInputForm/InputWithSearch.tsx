@@ -10,8 +10,7 @@ import useAuth from 'src/services/authentication';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
 import { addNewPlayer } from 'src/store/features/players';
-import { getAvailablePlayers } from './ParticipantsInput.util';
-import CButton from '../common/Buttons/CustomButton/CustomButton';
+import { getAvailablePlayers } from '../ParticipantsList/ParticipantsInput.util';
 
 const emptyValue: PlayerResponse = {
   id: -1,
@@ -48,7 +47,12 @@ export default function InputWithSearch() {
             userId: user.id,
           });
           if (res) {
-            dispatch(addNewPlayerToTournament({ name: res.name, id: res.id }));
+            dispatch(
+              addNewPlayerToTournament({
+                name: res.name,
+                players: [{ id: res.id }],
+              }),
+            );
             dispatch(addNewPlayer(res));
             setValue(emptyValue);
           }
@@ -64,7 +68,10 @@ export default function InputWithSearch() {
         }
       } else {
         dispatch(
-          addNewPlayerToTournament({ name: newValue.name, id: newValue.id }),
+          addNewPlayerToTournament({
+            name: newValue.name,
+            players: [{ id: newValue.id }],
+          }),
         );
         setValue(emptyValue);
       }
@@ -106,6 +113,7 @@ export default function InputWithSearch() {
       clearText="clear"
       options={players}
       renderOption={(option) => option.name}
+      getOptionLabel={(option) => ''}
       freeSolo
       renderInput={(params) => <TextField {...params} />}
     />

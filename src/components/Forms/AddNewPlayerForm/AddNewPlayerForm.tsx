@@ -7,7 +7,7 @@ import useAuth from '../../../services/authentication';
 import Typography from '@material-ui/core/Typography';
 import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
-import ErrorMessage from '../../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
 import playerService from '../../../services/players.service';
 import { addNewPlayer } from '../../../store/features/players';
 

@@ -8,7 +8,7 @@ import { TournamentType } from '../../types/main.types';
 import ClickableCard from 'src/components/common/Cards/ClickableCard/ClickableCard';
 import GAME_CARDS from 'src/constants/gameCards';
 
-import styles from './New.module.css';
+import ViewWrapper from 'src/components/common/ViewWrapper/ViewWrapper';
 
 interface Props {}
 
@@ -26,16 +26,17 @@ const NewTournament = (props: Props) => {
   return (
     <>
       <NewTopBar />
-      <div className={styles.newTournament}>
+      <ViewWrapper>
         {GAME_CARDS.map(({ name, icon, color, tournamentType }) => (
           <ClickableCard
+            key={name}
             name={t(name)}
             icon={icon}
             color={color}
             onCardClick={goToSettings(tournamentType)}
           />
         ))}
-      </div>
+      </ViewWrapper>
     </>
   );
 };

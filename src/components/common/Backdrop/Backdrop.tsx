@@ -1,20 +1,15 @@
 import React, { FC } from 'react';
-import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop';
-import colors from '../../styles/colors';
+import MUIBackdrop, { BackdropProps } from '@material-ui/core/Backdrop';
+import colors from '../../../styles/colors';
 
 interface IBackdropProps extends BackdropProps {
   open: boolean;
   zIndex: number;
 }
 
-const CustomBackdrop: FC<IBackdropProps> = ({
-  open,
-  children,
-  zIndex,
-  ...props
-}) => {
+const Backdrop: FC<IBackdropProps> = ({ open, children, zIndex, ...props }) => {
   return (
-    <Backdrop
+    <MUIBackdrop
       {...props}
       open={open}
       style={{
@@ -23,8 +18,8 @@ const CustomBackdrop: FC<IBackdropProps> = ({
       }}
     >
       {children}
-    </Backdrop>
+    </MUIBackdrop>
   );
 };
 
-export default CustomBackdrop;
+export default Backdrop;

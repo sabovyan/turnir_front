@@ -4,7 +4,6 @@ import TeamsIcon from 'src/components/icons/Teams/TeamsIcon';
 import Color from 'src/styles/colors';
 import personCardIconStyle from 'src/styles/personCardIconStyle';
 import { PlayersSettingsView } from 'src/types/main.types';
-import { string } from 'yup/lib/locale';
 
 type ParticipantCard = {
   color: Color;

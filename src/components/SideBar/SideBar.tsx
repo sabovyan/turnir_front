@@ -9,7 +9,7 @@ import React, {
 
 import SideBarSettings from '../SideBarSettings/SideBarSettings';
 import CustomSnackBar from '../CustomSnackBar/CustomSnackBar';
-import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import Backdrop from '../common/Backdrop/Backdrop';
 import SideBarList from '../SideBarList/SideBarList';
 import SignCard from '../SignCard/SignCard';
 
@@ -130,7 +130,7 @@ const SideBar: FC = () => {
 
   return (
     <div>
-      <CustomBackdrop
+      <Backdrop
         onClick={handleToggleSettings}
         open={settingsVisible}
         zIndex={1}

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import ParticipantsTopBar from '../../components/TopBar/ParticipantsTopBar/ParticipantsTopBar';
-import ParticipantCards from '../../components/PariticipantsCards/ParticipantCards';
-import { RootState } from '../../store/features';
+import ParticipantsTopBar from 'src/components/TopBar/ParticipantsTopBar/ParticipantsTopBar';
+import ParticipantCards from 'src/components/PariticipantsCards/ParticipantCards';
+import { RootState } from 'src/store/features';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { PlayersSettingsView, TournamentType } from '../../types/main.types';
-import ParticipantInput from '../../components/ParticipantsInput/ParticipantsInput';
+import ParticipantAdd from 'src/components/ParticipantAdd/ParticipantAdd';
 import SingleIcon from '../../components/icons/Single/SingleIcon';
 import TeamsIcon from '../../components/icons/Teams/TeamsIcon';
 import colors from '../../styles/colors';
 import DrawYourPartnerIcon from '../../components/icons/DrawYourPartnerIcon/DrawYourPartnerIcon';
+import personCardIconStyle from 'src/styles/personCardIconStyle';
 
 interface Props {}
 
@@ -39,20 +40,20 @@ const Participants = (props: Props) => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <>
       <ParticipantsTopBar view={view} />
 
       {view === 'cards' ? (
         <ParticipantCards onCardClick={handleSingleCardClick} />
       ) : (
-        <ParticipantInput
+        <ParticipantAdd
           icon={
             view === PlayersSettingsView.single ? (
-              <SingleIcon style={{ fill: 'white' }} />
+              <SingleIcon style={personCardIconStyle} />
             ) : view === PlayersSettingsView.team ? (
-              <TeamsIcon style={{ fill: 'white' }} />
+              <TeamsIcon style={personCardIconStyle} />
             ) : view === PlayersSettingsView.DRP ? (
-              <DrawYourPartnerIcon style={{ fill: 'white' }} />
+              <DrawYourPartnerIcon style={personCardIconStyle} />
             ) : null
           }
           name={
@@ -76,7 +77,7 @@ const Participants = (props: Props) => {
           }
         />
       )}
-    </div>
+    </>
   );
 };
 

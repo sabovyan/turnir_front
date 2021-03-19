@@ -20,10 +20,10 @@ const Elimination = () => {
   }, [history, tournamentType]);
 
   return (
-    <div>
+    <>
       <TournamentSettingsTopBar />
       <EliminationSettings />
-    </div>
+    </>
   );
 };
 

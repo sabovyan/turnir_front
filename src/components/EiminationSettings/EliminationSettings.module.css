@@ -6,3 +6,10 @@
   outline: none;
   margin: 1rem;
 }
+
+.paper {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}

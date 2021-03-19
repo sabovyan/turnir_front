@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import Paper from '@material-ui/core/Paper';
-import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import Backdrop from '../common/Backdrop/Backdrop';
 import SideBarGroupCard from './SideBarGroupCard';
 import { RootState } from '../../store/features';
 import { useSelector } from 'react-redux';
@@ -68,110 +68,108 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
   }, [activeGroup, groups]);
 
   return (
-    <>
-      <CustomBackdrop open={open} zIndex={1001} onClick={handleClose}>
-        <div style={{ width: '200px' }}></div>
-        <Paper
-          elevation={3}
+    <Backdrop open={open} zIndex={1001} onClick={handleClose}>
+      <div style={{ width: '200px' }}></div>
+      <Paper
+        elevation={3}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          padding: '2rem',
+          minWidth: '400px',
+          maxWidth: '1200px',
+          backgroundColor: colors.sideColor,
+        }}
+      >
+        <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            padding: '2rem',
-            minWidth: '400px',
-            maxWidth: '1200px',
-            backgroundColor: colors.sideColor,
+            alignItems: 'center',
+
+            justifyContent: 'flex-end',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
+          <div>
+            <Typography color="primary" variant="h6">
+              Choose the group
+            </Typography>
+            <FormField
+              select
+              label=""
+              value={activeGroup.id}
+              style={{ marginBottom: '0', width: 200, background: 'white' }}
+              fullWidth={false}
+              onChange={handleGroupSelectEvent}
+            >
+              <MenuItem key={'none'} value={0} disabled>
+                {'none'}
+              </MenuItem>
 
-              justifyContent: 'flex-end',
-            }}
-          >
-            <div>
-              <Typography color="primary" variant="h6">
-                Choose the group
-              </Typography>
-              <FormField
-                select
-                label=""
-                value={activeGroup.id}
-                style={{ marginBottom: '0', width: 200, background: 'white' }}
-                fullWidth={false}
-                onChange={handleGroupSelectEvent}
-              >
-                <MenuItem key={'none'} value={0} disabled>
-                  {'none'}
-                </MenuItem>
-
-                {groups && groups.length
-                  ? groups.map((group) => (
-                      <MenuItem key={group.id} value={group.id}>
-                        {group.name}
-                      </MenuItem>
-                    ))
-                  : null}
-              </FormField>
-            </div>
+              {groups && groups.length
+                ? groups.map((group) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      {group.name}
+                    </MenuItem>
+                  ))
+                : null}
+            </FormField>
           </div>
+        </div>
 
-          <div
-            style={{
-              display: 'flex',
-              gap: '1rem',
-              overflow: 'auto',
-            }}
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            overflow: 'auto',
+          }}
+        >
+          <SideBarGroupCard
+            groupId={0}
+            isEdit={false}
+            groupName="All Players"
+            isEditable={false}
+            onDelete={() => {}}
           >
-            <SideBarGroupCard
+            <GroupPlayerList
+              isSelectable={true}
+              players={players}
+              isDraggable={true}
+              deleteButton={false}
               groupId={0}
-              isEdit={false}
-              groupName="All Players"
-              isEditable={false}
-              onDelete={() => {}}
+            />
+          </SideBarGroupCard>
+          {activeGroup && activeGroup.id ? (
+            <SideBarGroupCard
+              groupId={activeGroup.id}
+              isEdit={activeGroup.isEdit}
+              groupName={activeGroup.name}
+              isEditable={true}
+              onDelete={handleDeleteEvent}
             >
               <GroupPlayerList
-                isSelectable={true}
-                players={players}
-                isDraggable={true}
-                deleteButton={false}
-                groupId={0}
+                isDraggable={false}
+                isSelectable={false}
+                groupId={activeGroup.id}
+                players={activePlayers}
+                deleteButton={true}
+                currentGroupId={activeGroup.id}
               />
             </SideBarGroupCard>
-            {activeGroup && activeGroup.id ? (
-              <SideBarGroupCard
-                groupId={activeGroup.id}
-                isEdit={activeGroup.isEdit}
-                groupName={activeGroup.name}
-                isEditable={true}
-                onDelete={handleDeleteEvent}
-              >
-                <GroupPlayerList
-                  isDraggable={false}
-                  isSelectable={false}
-                  groupId={activeGroup.id}
-                  players={activePlayers}
-                  deleteButton={true}
-                  currentGroupId={activeGroup.id}
-                />
-              </SideBarGroupCard>
-            ) : (
-              <SideBarGroupCard
-                groupId={none.id}
-                isEdit={none.isEdit}
-                groupName="no group is found"
-                isEditable={false}
-                onDelete={() => {}}
-              ></SideBarGroupCard>
-            )}
-          </div>
+          ) : (
+            <SideBarGroupCard
+              groupId={none.id}
+              isEdit={none.isEdit}
+              groupName="no group is found"
+              isEditable={false}
+              onDelete={() => {}}
+            ></SideBarGroupCard>
+          )}
+        </div>
 
-          <CreateNewGroupForm />
-        </Paper>
-      </CustomBackdrop>
-    </>
+        <CreateNewGroupForm />
+      </Paper>
+    </Backdrop>
   );
 };
 

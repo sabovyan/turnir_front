@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from 'react';
 import CButton from '../common/Buttons/CustomButton/CustomButton';
-import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import Backdrop from 'src/components/common/Backdrop/Backdrop';
 
 import styles from './EliminationGameRectangle.module.css';
 import DigitBoard from '../DigitBoard/DigitBoard';
@@ -129,7 +129,7 @@ const EliminationGameRectangle = ({
           />
         </div>
 
-        <CustomBackdrop
+        <Backdrop
           open={isResultOpen}
           zIndex={2}
           onClick={handleResultPageClose}
@@ -163,7 +163,7 @@ const EliminationGameRectangle = ({
               <Button style={{ color: '#ddd' }}>Submit</Button>
             </ButtonGroup>
           </div>
-        </CustomBackdrop>
+        </Backdrop>
       </div>
     </div>
   );

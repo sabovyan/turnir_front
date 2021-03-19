@@ -3,7 +3,7 @@ import {
   Player,
   PlayerResponse,
   PlayerWithInputValue,
-} from '../../types/main.types';
+} from '../../../types/main.types';
 
 export const checkIfPlayersNameExist = (
   players: Player[],

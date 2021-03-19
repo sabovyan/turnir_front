@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 
 import SignCardLeft from '../SignCardLeft/SignCardLeft';
 import SignCardRight from '../SignCardRight/SignCardRight';
-import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
+import Backdrop from '../common/Backdrop/Backdrop';
 
 import './SignCard.css';
 import { signCardDisplayContext } from '../SideBar/SideBar';
@@ -19,7 +19,7 @@ const SignCard: FC<ISignCard> = ({ handleClose }) => {
   };
 
   return (
-    <CustomBackdrop
+    <Backdrop
       open={signCardDisplayed.state}
       onClick={handleBackdropClick}
       zIndex={2}
@@ -28,7 +28,7 @@ const SignCard: FC<ISignCard> = ({ handleClose }) => {
         <SignCardLeft />
         <SignCardRight />
       </div>
-    </CustomBackdrop>
+    </Backdrop>
   );
 };
 

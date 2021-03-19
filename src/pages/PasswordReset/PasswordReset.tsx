@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import CButton from '../../components/common/Buttons/CustomButton/CustomButton';
-import CustomBackdrop from '../../components/CustomBackdrop/CustomBackdrop';
+import Backdrop from '../../components/common/Backdrop/Backdrop';
 import FormField from '../../components/Input/FormField';
 import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
@@ -84,7 +84,7 @@ const PasswordReset = (props: Props) => {
   };
 
   return (
-    <CustomBackdrop open={true} zIndex={1}>
+    <Backdrop open={true} zIndex={1}>
       <form
         onSubmit={handleChangePasswordForm}
         style={{
@@ -137,7 +137,7 @@ const PasswordReset = (props: Props) => {
           cssStyles={{ margin: '2rem' }}
         />
       </form>
-    </CustomBackdrop>
+    </Backdrop>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import CButton from '../common/Buttons/CustomButton/CustomButton';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../common/ErrorMessage/ErrorMessage';
 import useAuth from '../../services/authentication';
 import { useDispatch } from 'react-redux';
 import groupService from '../../services/groups.service';

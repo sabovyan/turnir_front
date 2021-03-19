@@ -9,7 +9,7 @@ import {
   updateGroupNameById,
 } from '../../../store/features/groups.feature';
 import { updatePlayerEditStatus } from '../../../store/features/players';
-import ErrorMessage from '../../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
 
 interface Props {
   value: string;

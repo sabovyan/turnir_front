@@ -91,8 +91,6 @@ export type PlayerWithNameAndId = {
 export type Participant = {
   name: string;
   players: Pick<Player, 'id'>[];
-  ref?: React.RefObject<HTMLDivElement>;
-  focus?: boolean;
 };
 
 export type SetupGame = {
