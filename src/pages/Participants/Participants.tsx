@@ -5,7 +5,7 @@ import ParticipantCards from '../../components/PariticipantsCards/ParticipantCar
 import { RootState } from '../../store/features';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setPlayersSettingsView, TournamentType } from '../../types/main.types';
+import { PlayersSettingsView, TournamentType } from '../../types/main.types';
 import ParticipantInput from '../../components/ParticipantsInput/ParticipantsInput';
 import SingleIcon from '../../components/icons/Single/SingleIcon';
 import TeamsIcon from '../../components/icons/Teams/TeamsIcon';
@@ -20,16 +20,16 @@ const Participants = (props: Props) => {
   );
 
   const history = useHistory();
-  const [view, setView] = useState<setPlayersSettingsView>(
-    setPlayersSettingsView.cards,
+  const [view, setView] = useState<PlayersSettingsView>(
+    PlayersSettingsView.cards,
   );
 
-  const handleSingleCardClick = (type: setPlayersSettingsView) => {
+  const handleSingleCardClick = (type: PlayersSettingsView) => {
     setView(type);
   };
 
   const changeViewToCards = () => {
-    setView(setPlayersSettingsView.cards);
+    setView(PlayersSettingsView.cards);
   };
 
   useEffect(() => {
@@ -47,30 +47,30 @@ const Participants = (props: Props) => {
       ) : (
         <ParticipantInput
           icon={
-            view === setPlayersSettingsView.single ? (
+            view === PlayersSettingsView.single ? (
               <SingleIcon style={{ fill: 'white' }} />
-            ) : view === setPlayersSettingsView.team ? (
+            ) : view === PlayersSettingsView.team ? (
               <TeamsIcon style={{ fill: 'white' }} />
-            ) : view === setPlayersSettingsView.DRP ? (
+            ) : view === PlayersSettingsView.DRP ? (
               <DrawYourPartnerIcon style={{ fill: 'white' }} />
             ) : null
           }
           name={
-            view === setPlayersSettingsView.single
+            view === PlayersSettingsView.single
               ? 'Single'
-              : view === setPlayersSettingsView.team
+              : view === PlayersSettingsView.team
               ? 'Team'
-              : view === setPlayersSettingsView.DRP
+              : view === PlayersSettingsView.DRP
               ? 'Draw your partner'
               : ''
           }
           goBackToCards={changeViewToCards}
           cardBackgroundColor={
-            view === setPlayersSettingsView.single
+            view === PlayersSettingsView.single
               ? colors.single
-              : view === setPlayersSettingsView.team
+              : view === PlayersSettingsView.team
               ? colors.teams
-              : view === setPlayersSettingsView.DRP
+              : view === PlayersSettingsView.DRP
               ? colors.DrawYourPartner
               : 'black'
           }

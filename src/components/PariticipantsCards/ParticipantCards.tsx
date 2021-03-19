@@ -5,16 +5,18 @@ import TeamsIcon from '../../components/icons/Teams/TeamsIcon';
 import DrawYourPartnerIcon from '../../components/icons/DrawYourPartnerIcon/DrawYourPartnerIcon';
 import { useTranslation } from 'react-i18next';
 import colors from '../../styles/colors';
-import { setPlayersSettingsView } from '../../types/main.types';
+import { PlayersSettingsView } from '../../types/main.types';
+import PARTICIPANT_CARDS from 'src/constants/participantCard';
+import ClickableCard from '../common/Cards/ClickableCard/ClickableCard';
 
 interface IParticipantCardsProps {
-  onCardClick: (type: setPlayersSettingsView) => void;
+  onCardClick: (type: PlayersSettingsView) => void;
 }
 
 const ParticipantCards = ({ onCardClick }: IParticipantCardsProps) => {
   const { t } = useTranslation();
 
-  const handleCardClick = (type: setPlayersSettingsView) => () => {
+  const handleCardClick = (type: PlayersSettingsView) => () => {
     onCardClick(type);
   };
 
@@ -29,7 +31,15 @@ const ParticipantCards = ({ onCardClick }: IParticipantCardsProps) => {
         gap: '4rem',
       }}
     >
-      <NewGameCard
+      {PARTICIPANT_CARDS.map(({ color, icon, name, playersSettingsView }) => (
+        <ClickableCard
+          color={color}
+          icon={icon}
+          name={name}
+          onCardClick={handleCardClick(playersSettingsView)}
+        />
+      ))}
+      {/* <NewGameCard
         color={colors.single}
         icon={
           <SingleIcon
@@ -76,7 +86,7 @@ const ParticipantCards = ({ onCardClick }: IParticipantCardsProps) => {
         }
         name={t('Draw your partner')}
         onCardClick={handleCardClick(setPlayersSettingsView.DRP)}
-      />
+      /> */}
     </div>
   );
 };

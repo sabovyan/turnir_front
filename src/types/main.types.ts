@@ -65,7 +65,7 @@ export enum TournamentType {
   none = 'none',
 }
 
-export enum setPlayersSettingsView {
+export enum PlayersSettingsView {
   cards = 'cards',
   single = 'single',
   team = 'team',

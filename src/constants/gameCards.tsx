@@ -1,27 +1,35 @@
 import EliminationIcon from 'src/components/icons/elimination/EliminationIcon';
 import LastManStandingIcon from 'src/components/icons/LastManStanding/LastManStanding';
 import RoundRobinIcon from 'src/components/icons/roundRobin/RoundRobinIcon';
-import cardIconStyle from 'src/styles/CardIconStyle';
+import GroupCardIconStyle from 'src/styles/GroupCardIconStyle';
+import colors from 'src/styles/colors';
 import { TournamentType } from 'src/types/main.types';
 
-const GAME_CARDS = [
+type GameCard = {
+  tournamentType: TournamentType;
+  color: string;
+  name: string;
+  icon: JSX.Element;
+};
+
+const GAME_CARDS: GameCard[] = [
   {
     tournamentType: TournamentType.elimination,
-    color: '#ac47ac',
+    color: colors.elimination,
     name: 'Elimination',
-    icon: <EliminationIcon style={cardIconStyle} />,
+    icon: <EliminationIcon style={GroupCardIconStyle} />,
   },
   {
     tournamentType: TournamentType.lastManStanding,
-    color: '#ef6c00',
+    color: colors.lastManStanding,
     name: 'Last Man standing',
-    icon: <LastManStandingIcon style={cardIconStyle} />,
+    icon: <LastManStandingIcon style={GroupCardIconStyle} />,
   },
   {
     tournamentType: TournamentType.roundRobin,
-    color: '#4f9e18',
+    color: colors.roundRobin,
     name: 'Round Robin',
-    icon: <RoundRobinIcon style={cardIconStyle} />,
+    icon: <RoundRobinIcon style={GroupCardIconStyle} />,
   },
 ];
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../../store/features';
 // import { createGamesAndPlayersForSetup } from '../../../store/features/gamesForSetup';
-import { setPlayersSettingsView } from '../../../types/main.types';
+import { PlayersSettingsView } from '../../../types/main.types';
 import BackButton from '../../common/Buttons/BackButton/BackButton';
 import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import BasicToolBar from '../BasicToolBar/BasicToolBar';
@@ -14,7 +14,7 @@ import BasicTopBar from '../BasicTopBar/BasicTopBar';
 import TopBarGroupList from './TopBarGroupList';
 
 interface IParticipantsTopBarProps {
-  view: setPlayersSettingsView;
+  view: PlayersSettingsView;
 }
 
 const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
