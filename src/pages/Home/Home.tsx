@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import tournament from '../../assets/tournaments.svg';
-import CButton from '../../components/Buttons/CustomButton/CustomButton';
+import CButton from '../../components/common/Buttons/CustomButton/CustomButton';
 import { useHistory } from 'react-router-dom';
 import HomeTopBar from '../../components/TopBar/HomeTopBar/HomeTopBar';
 import useAuth from '../../services/authentication';

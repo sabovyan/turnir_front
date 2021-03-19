@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Player, TournamentType } from '../../types/main.types';
-
-export type SettingsInfoPlayers = Pick<Player, 'name' | 'id'>;
+import { Participant, Player, TournamentType } from '../../types/main.types';
 
 type tournamentSettings = {
   tables: number;
   goalsToWin: number;
   winningSets: number;
   tournamentType: TournamentType;
-  tournamentPlayers: SettingsInfoPlayers[];
+
+  participants: Participant[];
 };
 
 const initialState: tournamentSettings = {
@@ -17,20 +16,23 @@ const initialState: tournamentSettings = {
   winningSets: 1,
   tournamentType: TournamentType.none,
   // tournamentPlayers: [],
-  tournamentPlayers: [
-    { name: 'alpha', id: 0 },
-    { name: 'betta', id: 1 },
-    { name: 'gamma', id: 3 },
-    { name: 'delta', id: 4 },
-    { name: 'epsilon', id: 5 },
-    { name: 'zeta', id: 6 },
-    { name: 'eta', id: 7 },
-    { name: 'theta', id: 8 },
-    { name: 'iota', id: 9 },
-    { name: 'kappa', id: 10 },
-    { name: 'lambda', id: 11 },
-    { name: 'mu', id: 12 },
-    { name: 'nu', id: 13 },
+  participants: [
+    {
+      name: 'alpha',
+      players: [{ id: 0 }],
+    },
+    { name: 'betta', players: [{ id: 1 }] },
+    { name: 'gamma', players: [{ id: 3 }] },
+    { name: 'delta', players: [{ id: 4 }] },
+    { name: 'epsilon', players: [{ id: 5 }] },
+    { name: 'zeta', players: [{ id: 6 }] },
+    { name: 'eta', players: [{ id: 7 }] },
+    { name: 'theta', players: [{ id: 8 }] },
+    { name: 'iota', players: [{ id: 9 }] },
+    { name: 'kappa', players: [{ id: 10 }] },
+    { name: 'lambda', players: [{ id: 11 }] },
+    { name: 'mu', players: [{ id: 12 }] },
+    { name: 'nu', players: [{ id: 13 }] },
   ],
 };
 
@@ -66,29 +68,29 @@ const { reducer, actions } = createSlice({
       state.tournamentType = payload.tournamentType;
     },
 
-    setTournamentPlayers: (
-      state,
-      {
-        payload: { players },
-      }: PayloadAction<{ players: { name: string; id: number }[] }>,
-    ) => {
-      const settingsInfoPlayers: SettingsInfoPlayers[] = players.map(
-        ({ name, id }) => ({
-          name,
-          id,
-        }),
-      );
-      state.tournamentPlayers = settingsInfoPlayers;
-    },
+    // setTournamentPlayers: (
+    //   state,
+    //   {
+    //     payload: { players },
+    //   }: PayloadAction<{ players: { name: string; id: number }[] }>,
+    // ) => {
+    //   const settingsInfoPlayers: Participant[] = players.map(
+    //     ({ name, id }) => ({
+    //       name,
+    //       id,
+    //     }),
+    //   );
+    //   state.tournamentPlayers = settingsInfoPlayers;
+    // },
 
     deletePlayerFromTournament: (
       state,
       { payload: { name } }: PayloadAction<{ name: string }>,
     ) => {
-      const players = state.tournamentPlayers.filter(
-        (player) => player.name !== name,
-      );
-      state.tournamentPlayers = players;
+      // const players = state.tournamentPlayers.filter(
+      //   (player) => player.name !== name,
+      // );
+      // state.tournamentPlayers = players;
       return state;
     },
 
@@ -96,33 +98,33 @@ const { reducer, actions } = createSlice({
       state,
       { payload }: PayloadAction<{ name: string; id: number }>,
     ) => {
-      const players = [...state.tournamentPlayers, payload];
-      state.tournamentPlayers = players;
+      // const players = [...state.tournamentPlayers, payload];
+      // state.tournamentPlayers = players;
     },
 
-    editPlayerName: (
-      state,
-      {
-        payload: { prevName, newName },
-      }: PayloadAction<{ prevName: string; newName: string }>,
-    ) => {
-      state.tournamentPlayers = state.tournamentPlayers.map((player) =>
-        player.name === prevName ? { ...player, name: newName } : player,
-      );
+    //   editPlayerName: (
+    //     state,
+    //     {
+    //       payload: { prevName, newName },
+    //     }: PayloadAction<{ prevName: string; newName: string }>,
+    //   ) => {
+    //     state.tournamentPlayers = state.tournamentPlayers.map((player) =>
+    //       player.name === prevName ? { ...player, name: newName } : player,
+    //     );
 
-      return state;
-    },
+    //     return state;
+    //   },
   },
 });
 
 export const {
   setTablesQuantity,
   setTournamentType,
-  setTournamentPlayers,
+  // setTournamentPlayers,
   setGoalsQuantity,
   setWinningSets,
   deletePlayerFromTournament,
   addNewPlayerToTournament,
-  editPlayerName,
+  // editPlayerName,
 } = actions;
 export default reducer;

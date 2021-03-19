@@ -10,7 +10,7 @@ import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
 import SideBarGroupCard from './SideBarGroupCard';
 import { RootState } from '../../store/features';
 import { useSelector } from 'react-redux';
-import CloseButton from '../Buttons/CloseButton/CloseButton';
+import CloseButton from '../common/Buttons/CloseButton/CloseButton';
 import colors from '../../styles/colors';
 import CreateNewGroupForm from './CreateNewGroupForm';
 import GroupPlayerList from '../GroupsModal/GroupPlayerList';

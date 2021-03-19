@@ -72,12 +72,15 @@ export enum setPlayersSettingsView {
   DRP = 'draw your partner',
 }
 export type Player = {
+  id: number;
   name: string;
+  userId: number;
+  totalGames: number | null;
+  totalWins: number | null;
+  totalPoints: number | null;
+  gameId: number | null;
   ref: RefObject<HTMLDivElement>;
   focus: boolean;
-  edit: boolean;
-  id: number;
-  draft?: string;
 };
 
 export type PlayerWithNameAndId = {
@@ -85,9 +88,16 @@ export type PlayerWithNameAndId = {
   id: number;
 };
 
+export type Participant = {
+  name: string;
+  players: Pick<Player, 'id'>[];
+  ref?: React.RefObject<HTMLDivElement>;
+  focus?: boolean;
+};
+
 export type SetupGame = {
-  player1?: PlayerWithNameAndId;
-  player2?: PlayerWithNameAndId;
+  participant1?: Participant;
+  participant2?: Participant;
   next?: number | null;
   id: number;
 };
@@ -96,6 +106,7 @@ export type SetupState = {
   players: PlayerWithNameAndId[];
   games: SetupGame[];
   rounds: SetupRound[];
+  firstRoundGames: SetupGame[];
   hasThirdPlaceGame: boolean;
 };
 

@@ -1,0 +1,16 @@
+.round {
+  width: 300px;
+}
+
+.round__Container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+
+.round__Header {
+  padding: 1rem;
+  text-align: center;
+}

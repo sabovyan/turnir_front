@@ -1,7 +1,7 @@
 import React, { FC, FormEvent, useContext } from 'react';
 
 import Typography from '@material-ui/core/Typography';
-import CButton from '../../Buttons/CustomButton/CustomButton';
+import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
 
 import { signCardDisplayContext } from '../../SideBar/SideBar';

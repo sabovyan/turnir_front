@@ -20,28 +20,14 @@ interface Props {
     index: number,
     event: KeyboardEvent<HTMLDivElement>,
   ) => void;
-  onPlayerNameChange: (
-    id: number,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-
-  OnPlayerNameBlur: (
-    id: number,
-    value: string | undefined,
-    name: string,
-  ) => void;
-  onEditFormSubmit: (id: number, value: string | undefined) => void;
-  onListItemClick: (id: number) => void;
-  onListItemMouseOver: (id: number) => void;
-  onDeleteIconClick: (id: number) => void;
+  onListItemClick: (value: string) => void;
+  onListItemMouseOver: (value: string) => void;
+  onDeleteIconClick: (value: string) => void;
 }
 
 const ParticipantsInputList = ({
   playersList,
   handleListItemKeyEvent,
-  onPlayerNameChange,
-  OnPlayerNameBlur,
-  onEditFormSubmit,
   onListItemClick,
   onListItemMouseOver,
   onDeleteIconClick,
@@ -53,32 +39,18 @@ const ParticipantsInputList = ({
     handleListItemKeyEvent(index, event);
   };
 
-  const handlePlayerNameChange = (id: number) => (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    onPlayerNameChange(id, event);
-  };
-
-  const handlePlayerNameBlur = (
-    id: number,
-    value: string | undefined,
-    name: string,
-  ) => (event: FocusEvent<HTMLInputElement>) => {
-    OnPlayerNameBlur(id, value, name);
-  };
-
-  const handleListItemClick = (id: number) => (
+  const handleListItemClick = (value: string) => (
     event: MouseEvent<HTMLDivElement>,
   ) => {
-    onListItemClick(id);
+    onListItemClick(value);
   };
 
-  const handleListItemMouseOver = (id: number) => () => {
-    onListItemMouseOver(id);
+  const handleListItemMouseOver = (value: string) => () => {
+    onListItemMouseOver(value);
   };
 
-  const handleDeleteIconClick = (id: number) => () => {
-    onDeleteIconClick(id);
+  const handleDeleteIconClick = (value: string) => () => {
+    onDeleteIconClick(value);
   };
 
   return (
@@ -87,57 +59,34 @@ const ParticipantsInputList = ({
       style={{ margin: '1rem', padding: '0 1rem 1rem' }}
     >
       {playersList && playersList.length
-        ? playersList.map((el, idx) =>
-            !el.edit ? (
-              <div
-                className={styles.inputListItem}
-                key={el.name}
-                tabIndex={0}
-                onKeyDown={handleListNavigation(idx)}
-                onClick={handleListItemClick(el.id)}
-                onMouseEnter={handleListItemMouseOver(el.id)}
-                onMouseOver={handleListItemMouseOver(el.id)}
-                ref={el.ref}
-                id={String(el.name)}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <span className={styles.inputListDigit}>{idx + 1}.</span>
-                  <span>{el.name}</span>
-                </div>
-                {el.focus && (
-                  <div className={styles.inputListItemButtons}>
-                    <IconButton
-                      style={{ borderRadius: 0 }}
-                      onClick={handleDeleteIconClick(el.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <form
-                key={el.id}
-                className={styles.playerNameEditForm}
-                onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                  e.preventDefault();
-
-                  onEditFormSubmit(el.id, el.draft);
-                }}
-              >
+        ? playersList.map((el, idx) => (
+            <div
+              className={styles.inputListItem}
+              key={el.name}
+              tabIndex={0}
+              onKeyDown={handleListNavigation(idx)}
+              onClick={handleListItemClick(el.name)}
+              onMouseEnter={handleListItemMouseOver(el.name)}
+              onMouseOver={handleListItemMouseOver(el.name)}
+              ref={el.ref}
+              id={String(el.name)}
+            >
+              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                 <span className={styles.inputListDigit}>{idx + 1}.</span>
-                <FormField
-                  label=""
-                  value={el.draft}
-                  autoFocus
-                  fullWidth
-                  style={{ fontSize: '1.1rem' }}
-                  onBlur={handlePlayerNameBlur(el.id, el.draft, el.name)}
-                  onChange={handlePlayerNameChange(el.id)}
-                />
-              </form>
-            ),
-          )
+                <span>{el.name}</span>
+              </div>
+              {el.focus && (
+                <div className={styles.inputListItemButtons}>
+                  <IconButton
+                    style={{ borderRadius: 0 }}
+                    onClick={handleDeleteIconClick(el.name)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              )}
+            </div>
+          ))
         : null}
     </List>
   );

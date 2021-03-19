@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Button from '@material-ui/core/Button';
 import IButton from './CButton.type';
-import colors from '../../../styles/colors';
+import colors from '../../../../styles/colors';
 
 const CButton: FC<IButton> = ({ text, cssStyles, ...props }) => {
   return (

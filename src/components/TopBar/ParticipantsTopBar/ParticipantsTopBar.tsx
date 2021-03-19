@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../../store/features';
-import { createGamesAndPlayersForSetup } from '../../../store/features/gamesForSetup';
+// import { createGamesAndPlayersForSetup } from '../../../store/features/gamesForSetup';
 import { setPlayersSettingsView } from '../../../types/main.types';
-import BackButton from '../../Buttons/BackButton/BackButton';
-import CButton from '../../Buttons/CustomButton/CustomButton';
+import BackButton from '../../common/Buttons/BackButton/BackButton';
+import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import BasicToolBar from '../BasicToolBar/BasicToolBar';
 import BasicTopBar from '../BasicTopBar/BasicTopBar';
 
@@ -22,7 +22,7 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { tournamentPlayers } = useSelector(
+  const { participants } = useSelector(
     (state: RootState) => state.settingsInfo,
   );
 
@@ -31,16 +31,16 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
   };
 
   const handleNextButtonClick = () => {
-    if (tournamentPlayers.length) {
-      dispatch(
-        createGamesAndPlayersForSetup({
-          players: tournamentPlayers,
-        }),
-      );
-      history.push('/setup');
-    } else {
-      console.log('players are empty');
-    }
+    // if (participants.length) {
+    //   dispatch(
+    //     createGamesAndPlayersForSetup({
+    //       players: participants,
+    //     }),
+    //   );
+    //   history.push('/setup');
+    // } else {
+    //   console.log('players are empty');
+    // }
   };
 
   return (

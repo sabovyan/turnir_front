@@ -4,10 +4,11 @@ import {
   PlayerWithNameAndId,
   SetupState,
 } from '../../types/main.types';
-import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
+// import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
 
 const initialState: SetupState = {
   games: [],
+  firstRoundGames: [],
   players: [],
   rounds: [],
   hasThirdPlaceGame: false,
@@ -25,11 +26,11 @@ const { reducer, actions } = createSlice({
         players: { name: string }[] | PlayerWithNameAndId[];
       }>,
     ) => {
-      const newState = createSetupGamesAndPlayers(
-        players,
-        state.hasThirdPlaceGame,
-      );
-      return { ...state, ...newState };
+      // const newState = createSetupGamesAndPlayers(
+      //   players,
+      //   state.hasThirdPlaceGame,
+      // );
+      // return { ...state, ...newState };
     },
 
     UpdatePlayersOrder: (
@@ -43,17 +44,16 @@ const { reducer, actions } = createSlice({
     }),
 
     toggleThirdPlaceRound: (state, { payload }: PayloadAction<boolean>) => {
-      const finalRoundGames = state.rounds[state.rounds.length - 1].games;
-      if (payload) {
-        const thirdPlaceGame: SetupGame = {
-          id: 444499999,
-        };
-
-        finalRoundGames.push(thirdPlaceGame);
-      } else {
-        finalRoundGames.pop();
-      }
-      state.hasThirdPlaceGame = payload;
+      // const finalRoundGames = state.rounds[state.rounds.length - 1].games;
+      // if (payload) {
+      //   const thirdPlaceGame: SetupGame = {
+      //     id: 444499999,
+      //   };
+      //   finalRoundGames.push(thirdPlaceGame);
+      // } else {
+      //   finalRoundGames.pop();
+      // }
+      // state.hasThirdPlaceGame = payload;
     },
   },
 });

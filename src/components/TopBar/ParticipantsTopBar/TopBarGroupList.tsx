@@ -16,7 +16,7 @@ import ImportIcon from '@material-ui/icons/SystemUpdateAlt';
 import colors from '../../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/features';
-import { setTournamentPlayers } from '../../../store/features/settingsInfo';
+// import { setTournamentPlayers } from '../../../store/features/settingsInfo';
 
 const StyledMenu = withStyles({
   paper: {
@@ -67,11 +67,11 @@ const TopBarGroupList = () => {
     handleListItemClick(id);
 
     if (id === selectedGroup) {
-      dispatch(setTournamentPlayers({ players: [] }));
+      // dispatch(setTournamentPlayers({ players: [] }));
     } else {
       if (id === 'all') {
         const currentPlayers = players.map(({ name, id }) => ({ name, id }));
-        dispatch(setTournamentPlayers({ players: currentPlayers }));
+        // dispatch(setTournamentPlayers({ players: currentPlayers }));
         return;
       }
 
@@ -83,7 +83,7 @@ const TopBarGroupList = () => {
         name,
         id,
       }));
-      dispatch(setTournamentPlayers({ players: currentPlayers }));
+      // dispatch(setTournamentPlayers({ players: currentPlayers }));
     }
     // setAnchorEl(null);
   };

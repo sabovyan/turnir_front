@@ -4,7 +4,7 @@ import React, { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import CButton from '../../components/Buttons/CustomButton/CustomButton';
+import CButton from '../../components/common/Buttons/CustomButton/CustomButton';
 import CustomBackdrop from '../../components/CustomBackdrop/CustomBackdrop';
 import FormField from '../../components/Input/FormField';
 import useAuth from '../../services/authentication';

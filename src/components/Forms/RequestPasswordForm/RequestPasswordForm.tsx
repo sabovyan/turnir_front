@@ -1,5 +1,5 @@
 import React, { FC, FormEvent } from 'react';
-import CButton from '../../Buttons/CustomButton/CustomButton';
+import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import FormField from '../../Input/FormField';

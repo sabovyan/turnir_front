@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import SideBarProfileSettings from '../SideBarProfileSettings/SideBarProfileSettings';
 import SideBarAppSettings from '../SideBarAppSettings/SideBarAppSettings';
-import CloseButton from '../Buttons/CloseButton/CloseButton';
+import CloseButton from '../common/Buttons/CloseButton/CloseButton';
 import colors from '../../styles/colors';
 
 import Paper from '@material-ui/core/Paper';

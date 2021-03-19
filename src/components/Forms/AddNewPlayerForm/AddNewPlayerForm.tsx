@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import useAuth from '../../../services/authentication';
 
 import Typography from '@material-ui/core/Typography';
-import CButton from '../../Buttons/CustomButton/CustomButton';
+import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import FormField from '../../Input/FormField';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import playerService from '../../../services/players.service';

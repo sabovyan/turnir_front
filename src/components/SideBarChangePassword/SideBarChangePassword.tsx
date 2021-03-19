@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
 import { ChangePasswordData } from '../../types/main.types';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import CButton from '../common/Buttons/CustomButton/CustomButton';
 import FormField from '../Input/FormField';
 import ChangePasswordSchema from './SideBarChangePassword.validate';
 

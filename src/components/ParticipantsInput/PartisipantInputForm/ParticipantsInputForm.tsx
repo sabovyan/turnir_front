@@ -8,22 +8,19 @@ import useAuth from 'src/services/authentication';
 import { useDispatch, useSelector } from 'react-redux';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import playerService from 'src/services/players.service';
-import {
-  addNewPlayerToTournament,
-  SettingsInfoPlayers,
-} from 'src/store/features/settingsInfo';
+import { addNewPlayerToTournament } from 'src/store/features/settingsInfo';
 import { addNewPlayer } from 'src/store/features/players';
 import { RootState } from 'src/store/features';
 import { Chip, ListItem, ListItemText } from '@material-ui/core';
-import { PlayerResponse } from 'src/types/main.types';
+import { Participant, PlayerResponse } from 'src/types/main.types';
 import InputWithSearch from 'src/components/ParticipantsInputList/InputWithSearch';
 
 const findPlayerByName = (value: string) => (
-  player: PlayerResponse | SettingsInfoPlayers,
+  player: PlayerResponse | Participant,
 ) => player.name.toLowerCase().includes(value.toLowerCase());
 
 const getUniquePlayers = (
-  tournamentPlayers: SettingsInfoPlayers[],
+  tournamentPlayers: Participant[],
   possiblePlayers: PlayerResponse[],
   value: string,
 ) => {

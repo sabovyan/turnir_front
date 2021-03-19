@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import useAuth from '../../services/authentication';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import CButton from '../common/Buttons/CustomButton/CustomButton';
 import FormField from '../Input/FormField';
 import SideBarChangePassword from '../SideBarChangePassword/SideBarChangePassword';
 

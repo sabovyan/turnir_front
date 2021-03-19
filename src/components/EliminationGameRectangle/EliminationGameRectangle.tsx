@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import CButton from '../common/Buttons/CustomButton/CustomButton';
 import CustomBackdrop from '../CustomBackdrop/CustomBackdrop';
 
 import styles from './EliminationGameRectangle.module.css';
@@ -120,7 +120,7 @@ const EliminationGameRectangle = ({
           <div
             style={{
               width: '2px',
-              height: `${maxHeight / numberOfGamesInOneRound / 2}px`,
+              height: `${maxHeight / numberOfGamesInOneRound / 2 + 2}px`,
               background: !isFinal ? 'none' : colors.backdropColor,
               transform: isEven
                 ? `translate(0, -${maxHeight / numberOfGamesInOneRound / 2}px)`

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import CButton from '../common/Buttons/CustomButton/CustomButton';
 import Typography from '@material-ui/core/Typography';
 import { orange } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';

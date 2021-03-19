@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import Button from '@material-ui/core/Button';
 
-import { setResponseStatus } from '../../../store/features/formResponseStatus';
+import { setResponseStatus } from '../../../../store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../../../services/authentication';
-import { signCardDisplayContext } from '../../SideBar/SideBar';
+import useAuth from '../../../../services/authentication';
+import { signCardDisplayContext } from '../../../SideBar/SideBar';
 import { useDispatch } from 'react-redux';
 
 const FacebookButton = () => {

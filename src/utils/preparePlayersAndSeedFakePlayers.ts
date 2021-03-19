@@ -1,25 +1,27 @@
-import { Player, PlayerWithNameAndId } from '../types/main.types';
+import { Participant, Player, PlayerWithNameAndId } from '../types/main.types';
 import { makeFakeId } from './makeId';
 
-const setPlayersForGamesAndSeedFakePlayers = (
-  players: Pick<Player, 'name' | 'id'>[],
-  gamesQuantity: number,
-) => {
-  const generateFakeId = makeFakeId();
+// const setPlayersForGamesAndSeedFakePlayers = (
+//   players: Pick<Player, 'name' | 'id'>[],
+//   gamesQuantity: number,
+// ) => {
+//   const generateFakeId = makeFakeId();
 
-  let copiedArray: PlayerWithNameAndId[] = players.map((player) => ({
-    ...player,
-  }));
+//   // player1: [player]
 
-  const fakePlayer = {
-    name: '',
-  };
+//   let copiedArray: Participant[] = players.map((player) => ({
+//     name: player.name,
+//   }));
 
-  while (copiedArray.length / gamesQuantity < 2) {
-    copiedArray.push({ ...fakePlayer, id: generateFakeId() });
-  }
+//   const fakePlayer = {
+//     name: '',
+//   };
 
-  return copiedArray;
-};
+//   while (copiedArray.length / gamesQuantity < 2) {
+//     copiedArray.push({ ...fakePlayer, players: [] });
+//   }
 
-export default setPlayersForGamesAndSeedFakePlayers;
+//   return copiedArray;
+// };
+
+// export default setPlayersForGamesAndSeedFakePlayers;

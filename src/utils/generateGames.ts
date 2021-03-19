@@ -7,7 +7,7 @@ enum TURN {
 }
 
 const generateGames = (
-  players: PlayerWithNameAndId[],
+  players: PlayerWithNameAndId[][],
   quantityOfGamesForTheFirstRound: number,
   hasThirdPlaceGame: boolean,
 ) => {
@@ -23,14 +23,17 @@ const generateGames = (
     }
     if (turn === TURN.firstPlayer) {
       const newGame: SetupGame = {
-        player1: player,
+        participant1: {
+          name: player[0].name,
+          players: player,
+        },
         id: generateGamesId(),
       };
       collected.push(newGame);
     }
 
     if (turn === TURN.secondPlayer) {
-      collected[count].player2 = player;
+      collected[count].participant2 = { players: player, name: '' };
     }
     count++;
 
@@ -51,7 +54,7 @@ const generateGames = (
     totalGames.push({ id: generateGamesId() });
   }
 
-  return totalGames;
+  return { totalGames: totalGames, firstRoundGames: games };
 };
 
 export default generateGames;

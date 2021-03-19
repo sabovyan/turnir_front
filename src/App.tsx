@@ -5,7 +5,7 @@ import SideBar from './components/SideBar/SideBar';
 import Home from './pages/Home/Home';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
-import CreateNewTournament from './pages/CreateNewTournament/CreateNewTournament';
+import NewTournament from './pages/New/New';
 import TournamentSettings from './pages/TournamentSettings/TournamentSettings';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import useAuth from './services/authentication';
@@ -25,7 +25,7 @@ function App() {
               <Home />
             </Route>
             <PrivateRoute isAuth={user} path="/new">
-              <CreateNewTournament />
+              <NewTournament />
             </PrivateRoute>
             <PrivateRoute isAuth={user} path="/tournament-settings">
               <TournamentSettings />

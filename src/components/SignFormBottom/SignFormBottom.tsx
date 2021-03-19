@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FacebookButton from '../Buttons/FacebookButton/FacebookButton';
-import GoogleButton from '../Buttons/GoogleButton/GoogleButton';
+import FacebookButton from '../common/Buttons/FacebookButton/FacebookButton';
+import GoogleButton from '../common/Buttons/GoogleButton/GoogleButton';
 import LineWidthText from '../LineWithText/LineWidthText';
 import SignFormSwitcher from '../SignFormSwitcher/SignFormSwitcher';
 

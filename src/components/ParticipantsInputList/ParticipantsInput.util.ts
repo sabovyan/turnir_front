@@ -1,5 +1,5 @@
-import { SettingsInfoPlayers } from 'src/store/features/settingsInfo';
 import {
+  Participant,
   Player,
   PlayerResponse,
   PlayerWithInputValue,
@@ -24,11 +24,11 @@ export const generateId = () => {
 };
 
 export const findPlayerByName = (value: string) => (
-  player: PlayerResponse | SettingsInfoPlayers,
+  player: PlayerResponse | Participant,
 ) => player.name.toLowerCase().includes(value.toLowerCase());
 
 export const getAvailablePlayers = (
-  tournamentPlayers: SettingsInfoPlayers[],
+  tournamentPlayers: Participant[],
   possiblePlayers: PlayerResponse[],
   value: string,
 ): PlayerWithInputValue[] => {

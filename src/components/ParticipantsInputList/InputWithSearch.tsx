@@ -11,7 +11,7 @@ import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import { useTranslation } from 'react-i18next';
 import { addNewPlayer } from 'src/store/features/players';
 import { getAvailablePlayers } from './ParticipantsInput.util';
-import CButton from '../Buttons/CustomButton/CustomButton';
+import CButton from '../common/Buttons/CustomButton/CustomButton';
 
 const emptyValue: PlayerResponse = {
   id: -1,
@@ -23,7 +23,7 @@ const emptyValue: PlayerResponse = {
 export default function InputWithSearch() {
   const {
     players,
-    settingsInfo: { tournamentPlayers },
+    settingsInfo: { participants },
   } = useSelector((state: RootState) => state);
   const [value, setValue] = React.useState<PlayerResponse | null>(null);
 
@@ -80,7 +80,7 @@ export default function InputWithSearch() {
       onChange={handleAutoCompleteChange}
       filterOptions={(options, params) => {
         const availablePlayers = getAvailablePlayers(
-          tournamentPlayers,
+          participants,
           players,
           params.inputValue,
         );

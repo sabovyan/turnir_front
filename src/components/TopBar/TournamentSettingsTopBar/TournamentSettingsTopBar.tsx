@@ -1,7 +1,7 @@
 import React from 'react';
 
-import BackButton from '../../Buttons/BackButton/BackButton';
-import CButton from '../../Buttons/CustomButton/CustomButton';
+import BackButton from '../../common/Buttons/BackButton/BackButton';
+import CButton from '../../common/Buttons/CustomButton/CustomButton';
 import BasicTopBar from '../BasicTopBar/BasicTopBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
