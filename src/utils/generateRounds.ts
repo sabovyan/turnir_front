@@ -1,11 +1,11 @@
-import { SetupGame, SetupRound } from '../types/main.types';
+import { Game, SetupRound } from '../types/main.types';
 
 const generateRounds = (
-  games: SetupGame[],
+  games: Game[],
   quantityOfGamesForTheFirstRound: number,
   quantityOfRounds: number,
 ) => {
-  const copiedGames: SetupGame[] = JSON.parse(JSON.stringify(games));
+  const copiedGames: Game[] = JSON.parse(JSON.stringify(games));
 
   let gamesQuantity = quantityOfGamesForTheFirstRound;
 

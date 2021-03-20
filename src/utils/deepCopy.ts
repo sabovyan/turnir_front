@@ -1,9 +1,5 @@
-import { PlayerWithNameAndId } from '../types/main.types';
-
-const deepCopyArray = (
-  array: { name: string; id?: number }[],
-): PlayerWithNameAndId[] => {
+function deepCopyArray<T>(array: T[]): T[] {
   return JSON.parse(JSON.stringify(array));
-};
+}
 
 export default deepCopyArray;

@@ -1,60 +1,35 @@
-import { SetupGame, PlayerWithNameAndId } from '../types/main.types';
+import { Participant } from '../types/main.types';
+import addMissingGames from './addMissingGames';
+import generateFirstRoundGames from './generateFirstRoundGames';
 import makeId from './makeId';
 
-enum TURN {
-  firstPlayer = 'FIRST_PLAYER',
-  secondPlayer = 'SECOND_PLAYER',
-}
-
 const generateGames = (
-  players: PlayerWithNameAndId[][],
-  quantityOfGamesForTheFirstRound: number,
+  participants: Participant[],
+  quantityOfFirstRoundGames: number,
   hasThirdPlaceGame: boolean,
 ) => {
   const generateGamesId = makeId();
 
-  let count = 0;
-  let turn = TURN.firstPlayer;
+  const firstRoundGames = generateFirstRoundGames(
+    quantityOfFirstRoundGames,
+    participants,
+    generateGamesId,
+  );
 
-  const games = players.reduce<SetupGame[]>((collected, player) => {
-    if (count === quantityOfGamesForTheFirstRound) {
-      count = 0;
-      turn = TURN.secondPlayer;
-    }
-    if (turn === TURN.firstPlayer) {
-      const newGame: SetupGame = {
-        participant1: {
-          name: player[0].name,
-          players: player,
-        },
-        id: generateGamesId(),
-      };
-      collected.push(newGame);
-    }
+  const gamesTotalQuantity = participants.length - 1;
+  const missingGamesQuantity = gamesTotalQuantity - quantityOfFirstRoundGames;
 
-    if (turn === TURN.secondPlayer) {
-      collected[count].participant2 = { players: player, name: '' };
-    }
-    count++;
-
-    return collected;
-  }, []);
-
-  const gamesTotalQuantity = players.length - 1;
-
-  const totalGames = Array(gamesTotalQuantity - quantityOfGamesForTheFirstRound)
-    .fill({})
-    .reduce<SetupGame[]>((acc) => {
-      acc.push({ id: generateGamesId() });
-
-      return acc;
-    }, games);
+  const totalGames = addMissingGames(
+    missingGamesQuantity,
+    generateGamesId,
+    firstRoundGames,
+  );
 
   if (hasThirdPlaceGame) {
     totalGames.push({ id: generateGamesId() });
   }
 
-  return { totalGames: totalGames, firstRoundGames: games };
+  return { totalGames: totalGames, firstRoundGames };
 };
 
 export default generateGames;

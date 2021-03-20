@@ -1,27 +1,21 @@
-import { Participant, Player, PlayerWithNameAndId } from '../types/main.types';
-import { makeFakeId } from './makeId';
+import { Participant } from '../types/main.types';
+import deepCopyArray from './deepCopy';
 
-// const setPlayersForGamesAndSeedFakePlayers = (
-//   players: Pick<Player, 'name' | 'id'>[],
-//   gamesQuantity: number,
-// ) => {
-//   const generateFakeId = makeFakeId();
+const seedFakePlayers = (
+  participants: Participant[],
+  gamesQuantity: number,
+) => {
+  const participantsCopy = deepCopyArray<Participant>(participants);
 
-//   // player1: [player]
+  const fakePlayer = {
+    name: '',
+  };
 
-//   let copiedArray: Participant[] = players.map((player) => ({
-//     name: player.name,
-//   }));
+  while (participantsCopy.length / gamesQuantity < 2) {
+    participantsCopy.push({ ...fakePlayer, players: [] });
+  }
 
-//   const fakePlayer = {
-//     name: '',
-//   };
+  return participantsCopy;
+};
 
-//   while (copiedArray.length / gamesQuantity < 2) {
-//     copiedArray.push({ ...fakePlayer, players: [] });
-//   }
-
-//   return copiedArray;
-// };
-
-// export default setPlayersForGamesAndSeedFakePlayers;
+export default seedFakePlayers;

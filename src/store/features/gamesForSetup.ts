@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  SetupGame,
+  Participant,
   PlayerWithNameAndId,
   SetupState,
 } from '../../types/main.types';
-// import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
+import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
 
 const initialState: SetupState = {
   games: [],
@@ -21,15 +21,18 @@ const { reducer, actions } = createSlice({
     createGamesAndPlayersForSetup: (
       state,
       {
-        payload: { players },
+        payload: { participants },
       }: PayloadAction<{
-        players: { name: string }[] | PlayerWithNameAndId[];
+        participants: Participant[];
       }>,
     ) => {
-      // const newState = createSetupGamesAndPlayers(
-      //   players,
-      //   state.hasThirdPlaceGame,
-      // );
+      const newState = createSetupGamesAndPlayers(
+        participants,
+        state.hasThirdPlaceGame,
+      );
+
+      console.log(newState);
+
       // return { ...state, ...newState };
     },
 

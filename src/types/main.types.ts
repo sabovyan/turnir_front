@@ -93,7 +93,7 @@ export type Participant = {
   players: Pick<Player, 'id'>[];
 };
 
-export type SetupGame = {
+export type Game = {
   participant1?: Participant;
   participant2?: Participant;
   next?: number | null;
@@ -102,15 +102,15 @@ export type SetupGame = {
 
 export type SetupState = {
   players: PlayerWithNameAndId[];
-  games: SetupGame[];
+  games: Game[];
   rounds: SetupRound[];
-  firstRoundGames: SetupGame[];
+  firstRoundGames: Game[];
   hasThirdPlaceGame: boolean;
 };
 
 export type SetupRound = {
   name: string;
-  games: SetupGame[];
+  games: Game[];
 };
 
 export type PlayerResponse = {

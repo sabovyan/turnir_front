@@ -34,7 +34,7 @@ const ParticipantsTopBar = ({ view }: IParticipantsTopBarProps) => {
     if (participants.length) {
       dispatch(
         createGamesAndPlayersForSetup({
-          players: participants,
+          participants: participants,
         }),
       );
       history.push('/setup');
