@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PlayerResponse } from '../../types/main.types';
+import { LocalPlayer, PlayerResponse } from '../../types/main.types';
 
-const initialState: (PlayerResponse & { isEdit: boolean })[] = [];
+const initialState: LocalPlayer[] = [];
 
 const { reducer, actions } = createSlice({
   name: 'players',
@@ -16,12 +16,16 @@ const { reducer, actions } = createSlice({
     },
 
     setPlayers: (state, { payload }: PayloadAction<PlayerResponse[]>) => {
-      state = payload.map((player) => ({ ...player, isEdit: false }));
+      state = payload.map((player) => ({
+        ...player,
+        isEdit: false,
+        isChecked: false,
+      }));
       return state;
     },
 
     addNewPlayer: (state, { payload }: PayloadAction<PlayerResponse>) => {
-      return [...state, { ...payload, isEdit: false }];
+      return [...state, { ...payload, isEdit: false, isChecked: false }];
     },
 
     removePlayer: (
@@ -50,6 +54,21 @@ const { reducer, actions } = createSlice({
         player.id === id ? { ...player, name, isEdit: false } : player,
       );
     },
+
+    setAllPlayersCheckStatus: (state, { payload }: PayloadAction<boolean>) => {
+      return state.map((pl) => ({ ...pl, isChecked: payload }));
+    },
+
+    setSinglePlayerCheckStatus: (
+      state,
+      {
+        payload: { id, checked },
+      }: PayloadAction<{ checked: boolean; id: number }>,
+    ) => {
+      return state.map((pl) =>
+        pl.id === id ? { ...pl, isChecked: checked } : pl,
+      );
+    },
   },
 });
 
@@ -62,4 +81,6 @@ export const {
   removePlayer,
   updatePlayerEditStatus,
   changePlayerName,
+  setAllPlayersCheckStatus,
+  setSinglePlayerCheckStatus,
 } = actions;

@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { changePlayerType } from 'src/store/features/settingsInfo';
 import EliminationSettings from '../../components/EiminationSettings/EiminationSettings';
 import TournamentSettingsTopBar from '../../components/TopBar/TournamentSettingsTopBar/TournamentSettingsTopBar';
 import { RootState } from '../../store/features';
-import { TournamentType } from '../../types/main.types';
+import { PlayersType, TournamentType } from '../../types/main.types';
 
 const Elimination = () => {
-  const { tournamentType } = useSelector(
+  const { tournamentType, playerType } = useSelector(
     (state: RootState) => state.settingsInfo,
   );
+
+  const dispatch = useDispatch();
 
   const history = useHistory();
 
@@ -17,7 +20,11 @@ const Elimination = () => {
     if (tournamentType === TournamentType.none) {
       history.push('/new');
     }
-  }, [history, tournamentType]);
+
+    if (playerType !== PlayersType.none) {
+      dispatch(changePlayerType(PlayersType.none));
+    }
+  }, [dispatch, history, playerType, tournamentType]);
 
   return (
     <>

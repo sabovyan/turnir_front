@@ -85,3 +85,4 @@ export const authRequest = new Request(`${API_ENDPOINT}auth/`);
 export const playersRequest = new Request(`${API_ENDPOINT}players/`);
 export const playersGroupRequest = new Request(`${API_ENDPOINT}group/`);
 export const userRequest = new Request(`${API_ENDPOINT}user/`);
+export const tournamentRequest = new Request(`${API_ENDPOINT}tournament/`);

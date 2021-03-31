@@ -2,7 +2,6 @@ import {
   createSlice,
   PayloadAction,
   SliceCaseReducers,
-  Action,
 } from '@reduxjs/toolkit';
 import { PlayerResponse } from '../../types/main.types';
 

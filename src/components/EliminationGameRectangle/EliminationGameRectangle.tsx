@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { useState } from 'react';
 import CButton from '../common/Buttons/CustomButton/CustomButton';
 import Backdrop from 'src/components/common/Backdrop/Backdrop';
 
@@ -60,39 +60,31 @@ const EliminationGameRectangle = ({
         </div>
 
         <div className={styles.eliminationGameContainer}>
-          <Typography
-            style={{
-              maxHeight: '20px',
-              minHeight: '20px',
-              fontSize: '12px',
-              color: 'white',
-            }}
-            variant="body2"
-          >
-            {player1}
-          </Typography>
+          {player1 && player2 ? (
+            <>
+              <Typography className={styles.gameText}>{player1}</Typography>
 
-          <Typography
-            style={{
-              alignSelf: 'flex-end',
-              minHeight: '20px',
-              fontSize: '12px',
-              color: 'white',
-            }}
-          >
-            {isGameStarted && 'vs'}
-          </Typography>
+              <Typography
+                className={styles.gameText}
+                style={{
+                  alignSelf: 'flex-end',
+                }}
+              >
+                {isGameStarted && 'vs'}
+              </Typography>
 
-          <Typography
-            style={{
-              minHeight: '20px',
-              fontSize: '12px',
-              color: 'white',
-            }}
+              <Typography className={styles.gameText}>{player2}</Typography>
+            </>
+          ) : (
+            <Typography className={styles.gameWithOnePlayer}>
+              {player1 ? player1 : player2 ? player2 : ''}
+            </Typography>
+          )}
+
+          <div
+            className={styles.enterResult}
+            style={{ display: isGameStarted ? 'flex' : 'none' }}
           >
-            {player2}
-          </Typography>
-          <div className={styles.enterResult}>
             <CButton
               text="Enter Result"
               cssStyles={{ padding: '5px 10px', fontSize: '12px' }}

@@ -3,8 +3,8 @@ import { GroupResponse, PlayerResponse } from '../types/main.types';
 import authStorage from './storage';
 
 type groupsAndPlayersResponse = {
-  group: GroupResponse[];
-  player: PlayerResponse[];
+  groups: GroupResponse[];
+  players: PlayerResponse[];
 } | null;
 
 const getGroupsAndPlayersByUserId = async (id: number) => {

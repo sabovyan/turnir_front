@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  DragEvent,
-  MouseEvent,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Backdrop from '../common/Backdrop/Backdrop';
 import SideBarGroupCard from './SideBarGroupCard';
@@ -18,6 +12,7 @@ import { MenuItem } from '@material-ui/core';
 import FormField from '../Input/FormField';
 import Typography from '@material-ui/core/Typography';
 import { GroupResponse, PlayerResponse } from '../../types/main.types';
+import AllPlayersForGroups from './AllPlayersForGroups';
 
 interface Props {
   open: boolean;
@@ -52,6 +47,14 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
 
   const handleDeleteEvent = () => {
     setActiveGroup(groups[0]);
+  };
+
+  const handleEditEvent = (name?: string) => {
+    setActiveGroup((state) => ({
+      ...state,
+      isEdit: !state.isEdit,
+      name: name ? name : state.name,
+    }));
   };
 
   useEffect(() => {
@@ -124,21 +127,8 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
             overflow: 'auto',
           }}
         >
-          <SideBarGroupCard
-            groupId={0}
-            isEdit={false}
-            groupName="All Players"
-            isEditable={false}
-            onDelete={() => {}}
-          >
-            <GroupPlayerList
-              isSelectable={true}
-              players={players}
-              isDraggable={true}
-              deleteButton={false}
-              groupId={0}
-            />
-          </SideBarGroupCard>
+          <AllPlayersForGroups />
+
           {activeGroup && activeGroup.id ? (
             <SideBarGroupCard
               groupId={activeGroup.id}
@@ -146,13 +136,11 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               groupName={activeGroup.name}
               isEditable={true}
               onDelete={handleDeleteEvent}
+              onEdit={handleEditEvent}
             >
               <GroupPlayerList
-                isDraggable={false}
-                isSelectable={false}
                 groupId={activeGroup.id}
                 players={activePlayers}
-                deleteButton={true}
                 currentGroupId={activeGroup.id}
               />
             </SideBarGroupCard>
@@ -163,6 +151,7 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               groupName="no group is found"
               isEditable={false}
               onDelete={() => {}}
+              onEdit={() => {}}
             ></SideBarGroupCard>
           )}
         </div>

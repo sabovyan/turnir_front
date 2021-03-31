@@ -1,0 +1,11 @@
+.roundWrapper {
+  width: calc(100vw - 340px);
+  height: calc(100vh - 100px);
+  display: flex;
+  overflow: auto;
+}
+
+.finalRoundWithTwoGames {
+  position: absolute;
+  left: 0;
+}

@@ -17,6 +17,8 @@ import {
 import authStorage from './storage';
 import getFacebookData from '../lib/facebook';
 import { GoogleLoginResponse } from 'react-google-login';
+import { useDispatch } from 'react-redux';
+import { setResponseStatus } from 'src/store/features/formResponseStatus';
 
 type RequestData = {
   googleId: string;
@@ -38,7 +40,7 @@ interface IAuthProvider {
   register: (data: RegisterFormData) => Promise<string>;
   resendRegisterMail: (data: RegisterFormData) => Promise<string>;
   login: (data: SignFormData<string>) => Promise<User>;
-  user: User | false;
+  user: User | false | undefined;
   logout: () => void;
   loginWithFacebook: () => Promise<User>;
   loginWithGoogle: (response: GoogleResponse) => Promise<User>;
@@ -66,10 +68,12 @@ const refreshAccessToken = (token: string) => {
 };
 
 const useProvideAuth = (): IAuthProvider => {
-  const [user, setUser] = useState<User | false>(false);
+  const [user, setUser] = useState<User | false>();
   const [expiry, setExpiry] = useState<number | null>(
     () => authStorage.getExpiry() || null,
   );
+
+  const dispatch = useDispatch();
 
   const register = async (data: RegisterFormData) => {
     const res = await authRequest.doPost({ url: 'email', data });
@@ -187,6 +191,14 @@ const useProvideAuth = (): IAuthProvider => {
             setUser(data);
           })
           .catch((err) => {
+            dispatch(
+              setResponseStatus({
+                message: 'Network Error',
+                open: true,
+                type: 'error',
+              }),
+            );
+
             console.error(err);
           });
       }

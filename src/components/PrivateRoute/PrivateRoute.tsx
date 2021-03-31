@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { User } from '../../types/main.types';
 
 interface IPrivateRouteProps extends RouteProps {
-  isAuth: User | false;
+  isAuth: User | false | undefined;
 }
 
 const PrivateRoute: FC<IPrivateRouteProps> = ({
@@ -15,12 +15,12 @@ const PrivateRoute: FC<IPrivateRouteProps> = ({
 }) => {
   return (
     <Route {...rest}>
-      {isAuth === undefined ? (
-        <CircularProgress />
+      {isAuth === false ? (
+        <Redirect to="/" />
       ) : isAuth ? (
         children
       ) : (
-        <Redirect to="/" />
+        <CircularProgress />
       )}
     </Route>
   );

@@ -1,40 +1,65 @@
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import DrawYourPartnerIcon from 'src/components/icons/DrawYourPartnerIcon/DrawYourPartnerIcon';
+import CloseButton from 'src/components/common/Buttons/CloseButton/CloseButton';
+import SingleIcon from 'src/components/icons/Single/SingleIcon';
+import TeamsIcon from 'src/components/icons/Teams/TeamsIcon';
+import Typography from '@material-ui/core/Typography';
+
+import { changePlayerType } from 'src/store/features/settingsInfo';
+import { PlayersType } from 'src/types/main.types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import CloseButton from '../../common/Buttons/CloseButton/CloseButton';
+import { RootState } from 'src/store/features';
 
+import personCardIconStyle from 'src/styles/personCardIconStyle';
 import styles from './ParticipantTypeIdentity.module.css';
+import Colors from 'src/styles/colors';
 
-interface Props {
-  bgColor: string;
-  name: string;
-  onCloseButtonClick: () => void;
-  icon: JSX.Element | null;
-}
+const ParticipantTypeIdentity = () => {
+  const { playerType } = useSelector((state: RootState) => state.settingsInfo);
 
-const ParticipantTypeIdentity = ({
-  bgColor,
-  name,
-  onCloseButtonClick,
-  icon,
-}: Props) => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const handleCloseButtonClick = () => {
+    dispatch(changePlayerType(PlayersType.none));
+  };
+
   return (
     <div
       className={styles.container}
       style={{
-        background: bgColor,
+        background:
+          playerType === PlayersType.single
+            ? Colors.single
+            : playerType === PlayersType.team
+            ? Colors.teams
+            : playerType === PlayersType.DYP || PlayersType.DYP2
+            ? Colors.DrawYourPartner
+            : 'black',
       }}
     >
       <CloseButton
         style={{ alignSelf: 'flex-end', color: 'white' }}
-        onClick={onCloseButtonClick}
+        onClick={handleCloseButtonClick}
       />
       <div className={styles.iconWrapper}>
-        {icon}
-
+        {playerType === PlayersType.single ? (
+          <SingleIcon style={personCardIconStyle} />
+        ) : playerType === PlayersType.team ? (
+          <TeamsIcon style={personCardIconStyle} />
+        ) : playerType === PlayersType.DYP || PlayersType.DYP2 ? (
+          <DrawYourPartnerIcon style={personCardIconStyle} />
+        ) : null}
         <Typography variant="h5" style={{ color: 'white', padding: 10 }}>
-          {t(name)}
+          {playerType === PlayersType.single
+            ? t('Single')
+            : playerType === PlayersType.team
+            ? t('Team')
+            : playerType === PlayersType.DYP || PlayersType.DYP2
+            ? t('Draw your partner')
+            : null}
         </Typography>
       </div>
     </div>

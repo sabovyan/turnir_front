@@ -35,16 +35,21 @@ export const createSetupGamesAndPlayers = (
 
   const quantityOfRounds = Math.log(participantsCopy.length) / Math.log(2);
 
-  // const rounds = generateRounds(
-  //   totalGames,
-  //   quantityOfGamesForTheFirstRound,
-  //   quantityOfRounds,
-  // );
+  const rounds = generateRounds(
+    totalGames,
+    quantityOfGamesForTheFirstRound,
+    quantityOfRounds,
+  );
 
   return {
     participants: participantsCopy,
     games: totalGames,
     firstRoundGames,
-    // rounds,
+    rounds,
   };
 };
+
+// .fill({name: '', games: []})
+// .map(el => {
+
+// })

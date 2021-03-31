@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  Participant,
-  PlayerWithNameAndId,
-  SetupState,
-} from '../../types/main.types';
+import { Game, Participant, SetupState } from '../../types/main.types';
 import { createSetupGamesAndPlayers } from '../../utils/gamesForSetup.util';
 
 const initialState: SetupState = {
   games: [],
   firstRoundGames: [],
-  players: [],
+  participants: [],
   rounds: [],
   hasThirdPlaceGame: false,
 };
@@ -18,7 +14,7 @@ const { reducer, actions } = createSlice({
   name: 'gamesForSetup',
   initialState,
   reducers: {
-    createGamesAndPlayersForSetup: (
+    setUpGamesAndPlayers: (
       state,
       {
         payload: { participants },
@@ -31,40 +27,31 @@ const { reducer, actions } = createSlice({
         state.hasThirdPlaceGame,
       );
 
-      console.log(newState);
-
-      // return { ...state, ...newState };
+      return { ...state, ...newState };
     },
 
-    UpdatePlayersOrder: (
-      state,
-      {
-        payload: { players },
-      }: PayloadAction<{ players: PlayerWithNameAndId[] }>,
-    ) => ({
-      ...state,
-      players,
-    }),
-
     toggleThirdPlaceRound: (state, { payload }: PayloadAction<boolean>) => {
-      // const finalRoundGames = state.rounds[state.rounds.length - 1].games;
-      // if (payload) {
-      //   const thirdPlaceGame: SetupGame = {
-      //     id: 444499999,
-      //   };
-      //   finalRoundGames.push(thirdPlaceGame);
-      // } else {
-      //   finalRoundGames.pop();
-      // }
-      // state.hasThirdPlaceGame = payload;
+      const finalRoundGames = state.rounds[state.rounds.length - 1].games;
+      if (payload) {
+        const thirdPlaceGame: Game = {
+          id: 444499999,
+          firstParticipantScore: [],
+          nextGameId: null,
+          roundId: null,
+          secondParticipantScore: [],
+          thirdPlaceGameId: null,
+          nextGamePosition: 1,
+        };
+
+        finalRoundGames.push(thirdPlaceGame);
+      } else {
+        finalRoundGames.pop();
+      }
+      state.hasThirdPlaceGame = payload;
     },
   },
 });
 
-export const {
-  createGamesAndPlayersForSetup,
-  UpdatePlayersOrder,
-  toggleThirdPlaceRound,
-} = actions;
+export const { setUpGamesAndPlayers, toggleThirdPlaceRound } = actions;
 
 export default reducer;

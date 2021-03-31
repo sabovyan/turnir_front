@@ -26,7 +26,15 @@ const generateGames = (
   );
 
   if (hasThirdPlaceGame) {
-    totalGames.push({ id: generateGamesId() });
+    totalGames.push({
+      id: generateGamesId(),
+      firstParticipantScore: [],
+      secondParticipantScore: [],
+      nextGameId: null,
+      roundId: null,
+      thirdPlaceGameId: null,
+      nextGamePosition: 1,
+    });
   }
 
   return { totalGames: totalGames, firstRoundGames };

@@ -116,8 +116,8 @@ const SideBar: FC = () => {
       .getGroupsAndPlayersByUserId(user.id)
       .then((res) => {
         if (res) {
-          const groups = res.group;
-          const players = res.player;
+          const groups = res.groups;
+          const players = res.players;
 
           dispatch(setPlayers(players));
           dispatch(getAllGroups(groups));

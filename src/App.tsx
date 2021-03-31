@@ -11,12 +11,15 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import useAuth from './services/authentication';
 import Participants from './pages/Participants/Participants';
 import Setup from './pages/Setup/Setup';
+import Tournament from './pages/Tournament/Tournament';
+import Modal from './components/common/Modal/Modal';
 
 function App() {
   const { user } = useAuth();
 
   return (
     <div className="App">
+      <Modal />
       <div style={{ display: 'flex' }}>
         <SideBar />
         <div style={{ width: '100%' }}>
@@ -35,6 +38,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute isAuth={user} path="/setup">
               <Setup />
+            </PrivateRoute>
+            <PrivateRoute isAuth={user} path="/tournament/:id">
+              <Tournament />
             </PrivateRoute>
 
             <Route path="/email-confirmation/:token">

@@ -8,15 +8,15 @@ import {
   updateGroupEditStatus,
   updateGroupNameById,
 } from '../../../store/features/groups.feature';
-import { updatePlayerEditStatus } from '../../../store/features/players';
 import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
 
 interface Props {
   value: string;
   id: number;
+  onSubmit: (name: string) => void;
 }
 
-const PlayerNameEdit = ({ value, id }: Props) => {
+const PlayerNameEdit = ({ value, id, onSubmit }: Props) => {
   const [name, setName] = useState<string>(value);
   const [error, setError] = useState('');
   const { user } = useAuth();
@@ -53,6 +53,7 @@ const PlayerNameEdit = ({ value, id }: Props) => {
 
       if (updatedGroup) {
         dispatch(updateGroupNameById(updatedGroup));
+        onSubmit(updatedGroup.name);
       }
 
       setName('');

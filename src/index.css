@@ -4,14 +4,14 @@
 
 *::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
   background: white;
 }
 
- *::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   width: 1px;
-  background-color: orange
+  background-color: orange;
 }
-
 
 body {
   margin: 0;

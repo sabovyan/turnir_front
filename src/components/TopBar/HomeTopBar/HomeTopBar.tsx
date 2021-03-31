@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './HomeTopBar.module.css';
 import { mode } from '../../../types/main.types';
+import { useHistory } from 'react-router-dom';
 
 const tournamentModes: mode[] = [
   'All modes',
@@ -49,6 +50,8 @@ const HomeTopBar = () => {
   const [isSearchInputWide, setIsSearchInputWide] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState('name');
 
+  const history = useHistory();
+
   const { t } = useTranslation();
 
   const handleModeSelect = (
@@ -69,13 +72,17 @@ const HomeTopBar = () => {
     setActiveFilter('date');
   };
 
+  const handleNewButtonClick = () => {
+    history.push('/tournament-settings');
+  };
+
   return (
     <AppBar position="static" color="transparent" className={classes.topBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h5" noWrap color="textSecondary">
           {t('Manage Tournaments')}
         </Typography>
-        <CButton text={t('NEW TOURNAMENT')} />
+        <CButton text={t('NEW TOURNAMENT')} onClick={handleNewButtonClick} />
       </Toolbar>
 
       <Toolbar className={classes.toolbar}>

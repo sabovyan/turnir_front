@@ -17,7 +17,7 @@ const BasicTopBar = ({ children }: AppBarProps) => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" color="transparent" className={classes.topBar}>
+    <AppBar position="relative" color="transparent" className={classes.topBar}>
       {children}
     </AppBar>
   );

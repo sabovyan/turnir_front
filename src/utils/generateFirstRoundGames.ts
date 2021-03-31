@@ -22,6 +22,12 @@ const generateFirstRoundGames = (
       const newGame: Game = {
         participant1: participant,
         id: generateGamesId(),
+        firstParticipantScore: [],
+        nextGameId: null,
+        roundId: null,
+        secondParticipantScore: [],
+        thirdPlaceGameId: null,
+        nextGamePosition: 1,
       };
       collected.push(newGame);
     }

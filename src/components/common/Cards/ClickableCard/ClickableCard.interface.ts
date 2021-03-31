@@ -3,4 +3,5 @@ export default interface ICardProps {
   onCardClick: () => void;
   name: string;
   color: string;
+  isInteractive: boolean;
 }

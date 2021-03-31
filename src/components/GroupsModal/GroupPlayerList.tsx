@@ -1,99 +1,21 @@
-import React, {
-  ChangeEvent,
-  DragEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import {
-  Checkbox,
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from '@material-ui/core';
+import React from 'react';
+import { IconButton, ListItem, ListItemText } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { PlayerResponse } from '../../types/main.types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/features';
-import {
-  nullifyTransfer,
-  setMultiplePlayers,
-  setSinglePlayer,
-} from '../../store/features/playersToTransfer.feature';
+import { useDispatch } from 'react-redux';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import groupService from '../../services/groups.service';
 import { updatePlayersInGroup } from '../../store/features/groups.feature';
 
 interface Props {
   players: PlayerResponse[];
-  isSelectable: boolean;
-  isDraggable: boolean;
-  deleteButton: boolean;
   groupId: number;
   currentGroupId?: number;
 }
 
-const GroupPlayerList = ({
-  players,
-  isSelectable,
-  isDraggable,
-  deleteButton,
-  groupId,
-  currentGroupId,
-}: Props) => {
-  const [selectedPlayers, setSelectedPlayers] = useState<PlayerResponse[]>();
-
+const GroupPlayerList = ({ players, groupId, currentGroupId }: Props) => {
   const dispatch = useDispatch();
-
-  const handleCheckBoxEvent = (id: number) => (
-    event: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
-    if (checked) {
-      const foundPlayer = players.find((player) => player.id === id);
-      if (foundPlayer) {
-        setSelectedPlayers((state) =>
-          state ? [...state, foundPlayer] : [foundPlayer],
-        );
-      }
-
-      return;
-    }
-
-    setSelectedPlayers(
-      (state) => state && state.filter((player) => player.id !== id),
-    );
-  };
-
-  const handleDragEvent = (event: DragEvent<HTMLLIElement>) => {
-    const currentPlayerId = event.currentTarget.dataset.id;
-    if (!Number(currentPlayerId)) return;
-
-    if (selectedPlayers && selectedPlayers.length) {
-      const foundPlayer = selectedPlayers.find(
-        (player) => player.id === Number(currentPlayerId),
-      );
-
-      console.log({ foundPlayer });
-
-      if (!foundPlayer) {
-        dispatch(nullifyTransfer(null));
-        return;
-      }
-
-      dispatch(setMultiplePlayers(selectedPlayers));
-      return;
-    }
-
-    const foundPlayer = players.find(
-      (player) => player.id === Number(currentPlayerId),
-    );
-
-    if (!foundPlayer) return;
-    dispatch(setSinglePlayer(foundPlayer));
-  };
 
   const handleGroupPLayerDeleteEvent = (id: number) => async () => {
     const group = await groupService.removePlayerFromGroup({
@@ -110,9 +32,6 @@ const GroupPlayerList = ({
       {players.length
         ? players.map((player) => (
             <ListItem
-              draggable={isDraggable}
-              data-id={player.id}
-              onDragStart={handleDragEvent}
               style={{
                 backgroundColor: grey[100],
                 marginBottom: '10px',
@@ -120,26 +39,14 @@ const GroupPlayerList = ({
               }}
               key={player.id}
             >
-              {isSelectable && (
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    tabIndex={-1}
-                    disableRipple
-                    onChange={handleCheckBoxEvent(player.id)}
-                  />
-                </ListItemIcon>
-              )}
-
               <ListItemText>{player.name}</ListItemText>
-              {deleteButton ? (
-                <IconButton
-                  style={{ borderRadius: 0 }}
-                  onClick={handleGroupPLayerDeleteEvent(player.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              ) : null}
+
+              <IconButton
+                style={{ borderRadius: 0 }}
+                onClick={handleGroupPLayerDeleteEvent(player.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
             </ListItem>
           ))
         : null}

@@ -27,10 +27,8 @@ const { reducer, actions } = createSlice({
       state,
       { payload: { id } }: PayloadAction<IdArgument>,
     ) => {
-      return state.map((player) =>
-        player.id === id
-          ? { ...player, isEdit: true }
-          : { ...player, isEdit: false },
+      return state.map((group) =>
+        group.id === id ? { ...group, isEdit: true } : group,
       );
     },
 
@@ -38,8 +36,8 @@ const { reducer, actions } = createSlice({
       state,
       { payload: { id, name } }: PayloadAction<GroupResponse>,
     ) => {
-      return state.map((player) =>
-        player.id === id ? { ...player, name, isEdit: false } : player,
+      return state.map((group) =>
+        group.id === id ? { ...group, name, isEdit: false } : group,
       );
     },
 

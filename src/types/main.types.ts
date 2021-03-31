@@ -59,18 +59,12 @@ export type mode =
   | 'Elimination';
 
 export enum TournamentType {
-  elimination = 'elimination',
-  lastManStanding = 'lastManStanding',
-  roundRobin = 'roundRobin',
+  elimination = 1,
+  lastManStanding = 2,
+  roundRobin = 3,
   none = 'none',
 }
 
-export enum PlayersSettingsView {
-  cards = 'cards',
-  single = 'single',
-  team = 'team',
-  DRP = 'draw your partner',
-}
 export type Player = {
   id: number;
   name: string;
@@ -88,20 +82,50 @@ export type PlayerWithNameAndId = {
   id: number;
 };
 
+export enum Side {
+  left = -1,
+  right = 0,
+  neutral = 1,
+}
+
+export enum PlayerSideSymbol {
+  left = 'A',
+  right = 'B',
+  neutral = '-',
+}
+
 export type Participant = {
   name: string;
   players: Pick<Player, 'id'>[];
 };
 
+export type PreParticipant = Participant & {
+  side: Side;
+};
+
+export enum PlayersType {
+  none = 'none',
+  single = 'single',
+  team = 'team',
+  DYP = 'draw your partner',
+  DYP2 = 'draw your partner second stage',
+}
+
 export type Game = {
   participant1?: Participant;
   participant2?: Participant;
+  nextGamePosition?: number;
+  thirdPlaceGameId: number | null;
+  firstParticipantScore: number[];
+  secondParticipantScore: number[];
+  nextGameId: number | null;
   next?: number | null;
   id: number;
+  roundId: number | null;
 };
 
 export type SetupState = {
-  players: PlayerWithNameAndId[];
+  participants: Participant[];
   games: Game[];
   rounds: SetupRound[];
   firstRoundGames: Game[];
@@ -120,6 +144,11 @@ export type PlayerResponse = {
   userId: number;
 };
 
+export type LocalPlayer = PlayerResponse & {
+  isEdit: boolean;
+  isChecked: boolean;
+};
+
 export type GroupResponse = {
   id: number;
   name: string;
@@ -128,3 +157,39 @@ export type GroupResponse = {
 };
 
 export type PlayerWithInputValue = PlayerResponse & { inputValue?: string };
+
+export type ArrangedParticipants = {
+  right: PreParticipant[];
+  left: PreParticipant[];
+};
+
+export interface ITournament {
+  id: number;
+  goalsToWin: number;
+  winningSets: number;
+  userId: number;
+  tournamentTypeId: TournamentType;
+  name: string;
+}
+
+export interface IRound {
+  id: number;
+  name: string;
+  tournamentId: number | null;
+}
+
+export interface ITournamentAllTogether extends ITournament {
+  rounds: (IRound & {
+    game: (Game & {
+      participant1: Participant | null;
+      participant2: Participant | null;
+    })[];
+  })[];
+}
+
+export enum AsyncResponseStatus {
+  idle = 'idle',
+  loading = 'loading',
+  rejected = 'rejected',
+  fullfilled = 'fullfilled',
+}

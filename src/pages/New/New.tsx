@@ -34,6 +34,7 @@ const NewTournament = (props: Props) => {
             icon={icon}
             color={color}
             onCardClick={goToSettings(tournamentType)}
+            isInteractive={false}
           />
         ))}
       </ViewWrapper>

@@ -2,6 +2,8 @@ import React, { DragEvent } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import FAKE_PLAYER from 'src/constants/fakePlayer';
+import styles from './SetupListItem.module.css';
 
 interface ISetupListItemProps {
   index: number;
@@ -37,28 +39,16 @@ const SetupListItem = ({
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       data-position={index}
-      style={{
-        display: 'flex',
-        gap: '1rem',
-        alignItems: 'center',
-        cursor: 'pointer',
-      }}
+      className={styles.listItem}
     >
       <Typography variant="body1" component="span" color="textSecondary">
         {index + 1}
       </Typography>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
+      <div className={styles.textWrapper}>
         <Typography
           variant="body1"
           component="span"
-          color={text === '<FAKE>' ? 'textSecondary' : 'textPrimary'}
+          color={text === FAKE_PLAYER ? 'textSecondary' : 'textPrimary'}
         >
           {text}
         </Typography>

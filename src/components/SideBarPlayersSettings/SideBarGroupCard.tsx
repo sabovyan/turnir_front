@@ -25,6 +25,7 @@ interface Props extends CardContentProps {
   isEdit: boolean;
   groupId: number;
   onDelete: () => void;
+  onEdit: (name?: string) => void;
 }
 
 const SideBarGroupCard = ({
@@ -34,6 +35,7 @@ const SideBarGroupCard = ({
   isEdit,
   groupId,
   onDelete,
+  onEdit,
 }: Props) => {
   const dispatch = useDispatch();
   const playersToTransfer = useSelector(
@@ -50,6 +52,11 @@ const SideBarGroupCard = ({
   };
   const handleEditIconClick = (id: number) => async () => {
     dispatch(changeGroupEditStatusById({ id }));
+    onEdit();
+  };
+
+  const handleFormSubmit = (name: string) => {
+    onEdit(name);
   };
 
   const handleDragOverEvent = (e: DragEvent<HTMLElement>) => {
@@ -86,7 +93,11 @@ const SideBarGroupCard = ({
   return (
     <GroupCard>
       {isEdit ? (
-        <GroupNameEditForm id={groupId} value={groupName} />
+        <GroupNameEditForm
+          id={groupId}
+          value={groupName}
+          onSubmit={handleFormSubmit}
+        />
       ) : (
         <CardHeader
           title={groupName}
@@ -122,9 +133,8 @@ const SideBarGroupCard = ({
               padding: '1rem',
               height: '500px',
             }}
-            draggable
-            onDragOver={isEditable ? handleDragOverEvent : undefined}
-            onDrop={isEditable ? handleDropEvent : undefined}
+            onDragOver={handleDragOverEvent}
+            onDrop={handleDropEvent}
           >
             {children}
           </List>

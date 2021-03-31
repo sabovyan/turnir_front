@@ -10,7 +10,15 @@ const addMissingGames = (
   const totalGames = Array(missingGamesQuantity)
     .fill({})
     .reduce<Game[]>((acc) => {
-      acc.push({ id: generateGamesId() });
+      acc.push({
+        id: generateGamesId(),
+        firstParticipantScore: [],
+        nextGameId: null,
+        roundId: null,
+        secondParticipantScore: [],
+        thirdPlaceGameId: null,
+        nextGamePosition: 1,
+      });
 
       return acc;
     }, localGames);

@@ -1,0 +1,6 @@
+.list {
+  box-shadow: 3px 0px 3px #dadada;
+  min-width: 280px;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+}
