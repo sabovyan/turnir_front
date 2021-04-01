@@ -28,7 +28,7 @@ const PLAYER_SIDES: PlayerSideType[] = [
 
 const ParticipantsList = () => {
   const {
-    settingsInfo: { participants, playerType, hasManualCombiner },
+    settingsInfo: { draftParticipants, playerType, hasManualCombiner },
   } = useSelector((state: RootState) => state);
 
   const dispatch = useDispatch();
@@ -39,7 +39,8 @@ const ParticipantsList = () => {
 
   const handleDeleteIconClick = (name: string) => () => {
     const foundPlayers =
-      participants && participants.find((player) => player.name === name);
+      draftParticipants &&
+      draftParticipants.find((player) => player.name === name);
     if (!foundPlayers) return;
 
     dispatch(deletePlayerFromTournament({ name: foundPlayers.name }));
@@ -50,8 +51,8 @@ const ParticipantsList = () => {
       className={styles.inputList}
       style={{ margin: '1rem', padding: '0 1rem 1rem' }}
     >
-      {participants && participants.length
-        ? participants.map((participant, idx) => (
+      {draftParticipants && draftParticipants.length
+        ? draftParticipants.map((participant, idx) => (
             <li className={styles.inputListItem} key={participant.name}>
               <div
                 className={styles.inputListItemContext}

@@ -1,7 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { PlayerResponse, PlayerWithInputValue } from 'src/types/main.types';
+import {
+  PlayerResponse,
+  PlayerWithInputValue,
+  Side,
+} from 'src/types/main.types';
 import { addNewPlayerToTournament } from 'src/store/features/settingsInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/features';
@@ -22,7 +26,7 @@ const emptyValue: PlayerResponse = {
 export default function InputWithSearch() {
   const {
     players,
-    settingsInfo: { participants },
+    settingsInfo: { draftParticipants },
   } = useSelector((state: RootState) => state);
   const [value, setValue] = React.useState<PlayerResponse | null>(null);
 
@@ -51,6 +55,7 @@ export default function InputWithSearch() {
               addNewPlayerToTournament({
                 name: res.name,
                 players: [{ id: res.id }],
+                side: Side.neutral,
               }),
             );
             dispatch(addNewPlayer(res));
@@ -71,6 +76,7 @@ export default function InputWithSearch() {
           addNewPlayerToTournament({
             name: newValue.name,
             players: [{ id: newValue.id }],
+            side: Side.neutral,
           }),
         );
         setValue(emptyValue);
@@ -87,7 +93,7 @@ export default function InputWithSearch() {
       onChange={handleAutoCompleteChange}
       filterOptions={(options, params) => {
         const availablePlayers = getAvailablePlayers(
-          participants,
+          draftParticipants,
           players,
           params.inputValue,
         );

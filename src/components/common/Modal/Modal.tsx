@@ -83,8 +83,6 @@ const Modal = (props: Props) => {
           open: true,
         }),
       );
-
-      console.log(error.response.data);
     }
   };
 

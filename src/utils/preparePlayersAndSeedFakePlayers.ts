@@ -1,4 +1,4 @@
-import { Participant } from '../types/main.types';
+import { Participant, Side } from '../types/main.types';
 import deepCopyArray from './deepCopy';
 
 const seedFakePlayers = (
@@ -12,7 +12,7 @@ const seedFakePlayers = (
   };
 
   while (participantsCopy.length / gamesQuantity < 2) {
-    participantsCopy.push({ ...fakePlayer, players: [] });
+    participantsCopy.push({ ...fakePlayer, players: [], side: Side.neutral });
   }
 
   return participantsCopy;

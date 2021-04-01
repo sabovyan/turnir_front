@@ -31,10 +31,6 @@
 const getFacebookData = (): Promise<FaceBookData> => {
   return new Promise((resolve, reject) => {
     if (window.FB) {
-      // window.FB.getLoginStatus(function (response) {
-      //   console.log(response);
-      // });
-
       window.FB.login(
         (loginResponse: FacebookResponse): void => {
           const { authResponse } = loginResponse;

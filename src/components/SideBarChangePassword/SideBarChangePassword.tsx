@@ -68,7 +68,6 @@ const SideBarChangePassword = () => {
       formik.touched.repeatNewPassword && formik.errors.repeatNewPassword;
 
     if (oldPasswordError) {
-      console.log(oldPasswordError);
       dispatch(
         setResponseStatus({
           type: 'error',

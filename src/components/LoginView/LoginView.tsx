@@ -45,7 +45,6 @@ const LoginForms = () => {
         setResponseStatus({ type: 'success', message: t(data), open: true }),
       );
     } catch (err) {
-      console.log(err.response);
       dispatch(
         setResponseStatus({
           type: 'error',

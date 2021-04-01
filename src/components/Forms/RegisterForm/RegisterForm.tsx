@@ -45,8 +45,6 @@ const RegisterForm: FC = (): JSX.Element => {
           password: values.password,
         });
 
-        console.log(response);
-
         dispatch(
           setResponseStatus({
             type: 'success',

@@ -243,7 +243,13 @@ const useProvideAuth = (): IAuthProvider => {
               if (!err.response) {
                 clearInterval(timerId);
               }
-              console.log(err);
+              dispatch(
+                setResponseStatus({
+                  type: 'error',
+                  message: err.response.data.error,
+                  open: true,
+                }),
+              );
             });
         }
       }, 3 * 60 * 1000);

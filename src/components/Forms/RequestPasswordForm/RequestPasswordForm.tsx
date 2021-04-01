@@ -55,7 +55,6 @@ const RequestPasswordForm: FC<IRequestPasswordForm> = ({
 
         changeViewToConfirm();
       } catch (err) {
-        console.log(err.response);
         dispatch(
           setResponseStatus({
             type: 'error',

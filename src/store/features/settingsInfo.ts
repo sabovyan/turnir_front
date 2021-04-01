@@ -1,11 +1,9 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { createSides, sortParticipants } from 'src/utils/Dyp.utils';
-import pipe from 'src/utils/pipe';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { countLeftAndRightSides } from 'src/utils/Dyp.utils';
 import {
   ArrangedParticipants,
   Participant,
   PlayersType,
-  PreParticipant,
   Side,
   TournamentType,
 } from '../../types/main.types';
@@ -16,7 +14,8 @@ type tournamentSettings = {
   winningSets: number;
   tournamentType: TournamentType;
   playerType: PlayersType;
-  participants: PreParticipant[];
+  draftParticipants: Participant[];
+  participants: Participant[];
   hasManualCombiner: boolean;
   sides: ArrangedParticipants;
 };
@@ -28,6 +27,7 @@ const initialState: tournamentSettings = {
   winningSets: 1,
   goalsToWin: 7,
   tables: 1,
+  draftParticipants: [],
   participants: [],
   // participants: [
   //   { name: 'alpha', players: [{ id: 0 }], side: Side.neutral },
@@ -88,7 +88,7 @@ const { reducer, actions } = createSlice({
         payload: { players },
       }: PayloadAction<{ players: { name: string; id: number }[] }>,
     ) => {
-      state.participants = players.map(({ name, id }) => ({
+      state.draftParticipants = players.map(({ name, id }) => ({
         name,
         players: [
           {
@@ -103,7 +103,7 @@ const { reducer, actions } = createSlice({
       state,
       { payload: { name } }: PayloadAction<{ name: string }>,
     ) => {
-      state.participants = state.participants.filter(
+      state.draftParticipants = state.draftParticipants.filter(
         (Participant) => Participant.name !== name,
       );
     },
@@ -112,8 +112,8 @@ const { reducer, actions } = createSlice({
       state,
       { payload }: PayloadAction<Participant>,
     ) => {
-      state.participants = [
-        ...state.participants,
+      state.draftParticipants = [
+        ...state.draftParticipants,
         { ...payload, side: Side.neutral },
       ];
     },
@@ -126,10 +126,12 @@ const { reducer, actions } = createSlice({
       state,
       { payload: { name, side } }: PayloadAction<{ name: string; side: Side }>,
     ) => {
-      const s = state.participants.map((Participant) =>
-        Participant.name === name ? { ...Participant, side } : Participant,
+      const s = state.draftParticipants.map((participant) =>
+        participant.name === name ? { ...participant, side } : participant,
       );
-      const foundPlayer = state.participants.find((part) => part.name === name);
+      const foundPlayer = state.draftParticipants.find(
+        (part) => part.name === name,
+      );
 
       if (!foundPlayer) return;
 
@@ -141,7 +143,7 @@ const { reducer, actions } = createSlice({
         state.sides.right.push(foundPlayer);
       }
 
-      state.participants = s;
+      state.draftParticipants = s;
     },
 
     changeManualSetPlayersStatus: (
@@ -152,28 +154,13 @@ const { reducer, actions } = createSlice({
     },
 
     arrangeParticipantsInTwoArrays: (state) => {
-      // const sides: ArrangedParticipants = pipe(
-      //   state.participants,
-      //   sortParticipants,
-      //   createSides,
-      // );
-
       let isLeft = true;
 
-      let leftCounter = 0;
-      let rightCounter = 0;
+      let { leftCounter, rightCounter } = countLeftAndRightSides(
+        state.draftParticipants,
+      );
 
-      state.participants.forEach((p) => {
-        if (p.side === Side.left) {
-          leftCounter += 1;
-        }
-
-        if (p.side === Side.right) {
-          rightCounter += 1;
-        }
-      });
-
-      state.participants = state.participants.map((p) => {
+      state.draftParticipants = state.draftParticipants.map((p) => {
         if (p.side !== Side.neutral) return p;
 
         isLeft = leftCounter > rightCounter ? false : true;
@@ -190,18 +177,20 @@ const { reducer, actions } = createSlice({
         return p;
       });
 
-      let participantIndex = state.participants.length - 1;
+      let participantIndex = state.draftParticipants.length - 1;
 
       while (leftCounter !== rightCounter) {
         if (leftCounter > rightCounter) {
-          if (state.participants[participantIndex].side === Side.left) {
-            state.participants[participantIndex].side = Side.right;
+          if (state.draftParticipants[participantIndex].side === Side.left) {
+            state.draftParticipants[participantIndex].side = Side.right;
+
             rightCounter += 1;
             leftCounter -= 1;
           }
         } else if (leftCounter < rightCounter) {
-          if (state.participants[participantIndex].side === Side.right) {
-            state.participants[participantIndex].side = Side.left;
+          if (state.draftParticipants[participantIndex].side === Side.right) {
+            state.draftParticipants[participantIndex].side = Side.left;
+
             leftCounter += 1;
             rightCounter -= 1;
           }
@@ -209,59 +198,94 @@ const { reducer, actions } = createSlice({
 
         participantIndex -= 1;
       }
+
+      // state.participants = arrangeParticipants(state.participants);
+
+      state.sides = state.draftParticipants.reduce<ArrangedParticipants>(
+        (acc, p) => {
+          if (p.side === Side.left) {
+            acc.left.push(p);
+          } else {
+            acc.right.push(p);
+          }
+          return acc;
+        },
+        { left: [], right: [] },
+      );
+
+      state.participants = state.sides.left.reduce<Participant[]>(
+        (acc, participant, idx) => {
+          const a = state.sides.right[idx];
+
+          const pairedParticipant: Participant = {
+            name: `${participant.name} / ${a.name}`,
+            players: participant.players.concat(a.players),
+            side: Side.neutral,
+          };
+
+          acc.push(pairedParticipant);
+
+          return acc;
+        },
+        [],
+      );
     },
 
     swapParticipants: (
       state,
       {
-        payload: { currentIndex, foundIndex, side },
+        payload: { currentParticipant, foundParticipant },
       }: PayloadAction<{
-        currentIndex: number;
-        foundIndex: number;
-        side: Side;
+        currentParticipant: Participant;
+        foundParticipant: Participant;
       }>,
     ) => {
-      // const temp = state.participants[foundIndex].side;
-      // state.participants[foundIndex].side = side;
-      // state.participants[currentIndex].side = temp;
+      const currentParticipantSide = currentParticipant.side;
+      const foundParticipantSide = foundParticipant.side;
 
-      const wantedSide = state.participants[foundIndex].side;
-
-      state.participants[foundIndex].side = side;
-
-      state.participants[currentIndex].side = wantedSide;
-
-      // const temp = state.participants[currentIndex];
-      // state.participants[currentIndex] = state.participants[foundIndex];
-      // state.participants[currentIndex].side = side;
-      // state.participants[foundIndex] = temp;
-      // state.participants[foundIndex].side = temp.side;
-      // console.log(participants);
-    },
-
-    reArrangeSides: (
-      state,
-      { payload: { name, side } }: PayloadAction<{ name: string; side: Side }>,
-    ) => {
-      state.participants = state.participants.map((part) =>
-        part.name === name ? { ...part, side } : part,
+      state.draftParticipants = state.draftParticipants.map((p) =>
+        p.name === currentParticipant.name
+          ? { ...p, side: foundParticipantSide }
+          : p.name === foundParticipant.name
+          ? { ...p, side: currentParticipantSide }
+          : p,
       );
 
-      // state.sides =
+      state.sides = {
+        left: state.sides.left.map((p) =>
+          p.name === currentParticipant.name
+            ? { ...foundParticipant, side: Side.left }
+            : p.name === foundParticipant.name
+            ? { ...currentParticipant, side: Side.left }
+            : p,
+        ),
+        right: state.sides.right.map((p) =>
+          p.name === currentParticipant.name
+            ? { ...foundParticipant, side: Side.right }
+            : p.name === foundParticipant.name
+            ? { ...currentParticipant, side: Side.right }
+            : p,
+        ),
+      };
+    },
 
-      // let targetedParticipant = state.sides.left.find(
-      //   (part) => part.name === name,
-      // );
+    pairParticipants: (state) => {
+      state.participants = state.sides.left.reduce<Participant[]>(
+        (acc, participant, idx) => {
+          const a = state.sides.right[idx];
 
-      // if (!targetedParticipant) {
-      //   targetedParticipant = state.sides.right.find(
-      //     (part) => part.name === name,
-      //   );
+          const pairedParticipant: Participant = {
+            name: `${participant.name} / ${a.name}`,
+            players: participant.players.concat(a.players),
+            side: Side.neutral,
+          };
 
-      //   let targetIndex = state.sides.right.findIndex((part) => part.name);
+          acc.push(pairedParticipant);
 
-      //   state.sides.right[targetIndex] = currentParticipant;
-      // }
+          return acc;
+        },
+        [],
+      );
     },
   },
 });
@@ -279,5 +303,6 @@ export const {
   changeManualSetPlayersStatus,
   arrangeParticipantsInTwoArrays,
   swapParticipants,
+  pairParticipants,
 } = actions;
 export default reducer;

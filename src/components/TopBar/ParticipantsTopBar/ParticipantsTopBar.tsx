@@ -16,7 +16,9 @@ import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import {
   arrangeParticipantsInTwoArrays,
   changePlayerType,
+  pairParticipants,
 } from 'src/store/features/settingsInfo';
+import { countLeftAndRightSides } from 'src/utils/Dyp.utils';
 
 const ParticipantsTopBar = () => {
   const { playerType } = useSelector((state: RootState) => state.settingsInfo);
@@ -25,7 +27,7 @@ const ParticipantsTopBar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { participants } = useSelector(
+  const { draftParticipants, participants } = useSelector(
     (state: RootState) => state.settingsInfo,
   );
 
@@ -35,8 +37,19 @@ const ParticipantsTopBar = () => {
   };
 
   const handleNextButtonClick = () => {
+    if (!draftParticipants.length) {
+      dispatch(
+        setResponseStatus({
+          message: 'your players list is empty',
+          open: true,
+          type: 'error',
+        }),
+      );
+      return;
+    }
+
     if (playerType === PlayersType.DYP) {
-      if (participants.length % 2 !== 0) {
+      if (draftParticipants.length % 2 !== 0) {
         dispatch(
           setResponseStatus({
             message: 'Quantity of players must be even',
@@ -46,29 +59,28 @@ const ParticipantsTopBar = () => {
         );
         return;
       }
+
       dispatch(arrangeParticipantsInTwoArrays());
       dispatch(changePlayerType(PlayersType.DYP2));
       return;
     }
 
-    if (participants.length) {
-      dispatch(
-        setUpGamesAndPlayers({
-          participants: participants,
-        }),
+    if (playerType === PlayersType.DYP2) {
+      const { leftCounter, rightCounter } = countLeftAndRightSides(
+        draftParticipants,
       );
 
-      dispatch(changePlayerType(PlayersType.none));
-      history.push('/setup');
-    } else {
-      dispatch(
-        setResponseStatus({
-          message: 'your players list is empty',
-          open: true,
-          type: 'error',
-        }),
-      );
+      if (leftCounter !== rightCounter) return;
     }
+
+    dispatch(
+      setUpGamesAndPlayers({
+        participants:
+          playerType === PlayersType.DYP2 ? participants : draftParticipants,
+      }),
+    );
+
+    history.push('/setup');
   };
 
   return (

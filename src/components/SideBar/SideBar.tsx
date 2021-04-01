@@ -13,7 +13,10 @@ import Backdrop from '../common/Backdrop/Backdrop';
 import SideBarList from '../SideBarList/SideBarList';
 import SignCard from '../SignCard/SignCard';
 
-import { closeAlert } from '../../store/features/formResponseStatus';
+import {
+  closeAlert,
+  setResponseStatus,
+} from '../../store/features/formResponseStatus';
 import { activeSideBarIcon, SettingsContent } from '../../types/main.types';
 import { useSelector, useDispatch } from 'react-redux';
 import useAuth from '../../services/authentication';
@@ -124,7 +127,13 @@ const SideBar: FC = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          setResponseStatus({
+            message: err.response.data.error,
+            open: true,
+            type: 'error',
+          }),
+        );
       });
   }, [dispatch, user]);
 

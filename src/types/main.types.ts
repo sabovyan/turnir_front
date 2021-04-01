@@ -97,9 +97,6 @@ export enum PlayerSideSymbol {
 export type Participant = {
   name: string;
   players: Pick<Player, 'id'>[];
-};
-
-export type PreParticipant = Participant & {
   side: Side;
 };
 
@@ -159,8 +156,8 @@ export type GroupResponse = {
 export type PlayerWithInputValue = PlayerResponse & { inputValue?: string };
 
 export type ArrangedParticipants = {
-  right: PreParticipant[];
-  left: PreParticipant[];
+  right: Participant[];
+  left: Participant[];
 };
 
 export interface ITournament {

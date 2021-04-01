@@ -52,7 +52,6 @@ const SetupTopBar = (props: Props) => {
 
   const handleBackButtonClick = () => {
     history.goBack();
-    dispatch(changePlayerType(PlayersType.none));
   };
 
   const handleNextButtonClick = async () => {
