@@ -8,7 +8,6 @@ import useCardStyles from './ClickableCard.styles';
 import ICardProps from './ClickableCard.interface';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import tournamentService from 'src/services/tournament.service';
 
 const ClickableCard: FC<ICardProps> = ({
   icon,

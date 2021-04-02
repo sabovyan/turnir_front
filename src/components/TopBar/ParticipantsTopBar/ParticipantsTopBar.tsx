@@ -16,7 +16,6 @@ import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import {
   arrangeParticipantsInTwoArrays,
   changePlayerType,
-  pairParticipants,
 } from 'src/store/features/settingsInfo';
 import { countLeftAndRightSides } from 'src/utils/Dyp.utils';
 

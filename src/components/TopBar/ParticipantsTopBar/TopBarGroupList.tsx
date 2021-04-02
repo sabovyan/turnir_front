@@ -113,7 +113,7 @@ const TopBarGroupList = () => {
             minWidth: '200px',
           }}
         >
-          <ListItemText primary={'All'} />
+          <ListItemText primary={t('All')} />
         </MenuItem>
         {groups &&
           groups.map((group) => (

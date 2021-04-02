@@ -21,6 +21,8 @@ const Setup = (props: Props) => {
 
   const history = useHistory();
 
+  // const renderRounds = deepCopyArray(rounds).reverse();
+
   useEffect(() => {
     if (participants.length < 1) {
       history.push('/');

@@ -1,35 +1,28 @@
-import { Game, SetupRound } from '../types/main.types';
+import { DraftRound, Game } from '../types/main.types';
 
 const generateRounds = (
   games: Game[],
   quantityOfGamesForTheFirstRound: number,
   quantityOfRounds: number,
 ) => {
-  const copiedGames: Game[] = JSON.parse(JSON.stringify(games));
+  const copy: Game[] = JSON.parse(JSON.stringify(games));
 
-  let gamesQuantity = quantityOfGamesForTheFirstRound;
+  let gamesQuantityPerRound = 1;
 
-  const rounds = Array(quantityOfRounds)
-    .fill([])
-    .reduce<SetupRound[]>((acc) => {
-      if (gamesQuantity <= 1) {
-        const round = {
-          games: copiedGames,
-          name: gamesQuantity > 1 ? `1/${gamesQuantity} Finals` : 'Final',
-        };
-
-        acc.push(round);
-        return acc;
-      }
-
+  const rounds = Array.from({ length: quantityOfRounds })
+    .fill({})
+    .reduce<DraftRound[]>((acc) => {
       const round = {
-        games: copiedGames.filter((_, idx) => idx < gamesQuantity),
-        name: gamesQuantity > 1 ? `1/${gamesQuantity} Finals` : 'Final',
+        name:
+          gamesQuantityPerRound > 1
+            ? `1/${gamesQuantityPerRound} Finals`
+            : 'Final',
+        games: copy.splice(0, gamesQuantityPerRound),
       };
 
-      copiedGames.splice(0, gamesQuantity);
+      gamesQuantityPerRound *= 2;
       acc.push(round);
-      gamesQuantity = gamesQuantity / 2;
+
       return acc;
     }, []);
 

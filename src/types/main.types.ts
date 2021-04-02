@@ -124,12 +124,12 @@ export type Game = {
 export type SetupState = {
   participants: Participant[];
   games: Game[];
-  rounds: SetupRound[];
+  rounds: DraftRound[];
   firstRoundGames: Game[];
   hasThirdPlaceGame: boolean;
 };
 
-export type SetupRound = {
+export type DraftRound = {
   name: string;
   games: Game[];
 };
@@ -177,7 +177,7 @@ export interface IRound {
 
 export interface ITournamentAllTogether extends ITournament {
   rounds: (IRound & {
-    game: (Game & {
+    games: (Game & {
       participant1: Participant | null;
       participant2: Participant | null;
     })[];

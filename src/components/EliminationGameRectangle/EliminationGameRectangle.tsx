@@ -51,7 +51,7 @@ const EliminationGameRectangle = ({
         <div className="backLine" style={{ display: 'flex' }}>
           <div
             style={{
-              width: '49px',
+              width: '30px',
               height: '2px',
               background: !isFirstRound ? colors.backdropColor : 'none',
               transform: 'translate(0px, 0)',

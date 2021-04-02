@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import FormField from 'src/components/Input/FormField';
 import Colors from 'src/styles/colors';
 import Button from '@material-ui/core/Button/Button';
-import { makeStyles } from '@material-ui/core';
 import { setNewTournamentModal } from 'src/store/features/newTournamentModal';
 import tournamentService from 'src/services/tournament.service';
 import useAuth from 'src/services/authentication';
@@ -18,15 +17,7 @@ import { createTournament } from 'src/store/features/tournament.feature';
 import { useHistory } from 'react-router-dom';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 
-const useStyles = makeStyles({
-  formField: {
-    '& ': {},
-  },
-});
-
-interface Props {}
-
-const Modal = (props: Props) => {
+const Modal = () => {
   const {
     newTournamentModal,
     settingsInfo: { goalsToWin, tables, tournamentType, winningSets },

@@ -4,7 +4,6 @@ import Backdrop from '../common/Backdrop/Backdrop';
 import SideBarGroupCard from './SideBarGroupCard';
 import { RootState } from '../../store/features';
 import { useSelector } from 'react-redux';
-import CloseButton from '../common/Buttons/CloseButton/CloseButton';
 import colors from '../../styles/colors';
 import CreateNewGroupForm from './CreateNewGroupForm';
 import GroupPlayerList from '../GroupsModal/GroupPlayerList';
@@ -22,7 +21,7 @@ interface Props {
 const none = { id: 0, isEdit: false, name: 'none', players: [], userId: 0 };
 
 const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
-  const { groups, players } = useSelector((state: RootState) => state);
+  const { groups } = useSelector((state: RootState) => state);
 
   const [activeGroup, setActiveGroup] = useState<
     GroupResponse & {

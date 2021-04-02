@@ -12,6 +12,8 @@ const Tournament = (props: Props) => {
   const tournament = useSelector((state: RootState) => state.tournament);
   const history = useHistory();
 
+  const rounds = tournament?.rounds.reverse();
+
   useEffect(() => {
     if (!tournament) {
       history.push('/');
@@ -22,17 +24,16 @@ const Tournament = (props: Props) => {
     tournament && (
       <div>
         <TournamentTopBar />
-        <div>
-          {/* {tournament.rounds &&
-            tournament.rounds.map((round, roundIndex) => (
+        <div style={{ display: 'flex' }}>
+          {rounds &&
+            rounds.map((round, roundIndex) => (
               <Round
                 key={round.name}
-                roundHeight={tournament.rounds[0].game.length * 100}
+                roundHeight={tournament.rounds[0].games.length * 100}
                 name={round.name}
               >
-                {round.game.map(({ id, participant1, participant2 }, idx) =>
-                  roundIndex === tournament.rounds.length - 1 &&
-                  round.game.length === 2 ? (
+                {round.games.map(({ id, participant1, participant2 }, idx) =>
+                  roundIndex === 0 && round.games.length === 2 ? (
                     <div
                       key={id}
                       // className={styles.finalRoundWithTwoGames}
@@ -58,10 +59,10 @@ const Tournament = (props: Props) => {
                         }
                         maxHeight={
                           idx === 0
-                            ? tournament.rounds[0].game.length * 100
+                            ? tournament.rounds[0].games.length * 100
                             : 100
                         }
-                        numberOfGamesInOneRound={round.game.length}
+                        numberOfGamesInOneRound={round.games.length}
                         label={idx === 1 ? 'Third place' : undefined}
                       />
                     </div>
@@ -78,13 +79,13 @@ const Tournament = (props: Props) => {
                           ? false
                           : true
                       }
-                      maxHeight={tournament.rounds[0].game.length * 100}
-                      numberOfGamesInOneRound={round.game.length}
+                      maxHeight={tournament.rounds[0].games.length * 100}
+                      numberOfGamesInOneRound={round.games.length}
                     />
                   ),
                 )}
               </Round>
-            ))} */}
+            ))}
         </div>
       </div>
     )

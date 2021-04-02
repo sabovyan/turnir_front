@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, MouseEvent } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,6 @@ import tournamentService from 'src/services/tournament.service';
 const Home = () => {
   const {
     allTournaments: { data, error, status },
-    tournament,
   } = useSelector((state: RootState) => state);
 
   const { t } = useTranslation();
@@ -60,14 +59,10 @@ const Home = () => {
   const handleCardClick = (id: number) => async () => {
     const tournament = await tournamentService.getById({ id });
 
+    console.log(tournament);
+
     dispatch(createTournament(tournament));
     history.push(`/tournament/${id}`);
-
-    // tournamentService.getById({ id }).then((tournament) => {
-    //   console.log(tournament);
-    //   dispatch(createTournament(tournament));
-    //   history.push(`/tournament/${id}`);
-    // });
   };
 
   useEffect(() => {

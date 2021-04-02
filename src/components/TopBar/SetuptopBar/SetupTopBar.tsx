@@ -16,21 +16,16 @@ import {
 } from '../../../store/features/gamesForSetup';
 import { RootState } from 'src/store/features';
 import shuffleArray from 'src/utils/shufflePlayers';
-import { Participant, PlayersType } from 'src/types/main.types';
+import { Participant } from 'src/types/main.types';
 import { useHistory } from 'react-router';
-import { changePlayerType } from 'src/store/features/settingsInfo';
-import tournamentService from 'src/services/tournament.service';
-import useAuth from 'src/services/authentication';
-import { createTournament } from 'src/store/features/tournament.feature';
-import { setResponseStatus } from 'src/store/features/formResponseStatus';
+
 import { setNewTournamentModal } from 'src/store/features/newTournamentModal';
 
 interface Props {}
 
 const SetupTopBar = (props: Props) => {
   const {
-    gamesForSetup: { participants, hasThirdPlaceGame, firstRoundGames },
-    settingsInfo: { goalsToWin, tables, tournamentType, winningSets },
+    gamesForSetup: { participants, hasThirdPlaceGame },
   } = useSelector((state: RootState) => state);
 
   const { t } = useTranslation();

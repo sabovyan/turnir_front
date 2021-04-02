@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuSelect from 'src/components/common/MenuSelect/MenuSelect';
 import { RootState } from 'src/store/features';
-import { Participant, Side } from 'src/types/main.types';
+import { Participant } from 'src/types/main.types';
 import AddIcon from '@material-ui/icons/Add';
 import {
   pairParticipants,

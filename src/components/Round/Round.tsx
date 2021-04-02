@@ -13,9 +13,9 @@ interface Props {
 const Round = ({ children, name, roundHeight }: Props) => {
   return (
     <div className={styles.round}>
-      <Typography className={styles['round__Header']} color="textSecondary">
-        {name}
-      </Typography>
+      <div className={styles['round__Header']}>
+        <Typography color="textSecondary">{name}</Typography>
+      </div>
       <div
         className={styles['round__Container']}
         style={{

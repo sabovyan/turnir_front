@@ -260,7 +260,7 @@ const useProvideAuth = (): IAuthProvider => {
       console.log('unsubscribed');
       console.groupEnd();
     };
-  }, [expiry, user]);
+  }, [dispatch, expiry, user]);
 
   return {
     register,
