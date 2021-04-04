@@ -19,7 +19,6 @@ import EliminationIcon from 'src/components/icons/elimination/EliminationIcon';
 import GroupCardIconStyle from 'src/styles/GroupCardIconStyle';
 import LastManStandingIcon from 'src/components/icons/LastManStanding/LastManStanding';
 import RoundRobinIcon from 'src/components/icons/roundRobin/RoundRobinIcon';
-import { createTournament } from 'src/store/features/tournament.feature';
 import tournamentService from 'src/services/tournament.service';
 
 const Home = () => {
@@ -61,7 +60,6 @@ const Home = () => {
 
     console.log(tournament);
 
-    dispatch(createTournament(tournament));
     history.push(`/tournament/${id}`);
   };
 

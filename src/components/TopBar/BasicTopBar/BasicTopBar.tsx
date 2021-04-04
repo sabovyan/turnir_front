@@ -13,11 +13,16 @@ const useStyles = makeStyles({
   },
 });
 
-const BasicTopBar = ({ children }: AppBarProps) => {
+const BasicTopBar = ({ children, ...rest }: AppBarProps) => {
   const classes = useStyles();
 
   return (
-    <AppBar position="relative" color="transparent" className={classes.topBar}>
+    <AppBar
+      position="relative"
+      color="transparent"
+      className={classes.topBar}
+      {...rest}
+    >
       {children}
     </AppBar>
   );

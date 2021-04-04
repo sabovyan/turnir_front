@@ -13,13 +13,15 @@ import Participants from './pages/Participants/Participants';
 import Setup from './pages/Setup/Setup';
 import Tournament from './pages/Tournament/Tournament';
 import Modal from './components/common/Modal/Modal';
+import UndoFullScreen from './components/UndoFullScreen/UndoFullScreen';
 
 function App() {
   const { user } = useAuth();
 
   return (
-    <div className="App">
+    <div>
       <Modal />
+      <UndoFullScreen />
       <div style={{ display: 'flex' }}>
         <SideBar />
         <div style={{ width: '100%' }}>

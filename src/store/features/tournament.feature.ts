@@ -1,28 +1,28 @@
-import {
-  createSlice,
-  PayloadAction,
-  SliceCaseReducers,
-} from '@reduxjs/toolkit';
-import { ITournamentAllTogether } from 'src/types/main.types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: null | ITournamentAllTogether = null;
+interface TournamentState {
+  scale: number;
+  isFullScreen: boolean;
+}
 
-const { reducer, actions } = createSlice<
-  ITournamentAllTogether | null,
-  SliceCaseReducers<ITournamentAllTogether | null>
->({
+const initialState: TournamentState = {
+  scale: 100,
+  isFullScreen: false,
+};
+
+const { reducer, actions } = createSlice({
   name: 'tournament',
   initialState,
   reducers: {
-    createTournament: (
-      state,
-      { payload }: PayloadAction<ITournamentAllTogether>,
-    ) => {
-      return payload;
+    setScale: (state, { payload }: PayloadAction<number>) => {
+      state.scale = payload;
+    },
+    setFullScreen: (state, { payload }: PayloadAction<boolean>) => {
+      state.isFullScreen = payload;
     },
   },
 });
 
 export default reducer;
 
-export const { createTournament } = actions;
+export const { setScale, setFullScreen } = actions;

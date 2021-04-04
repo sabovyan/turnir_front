@@ -1,94 +1,66 @@
-import React, { useEffect } from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import EliminationGameRectangle from 'src/components/EliminationGameRectangle/EliminationGameRectangle';
-import Round from 'src/components/Round/Round';
+import { useParams } from 'react-router-dom';
+
+import Rounds from 'src/components/Rounds/Rounds';
 import TournamentTopBar from 'src/components/TopBar/TournamentTopBar/TournamentTopBar';
+import tournamentService from 'src/services/tournament.service';
 import { RootState } from 'src/store/features';
+
+import { ITournamentAllTogether } from 'src/types/main.types';
 
 interface Props {}
 
 const Tournament = (props: Props) => {
-  const tournament = useSelector((state: RootState) => state.tournament);
-  const history = useHistory();
+  const { scale, isFullScreen } = useSelector(
+    (state: RootState) => state.tournament,
+  );
 
-  const rounds = tournament?.rounds.reverse();
+  const [tournament, setTournament] = useState<ITournamentAllTogether | null>();
+
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    if (!tournament) {
-      history.push('/');
-    }
-  }, [history, tournament]);
+    const numberId = Number(id);
+
+    tournamentService
+      .getById({ id: numberId })
+      .then((res) => {
+        if (res) {
+          const { rounds, ...t } = res;
+
+          setTournament({ ...t, rounds: rounds.reverse() });
+        } else {
+          setTournament(null);
+        }
+      })
+      .catch((error) => {
+        setTournament(null);
+      });
+  }, [id]);
 
   return (
-    tournament && (
-      <div>
-        <TournamentTopBar />
-        <div style={{ display: 'flex' }}>
-          {rounds &&
-            rounds.map((round, roundIndex) => (
-              <Round
-                key={round.name}
-                roundHeight={tournament.rounds[0].games.length * 100}
-                name={round.name}
-              >
-                {round.games.map(({ id, participant1, participant2 }, idx) =>
-                  roundIndex === 0 && round.games.length === 2 ? (
-                    <div
-                      key={id}
-                      // className={styles.finalRoundWithTwoGames}
-                      style={{
-                        bottom: idx === 0 ? '50%' : '20%',
-                        transform:
-                          idx === 0
-                            ? `translate(0,${50}%)`
-                            : `translate(0, ${90}%)`,
-                      }}
-                    >
-                      <EliminationGameRectangle
-                        key={id}
-                        player1={participant1 ? participant1.name : ''}
-                        player2={!participant2 ? ' ' : participant2.name}
-                        isGameStarted={false}
-                        isEven={idx % 2 === 0 ? false : true}
-                        isFirstRound={roundIndex === 0 ? true : false}
-                        isFinal={
-                          roundIndex === tournament.rounds.length - 1
-                            ? false
-                            : true
-                        }
-                        maxHeight={
-                          idx === 0
-                            ? tournament.rounds[0].games.length * 100
-                            : 100
-                        }
-                        numberOfGamesInOneRound={round.games.length}
-                        label={idx === 1 ? 'Third place' : undefined}
-                      />
-                    </div>
-                  ) : (
-                    <EliminationGameRectangle
-                      key={id}
-                      player1={participant1 ? participant1.name : ''}
-                      player2={!participant2 ? ' ' : participant2.name}
-                      isGameStarted={false}
-                      isEven={idx % 2 === 0 ? false : true}
-                      isFirstRound={roundIndex === 0 ? true : false}
-                      isFinal={
-                        roundIndex === tournament.rounds.length - 1
-                          ? false
-                          : true
-                      }
-                      maxHeight={tournament.rounds[0].games.length * 100}
-                      numberOfGamesInOneRound={round.games.length}
-                    />
-                  ),
-                )}
-              </Round>
-            ))}
-        </div>
-      </div>
-    )
+    <div
+      style={
+        isFullScreen
+          ? {
+              transform: 'translateY(-100px)',
+              transition: 'transform 100ms linear 100ms',
+            }
+          : {}
+      }
+    >
+      <TournamentTopBar tournament={tournament} />
+
+      {tournament === undefined ? (
+        <LinearProgress />
+      ) : tournament === null ? (
+        <div>tournament was not found</div>
+      ) : (
+        <Rounds rounds={tournament.rounds} isGameStarted={true} scale={scale} />
+      )}
+    </div>
   );
 };
 

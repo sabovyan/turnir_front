@@ -7,10 +7,7 @@ import SetupList from '../../components/SetupList/SetupList';
 
 import { RootState } from '../../store/features';
 
-import EliminationGameRectangle from '../../components/EliminationGameRectangle/EliminationGameRectangle';
-import Round from 'src/components/Round/Round';
-
-import styles from './Setup.module.css';
+import Rounds from 'src/components/Rounds/Rounds';
 
 interface Props {}
 
@@ -38,7 +35,8 @@ const Setup = (props: Props) => {
         }}
       >
         <SetupList />
-        <div className={styles.roundWrapper}>
+        <Rounds rounds={rounds} isGameStarted={false} scale={false} />
+        {/* <div className={styles.roundWrapper}>
           {rounds &&
             rounds.map((round, roundIndex) => (
               <Round
@@ -93,7 +91,7 @@ const Setup = (props: Props) => {
                 )}
               </Round>
             ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

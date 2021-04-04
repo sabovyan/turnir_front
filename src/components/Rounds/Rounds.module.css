@@ -3,6 +3,7 @@
   height: calc(100vh - 100px);
   display: flex;
   overflow: auto;
+  margin-top: 1rem;
 }
 
 .finalRoundWithTwoGames {

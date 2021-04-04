@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button/Button';
 import { setNewTournamentModal } from 'src/store/features/newTournamentModal';
 import tournamentService from 'src/services/tournament.service';
 import useAuth from 'src/services/authentication';
-import { createTournament } from 'src/store/features/tournament.feature';
+
 import { useHistory } from 'react-router-dom';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 
@@ -63,7 +63,7 @@ const Modal = () => {
 
       if (tournament) {
         dispatch(setNewTournamentModal(false));
-        dispatch(createTournament(tournament));
+
         history.push(`/tournament/${tournament.id}`);
       }
     } catch (error) {

@@ -36,7 +36,6 @@ const SideBarList: FC<ISideBarList> = ({
   handlePlayersIconClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  /* ANCHOR Here is any */
   const handleToggleDrawer = (event: any) => {
     if (
       !(event.target.tagName === 'svg') &&

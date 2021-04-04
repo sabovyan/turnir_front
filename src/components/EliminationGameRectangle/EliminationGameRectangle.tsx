@@ -62,18 +62,30 @@ const EliminationGameRectangle = ({
         <div className={styles.eliminationGameContainer}>
           {player1 && player2 ? (
             <>
-              <Typography className={styles.gameText}>{player1}</Typography>
+              <Typography
+                className={styles.gameText}
+                style={{ fontSize: '14px', fontWeight: 500 }}
+              >
+                {player1}
+              </Typography>
 
               <Typography
                 className={styles.gameText}
                 style={{
                   alignSelf: 'flex-end',
+                  fontSize: '14px',
+                  fontWeight: 500,
                 }}
               >
                 {isGameStarted && 'vs'}
               </Typography>
 
-              <Typography className={styles.gameText}>{player2}</Typography>
+              <Typography
+                className={styles.gameText}
+                style={{ fontSize: '14px', fontWeight: 500 }}
+              >
+                {player2}
+              </Typography>
             </>
           ) : (
             <Typography className={styles.gameWithOnePlayer}>

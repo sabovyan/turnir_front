@@ -34,6 +34,8 @@ export const signCardDisplayContext = createContext<{
 }>({ state: false, toggle: () => {} });
 
 const SideBar: FC = () => {
+  const { isFullScreen } = useSelector((state: RootState) => state.tournament);
+
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const [active, setActive] = useState<activeSideBarIcon>(
     activeSideBarIcon.none,
@@ -138,7 +140,17 @@ const SideBar: FC = () => {
   }, [dispatch, user]);
 
   return (
-    <div>
+    <div
+      style={
+        isFullScreen
+          ? {
+              position: 'absolute',
+              transform: 'translate(-100px)',
+              transition: 'transform 100ms linear',
+            }
+          : { transition: 'transform 100ms linear' }
+      }
+    >
       <Backdrop
         onClick={handleToggleSettings}
         open={settingsVisible}

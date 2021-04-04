@@ -1,7 +1,6 @@
 import { tournamentRequest } from 'src/api';
 import {
   Game,
-  ITournament,
   ITournamentAllTogether,
   TournamentType,
 } from 'src/types/main.types';
@@ -58,7 +57,7 @@ const getById = async (data: getByIdArgs) => {
     token,
   });
 
-  const tournament = (await response.data) as ITournament;
+  const tournament = (await response.data) as ITournamentAllTogether;
 
   return tournament;
 };
