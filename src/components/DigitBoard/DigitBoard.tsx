@@ -8,7 +8,7 @@ import styles from './DigitBoard.module.css';
 import { orange } from '@material-ui/core/colors';
 
 interface Props {
-  name: string;
+  name: string | undefined;
 }
 
 const boardWith = 300;

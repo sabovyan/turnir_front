@@ -1,8 +1,9 @@
 .wrapper {
-  height: 50vh;
+  height: calc(100vh - 84px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin: 4rem 0;
+  padding-top: 4rem;
   gap: 4rem;
+  overflow: auto;
 }

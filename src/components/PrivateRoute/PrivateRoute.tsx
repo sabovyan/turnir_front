@@ -13,8 +13,6 @@ const PrivateRoute: FC<IPrivateRouteProps> = ({
   children,
   ...rest
 }) => {
-  console.log(isAuth);
-
   return (
     <Route {...rest}>
       {isAuth === false ? (

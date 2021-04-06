@@ -1,12 +1,21 @@
 .roundWrapper {
-  width: calc(100vw - 340px);
-  height: calc(100vh - 100px);
+  width: calc(100vw - 380px);
+  height: calc(100vh - 120px);
+  margin: 0 1rem;
   display: flex;
   overflow: auto;
-  margin-top: 1rem;
+}
+
+.gameWrapper {
+  height: calc(100vh - 85px);
+  display: flex;
+  overflow: auto;
+  transform-origin: left top;
+  transition: transform 100ms linear;
+  z-index: 2;
 }
 
 .finalRoundWithTwoGames {
-  position: absolute;
-  left: 0;
+  display: flex;
+  flex-direction: column;
 }

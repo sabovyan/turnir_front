@@ -1,22 +1,21 @@
 .eliminationGameWrapper {
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin-bottom: 1rem;
 }
 
 .eliminationGameContainer {
-  background: #353535;
+  width: 256px;
+  height: 120px;
+  background: #363636;
+  box-shadow: 0 0 5px 1px rgba(92, 92, 92, 0.5);
+  border-radius: 3px;
   color: #ddd;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 220px;
-  max-height: 100px;
-  min-height: 85px;
   padding: 10px 20px;
   position: relative;
-  box-shadow: 0 0 5px 1px rgba(92, 92, 92, 0.5);
-  border-radius: 3px;
 }
 
 .gameText {
@@ -29,8 +28,8 @@
 }
 
 .enterResult {
-  min-width: 200px;
-  height: 80px;
+  min-width: 256px;
+  height: 120px;
   position: absolute;
   top: 50%;
   left: 50%;

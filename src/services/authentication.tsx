@@ -176,6 +176,10 @@ const useProvideAuth = (): IAuthProvider => {
     const accessToken = authStorage.getAccessToken();
     const now = Date.now();
 
+    if (!refreshToken) {
+      setUser(false);
+    }
+
     let timerId: NodeJS.Timeout;
     if (expiry) {
       if (expiry > now && !user) {
@@ -225,6 +229,7 @@ const useProvideAuth = (): IAuthProvider => {
 
         if (!refreshToken) {
           authStorage.clear();
+          setUser(false);
           clearInterval(timerId);
           return;
         }

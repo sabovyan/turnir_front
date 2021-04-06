@@ -6,32 +6,40 @@ import styles from './EliminationGameRectangle.module.css';
 import DigitBoard from '../DigitBoard/DigitBoard';
 import { Button, ButtonGroup } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import colors from '../../styles/colors';
+import Colors from '../../styles/colors';
+import { Game } from 'src/types/main.types';
+import GameBackLine from './GameBackLine';
+import GameFrontLine from './GameFrontLine';
+import gameUiDetails from 'src/constants/gameUiDetails';
+import GameContainer from './GameContainer';
 
 interface Props {
-  player1: string;
-  player2: string;
+  // isEven: boolean;
+  // isFirstRound: boolean;
+  // maxHeight: number;
+  // numberOfGamesInOneRound: number;
   isGameStarted: boolean;
-  isEven: boolean;
-  isFirstRound: boolean;
+  game: Game;
+  gameIndex: number;
+  roundIndex: number;
   isFinal: boolean;
-  maxHeight: number;
-  numberOfGamesInOneRound: number;
-  label?: string;
+  roundHeight: number;
+  totalGames: number;
 }
 
-const EliminationGameRectangle = ({
-  player1,
-  player2,
-  isGameStarted,
-  isEven,
-  isFirstRound,
+const EliminationSingleGame = ({
+  game,
+  gameIndex,
+  roundIndex,
   isFinal,
-  maxHeight,
-  numberOfGamesInOneRound,
-  label,
+  roundHeight,
+  totalGames,
+  isGameStarted,
 }: Props) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
+
+  const isEven = gameIndex % 2 === 0 ? false : true;
+  const isFirstRound = roundIndex === 0 ? true : false;
 
   const handleResultPageClose = (event: any) => {
     if (event.target.dataset.closeable === 'true') {
@@ -44,6 +52,61 @@ const EliminationGameRectangle = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className={styles.eliminationGameWrapper}>
+        <GameBackLine isFirstRound={isFirstRound} />
+        {/* <div className={styles.eliminationGameContainer} /> */}
+        <GameContainer
+          isGameStarted={isGameStarted}
+          player1={game.participant1?.name}
+          player2={game.participant2?.name}
+          handleResultPageOpen={handleResultPageOpen}
+        />
+        <GameFrontLine
+          toDown={isEven}
+          width={gameUiDetails.widthOfLines}
+          height={roundHeight / totalGames + 20 * (roundIndex + 1)}
+          isColored={isFinal}
+        />
+      </div>
+      <Backdrop
+        open={isResultOpen}
+        zIndex={2}
+        onClick={handleResultPageClose}
+        data-closeable="true"
+        cssStyles={{ position: 'fixed', top: 0, left: 0, width: '100vw' }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            background: '#363636',
+            color: 'white',
+            padding: '1rem',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+            }}
+          >
+            <DigitBoard
+              name={game.participant1 ? game.participant1.name : undefined}
+            />
+            {/* <div className={styles.scoreBoard}>
+                <span>-</span>
+                <span>:</span>
+                <span>-</span>
+              </div> */}
+            {/* <DigitBoard name={player2} /> */}
+          </div>
+          <ButtonGroup style={{ color: 'white', alignSelf: 'flex-end' }}>
+            <Button style={{ color: '#aaa' }}>Cancel</Button>
+            <Button style={{ color: '#ddd' }}>Submit</Button>
+          </ButtonGroup>
+        </div>
+      </Backdrop>
+      {/* 
       <Typography align="center" color="textSecondary">
         {label}
       </Typography>
@@ -132,45 +195,44 @@ const EliminationGameRectangle = ({
             }}
           />
         </div>
-
-        <Backdrop
-          open={isResultOpen}
-          zIndex={2}
-          onClick={handleResultPageClose}
-          data-closeable="true"
+      </div>
+      <Backdrop
+        open={isResultOpen}
+        zIndex={2}
+        onClick={handleResultPageClose}
+        data-closeable="true"
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            background: '#363636',
+            color: 'white',
+            padding: '1rem',
+          }}
         >
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              background: '#363636',
-              color: 'white',
-              padding: '1rem',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-              }}
-            >
-              <DigitBoard name={player1} />
-              {/* <div className={styles.scoreBoard}>
+            <DigitBoard name={player1} />
+            {/* <div className={styles.scoreBoard}>
                 <span>-</span>
                 <span>:</span>
                 <span>-</span>
               </div> */}
-              {/* <DigitBoard name={player2} /> */}
-            </div>
-            <ButtonGroup style={{ color: 'white', alignSelf: 'flex-end' }}>
-              <Button style={{ color: '#aaa' }}>Cancel</Button>
-              <Button style={{ color: '#ddd' }}>Submit</Button>
-            </ButtonGroup>
+      {/* <DigitBoard name={player2} /> 
           </div>
-        </Backdrop>
-      </div>
+          <ButtonGroup style={{ color: 'white', alignSelf: 'flex-end' }}>
+            <Button style={{ color: '#aaa' }}>Cancel</Button>
+            <Button style={{ color: '#ddd' }}>Submit</Button>
+          </ButtonGroup>
+        </div>
+      </Backdrop> */}
     </div>
   );
 };
 
-export default EliminationGameRectangle;
+export default EliminationSingleGame;

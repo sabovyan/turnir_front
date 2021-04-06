@@ -14,8 +14,11 @@ const Round = ({ children, name, roundHeight }: Props) => {
   return (
     <div className={styles.round}>
       <div className={styles['round__Header']}>
-        <Typography color="textSecondary">{name}</Typography>
+        <Typography color="textSecondary" variant="h6">
+          {name}
+        </Typography>
       </div>
+
       <div
         className={styles['round__Container']}
         style={{

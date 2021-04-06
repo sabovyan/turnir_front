@@ -5,9 +5,16 @@ import colors from '../../../styles/colors';
 interface IBackdropProps extends BackdropProps {
   open: boolean;
   zIndex: number;
+  cssStyles?: React.CSSProperties | undefined;
 }
 
-const Backdrop: FC<IBackdropProps> = ({ open, children, zIndex, ...props }) => {
+const Backdrop: FC<IBackdropProps> = ({
+  open,
+  children,
+  cssStyles,
+  zIndex,
+  ...props
+}) => {
   return (
     <MUIBackdrop
       {...props}
@@ -15,6 +22,7 @@ const Backdrop: FC<IBackdropProps> = ({ open, children, zIndex, ...props }) => {
       style={{
         zIndex,
         background: colors.backdropColor,
+        ...cssStyles,
       }}
     >
       {children}

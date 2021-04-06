@@ -18,7 +18,7 @@ const ParticipantAdd = () => {
   } = useSelector((state: RootState) => state);
 
   return (
-    <ViewWrapper style={{ height: 'calc(100vh - 300px)' }}>
+    <ViewWrapper>
       <Card raised style={{ minWidth: 500 }}>
         <ParticipantTypeIdentity />
         <div className={styles.inputContainer}>

@@ -25,8 +25,8 @@ const UndoFullScreen = (props: Props) => {
         margin: '1rem',
         boxShadow: '0 0 3px 1px #333131',
         transform: isFullScreen ? 'translateY(0)' : 'translateY(-100px)',
-
         transition: 'transform 200ms linear',
+        zIndex: 2,
       }}
     >
       <FullscreenExitIcon

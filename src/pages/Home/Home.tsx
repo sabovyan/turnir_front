@@ -56,10 +56,6 @@ const Home = () => {
   );
 
   const handleCardClick = (id: number) => async () => {
-    const tournament = await tournamentService.getById({ id });
-
-    console.log(tournament);
-
     history.push(`/tournament/${id}`);
   };
 
@@ -76,9 +72,11 @@ const Home = () => {
   return (
     <>
       <HomeTopBar />
-      {(status === AsyncResponseStatus.loading ||
-        status === AsyncResponseStatus.idle) &&
-      user ? (
+      {user === undefined ? (
+        <LinearProgress />
+      ) : (status === AsyncResponseStatus.loading ||
+          status === AsyncResponseStatus.idle) &&
+        user ? (
         <LinearProgress />
       ) : status === AsyncResponseStatus.rejected ? (
         <div>{error}</div>

@@ -1,6 +1,8 @@
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import gameUiDetails from 'src/constants/gameUiDetails';
 import { DraftRound } from 'src/types/main.types';
-import EliminationGameRectangle from '../EliminationGameRectangle/EliminationGameRectangle';
+import EliminationSingleGame from '../EliminationSingleGame/EliminationSingleGame';
 import Round from '../Round/Round';
 
 import styles from './Rounds.module.css';
@@ -12,70 +14,84 @@ interface Props {
 }
 
 const Rounds = ({ rounds, isGameStarted, scale }: Props) => {
+  const roundHeight = rounds.length
+    ? rounds[0].games.length * gameUiDetails.height
+    : 0;
+
   return (
     <div
-      className={styles.roundWrapper}
-      style={
-        scale
-          ? {
-              transform: `scale(${scale / 100})`,
-              transformOrigin: 'left top',
-              transition: 'transform 100ms linear',
-            }
-          : {}
-      }
+      className={!isGameStarted ? styles.roundWrapper : styles.gameWrapper}
+      style={{
+        transform: scale ? `scale(${scale / 100})` : `scale(${1})`,
+      }}
     >
-      {rounds &&
-        rounds.map((round, roundIndex) => (
-          <Round
-            key={round.name}
-            roundHeight={rounds[0].games.length * 100}
-            name={round.name}
-          >
-            {round.games.map(({ id, participant1, participant2 }, idx) =>
-              roundIndex === rounds.length - 1 && round.games.length === 2 ? (
-                <div
-                  key={id}
-                  className={styles.finalRoundWithTwoGames}
-                  style={{
-                    bottom: idx === 0 ? '50%' : '20%',
-                    transform:
-                      idx === 0
-                        ? `translate(0,${50}%)`
-                        : `translate(0, ${90}%)`,
-                  }}
-                >
-                  <EliminationGameRectangle
-                    key={id}
-                    player1={participant1 ? participant1.name : ''}
-                    player2={!participant2 ? ' ' : participant2.name}
-                    isGameStarted={isGameStarted}
-                    isEven={idx % 2 === 0 ? false : true}
-                    isFirstRound={roundIndex === 0 ? true : false}
-                    isFinal={roundIndex === rounds.length - 1 ? false : true}
-                    maxHeight={idx === 0 ? rounds[0].games.length * 100 : 100}
-                    numberOfGamesInOneRound={round.games.length}
-                    label={idx === 1 ? 'Third place' : undefined}
-                  />
-                </div>
-              ) : (
-                <EliminationGameRectangle
-                  key={id}
-                  player1={participant1 ? participant1.name : ''}
-                  player2={!participant2 ? ' ' : participant2.name}
-                  isGameStarted={isGameStarted}
-                  isEven={idx % 2 === 0 ? false : true}
-                  isFirstRound={roundIndex === 0 ? true : false}
-                  isFinal={roundIndex === rounds.length - 1 ? false : true}
-                  maxHeight={rounds[0].games.length * 100}
-                  numberOfGamesInOneRound={round.games.length}
-                />
-              ),
-            )}
-          </Round>
-        ))}
+      {rounds.map(({ games, name }, roundIndex) => (
+        <Round name={name} key={name} roundHeight={roundHeight}>
+          {games.map((game, gameIndex) => (
+            <EliminationSingleGame
+              key={game.id}
+              game={game}
+              gameIndex={gameIndex}
+              roundIndex={roundIndex}
+              isFinal={roundIndex !== rounds.length - 1}
+              totalGames={games.length}
+              roundHeight={roundHeight}
+              isGameStarted={isGameStarted}
+            />
+          ))}
+        </Round>
+      ))}
     </div>
   );
 };
 
 export default Rounds;
+
+/**
+ * @description this is a block of code for testing UI
+ * @example
+ * <Round
+        name={rounds[0].name}
+        key={rounds[0].name}
+        roundHeight={roundHeight}
+      >
+        {rounds[0].games.map((game, gameIndex) => (
+          <EliminationSingleGame
+            game={game}
+            gameIndex={gameIndex}
+            roundIndex={0}
+            isFinal={0 !== rounds.length - 1}
+            totalGames={rounds[0].games.length}
+            roundHeight={roundHeight}
+          />
+        ))}
+      </Round> 
+ */
+
+//   <div
+//     key={game.id}
+//     className={styles.finalRoundWithTwoGames}
+//     style={{
+//       position: 'absolute',
+
+//       bottom: gameIndex === 0 ? '50%' : '20%',
+//       transform:
+//         gameIndex === 0
+//           ? `translateY(${50}%)`
+//           : `translateY(${10}%)`,
+//     }}
+//   >
+//     {gameIndex === 1 ? (
+//       <Typography variant="h6" align="center" color="textSecondary">
+//         {'Third Place'}
+//       </Typography>
+//     ) : null}
+//     <EliminationSingleGame
+//       game={game}
+//       gameIndex={gameIndex}
+//       roundIndex={roundIndex}
+//       isFinal={roundIndex !== rounds.length - 1}
+//       totalGames={games.length}
+//       roundHeight={roundHeight}
+//     />
+//   </div>
