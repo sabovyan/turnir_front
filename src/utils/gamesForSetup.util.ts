@@ -39,12 +39,14 @@ export const createSetupGamesAndPlayers = (
     participantsCopy,
   );
 
+  const firstRoundGamesCopy = deepCopyArray(firstRoundGames);
+
   const numberOfRounds = Math.log(firstRoundGamesQuantity) / Math.log(2) + 1;
 
   const createGames = (nextGameId: number | null, remainingRounds: number) => {
     let game;
     if (remainingRounds === 1) {
-      const s = firstRoundGames.splice(0, 1)[0];
+      const s = firstRoundGamesCopy.splice(0, 1)[0];
 
       game = createSingleGame({
         nextGameId,

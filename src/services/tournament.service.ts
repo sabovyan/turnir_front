@@ -1,8 +1,12 @@
 import { tournamentRequest } from 'src/api';
 import {
   Game,
+  ITournament,
   ITournamentAllTogether,
+  OnlyId,
+  OnlyName,
   TournamentType,
+  updateDataById,
 } from 'src/types/main.types';
 import authStorage from './storage';
 
@@ -47,13 +51,13 @@ const getAll = async () => {
   return allTournaments;
 };
 
-const getById = async (data: getByIdArgs) => {
+const getById = async ({ id }: getByIdArgs) => {
   const token = authStorage.getAccessToken();
 
   if (!token) return;
 
   const response = await tournamentRequest.doGet({
-    url: `${data.id}`,
+    url: `${id}`,
     token,
   });
 
@@ -62,10 +66,39 @@ const getById = async (data: getByIdArgs) => {
   return tournament;
 };
 
+const changeNameById = async ({ id, data }: updateDataById<OnlyName>) => {
+  const token = authStorage.getAccessToken();
+  if (!token) return;
+
+  const response = await tournamentRequest.doUpdate({
+    url: `/${id}`,
+    token,
+    data,
+  });
+  const tournament = response.data as ITournament;
+
+  return tournament;
+};
+
+const deleteById = async ({ id }: OnlyId) => {
+  const token = authStorage.getAccessToken();
+  if (!token) return;
+
+  const response = await tournamentRequest.doDelete({
+    url: `/${id}`,
+    token,
+  });
+  const tournament = response.data as ITournament;
+
+  return tournament;
+};
+
 const tournamentService = {
   create,
   getAll,
   getById,
+  changeNameById,
+  deleteById,
 };
 
 export default tournamentService;

@@ -92,7 +92,7 @@ const Home = () => {
             overflow: 'auto',
           }}
         >
-          {data.map(({ name, id, tournamentTypeId }) => (
+          {data.map(({ name, id, tournamentTypeId, createdAt }) => (
             <ClickableCard
               key={id}
               color={
@@ -114,6 +114,8 @@ const Home = () => {
               name={name}
               onCardClick={handleCardClick(id)}
               isInteractive={true}
+              tournamentId={id}
+              date={createdAt}
             />
           ))}
         </div>

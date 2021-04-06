@@ -167,6 +167,7 @@ export interface ITournament {
   userId: number;
   tournamentTypeId: TournamentType;
   name: string;
+  createdAt: string;
 }
 
 export interface IRound {
@@ -190,3 +191,15 @@ export enum AsyncResponseStatus {
   rejected = 'rejected',
   fullfilled = 'fullfilled',
 }
+
+export type ObjectWithOneField<K extends string, T> = {
+  [P in K]: T;
+};
+
+export type OnlyId = ObjectWithOneField<'id', number>;
+export type OnlyName = ObjectWithOneField<'name', string>;
+
+export type updateDataById<T> = {
+  id: number;
+  data: T;
+};

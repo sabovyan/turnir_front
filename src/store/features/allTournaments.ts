@@ -1,8 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import tournamentService from 'src/services/tournament.service';
 import {
   AsyncResponseStatus,
   ITournamentAllTogether,
+  OnlyId,
 } from 'src/types/main.types';
 
 type State<T> = {
@@ -38,10 +39,28 @@ const initialState: State<ITournamentAllTogether[]> = {
   status: AsyncResponseStatus.idle,
 };
 
-const { reducer } = createSlice({
+const { reducer, actions } = createSlice({
   name: 'allTournaments',
   initialState,
-  reducers: {},
+  reducers: {
+    updateTournamentName: (
+      state,
+      { payload: { id, name } }: PayloadAction<{ id: number; name: string }>,
+    ) => {
+      console.log('here');
+
+      state.data = state.data.map((tournament) =>
+        tournament.id === id ? { ...tournament, name } : tournament,
+      );
+    },
+
+    deleteTournamentById: (
+      state,
+      { payload: { id } }: PayloadAction<OnlyId>,
+    ) => {
+      state.data = state.data.filter((tournament) => tournament.id !== id);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getAllTournaments.pending, (state) => {
       state.status = AsyncResponseStatus.loading;
@@ -65,3 +84,5 @@ const { reducer } = createSlice({
 });
 
 export default reducer;
+
+export const { updateTournamentName, deleteTournamentById } = actions;
