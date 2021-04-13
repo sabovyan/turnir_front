@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-around;
   position: relative;
+  width: 360px;
   /* border: 1px solid red; */
 }
 
@@ -11,4 +12,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 360px;
 }

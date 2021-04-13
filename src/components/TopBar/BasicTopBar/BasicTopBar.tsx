@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     padding: '10px 1rem',
     justifyContent: 'space-between',
     minHeight: 80,
-    zIndex: 1,
+    zIndex: 0,
   },
 });
 

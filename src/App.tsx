@@ -12,16 +12,22 @@ import useAuth from './services/authentication';
 import Participants from './pages/Participants/Participants';
 import Setup from './pages/Setup/Setup';
 import Tournament from './pages/Tournament/Tournament';
-import Modal from './components/common/Modal/Modal';
-import UndoFullScreen from './components/UndoFullScreen/UndoFullScreen';
+import TestScreen from './pages/TestScreen/TestScreen';
+import CreateTournamentModal from './components/common/Modal/CreateTournamentModal';
+import Lsm from './pages/Lsm/Lsm';
+// import CreateTournamentModal from './components/common/Modal/CreateTournamentModal';
+// import UndoFullScreen from './components/UndoFullScreen/UndoFullScreen';
+// import UpdateScoreModal from './components/common/Modal/updateScoreModal';
 
 function App() {
   const { user } = useAuth();
 
   return (
     <div>
-      <Modal />
-      <UndoFullScreen />
+      <CreateTournamentModal />
+      {/* <UpdateScoreModal /> */}
+
+      {/* <UndoFullScreen /> */}
       <div style={{ display: 'flex' }}>
         <SideBar />
         <div style={{ width: '100%' }}>
@@ -43,6 +49,12 @@ function App() {
             </PrivateRoute>
             <PrivateRoute isAuth={user} path="/tournament/:id">
               <Tournament />
+            </PrivateRoute>
+            <PrivateRoute isAuth={user} path="/test">
+              <TestScreen />
+            </PrivateRoute>
+            <PrivateRoute isAuth={user} path="/lsm">
+              <Lsm />
             </PrivateRoute>
 
             <Route path="/email-confirmation/:token">

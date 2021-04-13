@@ -16,6 +16,7 @@ import useAuth from 'src/services/authentication';
 
 import { useHistory } from 'react-router-dom';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
+import { TournamentType } from 'src/types/main.types';
 
 const Modal = () => {
   const {
@@ -46,6 +47,12 @@ const Modal = () => {
 
   const handleAddNewTournament = async (e: any) => {
     e.preventDefault();
+    if (tournamentType === TournamentType.lastManStanding) {
+      history.push('/lsm');
+      dispatch(setNewTournamentModal(false));
+      return;
+    }
+
     try {
       if (!user) throw new Error('you are not logged In');
 

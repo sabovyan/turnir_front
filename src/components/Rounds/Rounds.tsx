@@ -1,5 +1,5 @@
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import { TransitionEvent } from 'react';
 import gameUiDetails from 'src/constants/gameUiDetails';
 import { DraftRound } from 'src/types/main.types';
 import EliminationSingleGame from '../EliminationSingleGame/EliminationSingleGame';
@@ -20,27 +20,80 @@ const Rounds = ({ rounds, isGameStarted, scale }: Props) => {
 
   return (
     <div
-      className={!isGameStarted ? styles.roundWrapper : styles.gameWrapper}
+      className={styles.roundsBox}
       style={{
-        transform: scale ? `scale(${scale / 100})` : `scale(${1})`,
+        width: isGameStarted ? '100%' : 'calc(100vw - 350px)',
       }}
     >
-      {rounds.map(({ games, name }, roundIndex) => (
-        <Round name={name} key={name} roundHeight={roundHeight}>
-          {games.map((game, gameIndex) => (
-            <EliminationSingleGame
-              key={game.id}
-              game={game}
-              gameIndex={gameIndex}
-              roundIndex={roundIndex}
-              isFinal={roundIndex !== rounds.length - 1}
-              totalGames={games.length}
-              roundHeight={roundHeight}
-              isGameStarted={isGameStarted}
-            />
-          ))}
-        </Round>
-      ))}
+      <div
+        className={!isGameStarted ? styles.roundWrapper : styles.gameWrapper}
+        style={
+          scale
+            ? {
+                transform: `scale(${scale / 100})`,
+              }
+            : {}
+        }
+        onTransitionEnd={(event: TransitionEvent<HTMLDivElement>) => {
+          event.currentTarget.style.transform = scale
+            ? `scale(${scale / 100})`
+            : '';
+        }}
+      >
+        {rounds.map(({ games, name }, roundIndex) => (
+          <Round name={name} key={name} roundHeight={roundHeight}>
+            {games.map((game, gameIndex) => {
+              if (name !== 'Final') {
+                return (
+                  <EliminationSingleGame
+                    key={game.id}
+                    game={game}
+                    gameIndex={gameIndex}
+                    roundIndex={roundIndex}
+                    isFinal={roundIndex === rounds.length - 1}
+                    totalGames={games.length}
+                    roundHeight={roundHeight}
+                    isGameStarted={isGameStarted}
+                  />
+                );
+              }
+              return gameIndex === 1 && games.length > 1 ? (
+                <div
+                  className={styles.thirdPlaceGame}
+                  style={{
+                    position: 'absolute',
+                    top: '60%',
+                    left: -5,
+                    transform: 'translateY(50%)',
+                  }}
+                >
+                  <EliminationSingleGame
+                    key={game.id}
+                    game={game}
+                    gameIndex={gameIndex}
+                    roundIndex={roundIndex}
+                    isFinal={roundIndex === rounds.length - 1}
+                    totalGames={games.length}
+                    roundHeight={roundHeight}
+                    isGameStarted={isGameStarted}
+                  />
+                </div>
+              ) : (
+                <EliminationSingleGame
+                  key={game.id}
+                  game={game}
+                  gameIndex={gameIndex}
+                  roundIndex={roundIndex}
+                  isFinal={roundIndex === rounds.length - 1}
+                  totalGames={games.length}
+                  roundHeight={roundHeight}
+                  isGameStarted={isGameStarted}
+                />
+              );
+            })}
+          </Round>
+        ))}
+      </div>
     </div>
   );
 };
@@ -67,31 +120,3 @@ export default Rounds;
         ))}
       </Round> 
  */
-
-//   <div
-//     key={game.id}
-//     className={styles.finalRoundWithTwoGames}
-//     style={{
-//       position: 'absolute',
-
-//       bottom: gameIndex === 0 ? '50%' : '20%',
-//       transform:
-//         gameIndex === 0
-//           ? `translateY(${50}%)`
-//           : `translateY(${10}%)`,
-//     }}
-//   >
-//     {gameIndex === 1 ? (
-//       <Typography variant="h6" align="center" color="textSecondary">
-//         {'Third Place'}
-//       </Typography>
-//     ) : null}
-//     <EliminationSingleGame
-//       game={game}
-//       gameIndex={gameIndex}
-//       roundIndex={roundIndex}
-//       isFinal={roundIndex !== rounds.length - 1}
-//       totalGames={games.length}
-//       roundHeight={roundHeight}
-//     />
-//   </div>

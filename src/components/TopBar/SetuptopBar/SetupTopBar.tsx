@@ -11,7 +11,7 @@ import { BackButton, CButton } from 'src/components/common/Buttons';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  toggleThirdPlaceRound,
+  toggleThirdPlaceGame,
   setUpGamesAndPlayers,
 } from '../../../store/features/gamesForSetup';
 import { RootState } from 'src/store/features';
@@ -33,7 +33,7 @@ const SetupTopBar = (props: Props) => {
   const history = useHistory();
 
   const handleCheckBoxChange = (event: ChangeEvent<{}>, checked: boolean) => {
-    dispatch(toggleThirdPlaceRound(checked));
+    dispatch(toggleThirdPlaceGame(checked));
   };
 
   const handlePlayersShuffle = () => {
@@ -46,6 +46,7 @@ const SetupTopBar = (props: Props) => {
   };
 
   const handleBackButtonClick = () => {
+    dispatch(toggleThirdPlaceGame(false));
     history.goBack();
   };
 

@@ -14,6 +14,7 @@ import { RootState } from 'src/store/features';
 import personCardIconStyle from 'src/styles/personCardIconStyle';
 import styles from './ParticipantTypeIdentity.module.css';
 import Colors from 'src/styles/colors';
+import Monster from 'src/components/icons/monster/Monster';
 
 const ParticipantTypeIdentity = () => {
   const { playerType } = useSelector((state: RootState) => state.settingsInfo);
@@ -35,8 +36,10 @@ const ParticipantTypeIdentity = () => {
             ? Colors.single
             : playerType === PlayersType.team
             ? Colors.teams
-            : playerType === PlayersType.DYP || PlayersType.DYP2
+            : playerType === PlayersType.DYP || playerType === PlayersType.DYP2
             ? Colors.DrawYourPartner
+            : playerType === PlayersType.MDYP
+            ? Colors.monster
             : 'black',
       }}
     >
@@ -49,16 +52,21 @@ const ParticipantTypeIdentity = () => {
           <SingleIcon style={personCardIconStyle} />
         ) : playerType === PlayersType.team ? (
           <TeamsIcon style={personCardIconStyle} />
-        ) : playerType === PlayersType.DYP || PlayersType.DYP2 ? (
+        ) : playerType === PlayersType.DYP ||
+          playerType === PlayersType.DYP2 ? (
           <DrawYourPartnerIcon style={personCardIconStyle} />
+        ) : playerType === PlayersType.MDYP ? (
+          <Monster style={personCardIconStyle} />
         ) : null}
         <Typography variant="h5" style={{ color: 'white', padding: 10 }}>
           {playerType === PlayersType.single
             ? t('Single')
             : playerType === PlayersType.team
             ? t('Team')
-            : playerType === PlayersType.DYP || PlayersType.DYP2
+            : playerType === PlayersType.DYP || playerType === PlayersType.DYP2
             ? t('Draw your partner')
+            : playerType === PlayersType.MDYP
+            ? t('MonsterDYP')
             : null}
         </Typography>
       </div>

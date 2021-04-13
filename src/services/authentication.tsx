@@ -202,8 +202,8 @@ const useProvideAuth = (): IAuthProvider => {
                 type: 'error',
               }),
             );
-
-            console.error(err);
+            authStorage.clear();
+            console.error(err.response.data.error);
           });
       }
       if (expiry < now && !user) {
@@ -234,7 +234,7 @@ const useProvideAuth = (): IAuthProvider => {
           return;
         }
 
-        if (diff < 2) {
+        if (diff <= 2) {
           refreshAccessToken(refreshToken)
             .then((res: AxiosResponse<any>) => {
               const { data } = res;
@@ -257,7 +257,7 @@ const useProvideAuth = (): IAuthProvider => {
               );
             });
         }
-      }, 3 * 60 * 1000);
+      }, 6 * 60 * 1000);
     }
     return (): void => {
       clearInterval(timerId);

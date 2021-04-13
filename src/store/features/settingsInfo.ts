@@ -18,6 +18,8 @@ type tournamentSettings = {
   participants: Participant[];
   hasManualCombiner: boolean;
   sides: ArrangedParticipants;
+  pointsForWin: number;
+  pointsFoDraw: number;
 };
 
 const initialState: tournamentSettings = {
@@ -29,6 +31,8 @@ const initialState: tournamentSettings = {
   tables: 1,
   draftParticipants: [],
   participants: [],
+  pointsForWin: 2,
+  pointsFoDraw: 1,
   // participants: [
   //   { name: 'alpha', players: [{ id: 0 }], side: Side.neutral },
   //   { name: 'betta', players: [{ id: 1 }, { id: 2 }], side: Side.neutral },
@@ -73,6 +77,19 @@ const { reducer, actions } = createSlice({
       { payload }: PayloadAction<Pick<tournamentSettings, 'winningSets'>>,
     ) => {
       state.winningSets = payload.winningSets;
+    },
+
+    setPointsForWin: (
+      state,
+      { payload }: PayloadAction<Pick<tournamentSettings, 'pointsForWin'>>,
+    ) => {
+      state.pointsForWin = payload.pointsForWin;
+    },
+    setPointsForDraw: (
+      state,
+      { payload }: PayloadAction<Pick<tournamentSettings, 'pointsFoDraw'>>,
+    ) => {
+      state.pointsForWin = payload.pointsFoDraw;
     },
 
     setTournamentType: (
@@ -304,5 +321,7 @@ export const {
   arrangeParticipantsInTwoArrays,
   swapParticipants,
   pairParticipants,
+  setPointsForWin,
+  setPointsForDraw,
 } = actions;
 export default reducer;

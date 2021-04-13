@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
@@ -11,8 +11,15 @@ import WinningSets from '../WinningSets/WinningSets';
 
 import styles from './EliminationSettings.module.css';
 import ViewWrapper from '../common/ViewWrapper/ViewWrapper';
+import { RootState } from 'src/store/features';
+import { TournamentType } from 'src/types/main.types';
+import Points from '../Points/Points';
 
-const EliminationSettings = (): JSX.Element => {
+const EliminationSettings = () => {
+  const { tournamentType } = useSelector(
+    (state: RootState) => state.settingsInfo,
+  );
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useAuth();
@@ -47,6 +54,9 @@ const EliminationSettings = (): JSX.Element => {
         <Tables />
         <Goals />
         <WinningSets />
+
+        {tournamentType === TournamentType.lastManStanding ? <Points /> : null}
+
         <div style={{ width: '480px' }}>
           <Typography
             align="center"

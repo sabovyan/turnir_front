@@ -106,6 +106,7 @@ export enum PlayersType {
   team = 'team',
   DYP = 'draw your partner',
   DYP2 = 'draw your partner second stage',
+  MDYP = 'monster draw your partner',
 }
 
 export type Game = {
@@ -185,6 +186,13 @@ export interface ITournamentAllTogether extends ITournament {
   })[];
 }
 
+export interface IRoundAllTogether extends IRound {
+  games: (Game & {
+    participant1: Participant | null;
+    participant2: Participant | null;
+  })[];
+}
+
 export enum AsyncResponseStatus {
   idle = 'idle',
   loading = 'loading',
@@ -203,3 +211,18 @@ export type updateDataById<T> = {
   id: number;
   data: T;
 };
+
+export interface ReduxState<T> {
+  data: T;
+  error: null | string;
+  status: AsyncResponseStatus;
+}
+
+export type ThunkError = {
+  message: string;
+};
+
+export enum DigitButtonType {
+  plus,
+  minus,
+}

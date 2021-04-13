@@ -1,7 +1,10 @@
 import IconButton from '@material-ui/core/IconButton';
 import React, { useEffect, useState } from 'react';
 import Colors from 'src/styles/colors';
-import useDigits, { ArrayOrder, makeArrayOfDigits } from 'src/hooks/useDigits';
+import useDigits, {
+  ArrayOrder,
+  makeArrayOfDigits,
+} from '../../hooks/useDigits';
 
 interface Props {
   cellWidth: number;
@@ -32,16 +35,18 @@ const Test = ({
 
   const [diff, setDiff] = useState(() => (maxValue >= 8 ? maxValue - 7 : 0));
 
-  console.log({ diff });
+  // console.log({ diff });
 
   const handlePlus = () => {
     digits.increment();
 
+    console.log('plus');
+
     setTranslateWith(
       (state) => {
+        console.log(state);
         if (order === ArrayOrder.inc) {
           const width = state - cellWidth * 4;
-
           return width > 0 ? 0 : width;
         }
 
@@ -83,8 +88,8 @@ const Test = ({
     onDigitClick(digit);
   };
 
-  console.log({ exp: count * 4 - diff });
-  console.log({ count });
+  // console.log({ exp: count * 4 - diff });
+  // console.log({ count });
 
   useEffect(() => {
     if (translateWidth === 0) {

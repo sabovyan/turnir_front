@@ -11,6 +11,7 @@ import playersToTransfer from './playersToTransfer.feature';
 import tournament from './tournament.feature';
 import newTournamentModal from './newTournamentModal';
 import allTournaments from './allTournaments';
+import scoreBoard from './scoreBoard.feature';
 
 const reducer = combineReducers({
   formResponseStatus,
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   tournament,
   newTournamentModal,
   allTournaments,
+  scoreBoard,
 });
 
 export type RootState = ReturnType<typeof reducer>;

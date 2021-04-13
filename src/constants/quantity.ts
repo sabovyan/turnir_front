@@ -4,3 +4,4 @@ const getArrayOfQuantity = (quantity: number) =>
 export const tablesArray = getArrayOfQuantity(200);
 export const goalsArray = getArrayOfQuantity(200);
 export const winningSetsArray = getArrayOfQuantity(10);
+export const pointsArray = getArrayOfQuantity(100);

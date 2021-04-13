@@ -30,7 +30,7 @@ const { reducer, actions } = createSlice({
       return { ...state, ...newState };
     },
 
-    toggleThirdPlaceRound: (state, { payload }: PayloadAction<boolean>) => {
+    toggleThirdPlaceGame: (state, { payload }: PayloadAction<boolean>) => {
       const finalRoundGames = state.rounds[state.rounds.length - 1].games;
       if (payload) {
         const thirdPlaceGame: Game = {
@@ -52,6 +52,6 @@ const { reducer, actions } = createSlice({
   },
 });
 
-export const { setUpGamesAndPlayers, toggleThirdPlaceRound } = actions;
+export const { setUpGamesAndPlayers, toggleThirdPlaceGame } = actions;
 
 export default reducer;

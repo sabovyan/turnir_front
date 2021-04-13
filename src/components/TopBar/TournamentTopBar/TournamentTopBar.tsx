@@ -10,20 +10,23 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import { RootState } from 'src/store/features';
+import UndoFullScreen from 'src/components/UndoFullScreen/UndoFullScreen';
 
 interface Props {
   tournament: ITournamentAllTogether | undefined | null;
 }
 
 const TournamentTopBar = ({ tournament }: Props) => {
-  const { scale } = useSelector((state: RootState) => state.tournament);
+  const { scale, isFullScreen } = useSelector(
+    (state: RootState) => state.tournament,
+  );
 
   const dispatch = useDispatch();
   const handleSliderChange = (_: ChangeEvent<{}>, value: number | number[]) => {
     if (typeof value === 'number') {
       setTimeout(() => {
         dispatch(setScale(value));
-      }, 50);
+      }, 0);
     }
   };
 
@@ -31,46 +34,77 @@ const TournamentTopBar = ({ tournament }: Props) => {
     dispatch(setFullScreen(true));
   };
 
+  if (!tournament) {
+    return (
+      <>
+        <BasicTopBar>
+          <BasicToolBar>
+            <Typography variant="h5" noWrap color="textSecondary">
+              ...
+            </Typography>
+          </BasicToolBar>
+        </BasicTopBar>
+      </>
+    );
+  }
+
   return (
-    <BasicTopBar>
-      <BasicToolBar>
-        <Typography variant="h5" noWrap color="textSecondary">
-          {tournament &&
-          tournament.tournamentTypeId === TournamentType.elimination
-            ? 'Elimination'
-            : tournament &&
-              tournament.tournamentTypeId === TournamentType.lastManStanding
-            ? 'Last Man Standing'
-            : tournament &&
-              tournament.tournamentTypeId === TournamentType.roundRobin
-            ? 'Round Robin'
-            : '...'}
-        </Typography>
-        <div
-          style={{
-            margin: '1rem',
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-          }}
-        >
-          <Slider
-            aria-labelledby="change the scale of the tournament"
-            value={scale}
-            onChange={handleSliderChange}
-            min={50}
-            max={100}
+    <>
+      <BasicTopBar
+        style={
+          isFullScreen
+            ? {
+                transform: 'translateY(-89px)',
+                transition: 'transform 200ms linear',
+              }
+            : {}
+        }
+      >
+        <UndoFullScreen />
+        <BasicToolBar>
+          <Typography variant="h5" noWrap color="textSecondary">
+            {tournament &&
+            tournament.tournamentTypeId === TournamentType.elimination
+              ? 'Elimination'
+              : tournament &&
+                tournament.tournamentTypeId === TournamentType.lastManStanding
+              ? 'Last Man Standing'
+              : tournament &&
+                tournament.tournamentTypeId === TournamentType.roundRobin
+              ? 'Round Robin'
+              : '...'}
+          </Typography>
+          <div
             style={{
-              width: '100px',
+              margin: '1rem',
+              display: 'flex',
+              gap: '1rem',
+              alignItems: 'center',
             }}
-          />
-          <FullscreenIcon
-            style={{ fontSize: '1.8rem', cursor: 'pointer' }}
-            onClick={handleFullScreenIconClick}
-          />
-        </div>
-      </BasicToolBar>
-    </BasicTopBar>
+          >
+            {tournament.tournamentTypeId === TournamentType.elimination ? (
+              <Slider
+                aria-labelledby="change the scale of the tournament"
+                value={scale}
+                onChange={handleSliderChange}
+                min={50}
+                max={100}
+                style={{
+                  width: '100px',
+                }}
+              />
+            ) : null}
+            <FullscreenIcon
+              style={{
+                fontSize: '1.8rem',
+                cursor: 'pointer',
+              }}
+              onClick={handleFullScreenIconClick}
+            />
+          </div>
+        </BasicToolBar>
+      </BasicTopBar>
+    </>
   );
 };
 

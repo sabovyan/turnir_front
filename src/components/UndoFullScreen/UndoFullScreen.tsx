@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFullScreen } from 'src/store/features/tournament.feature';
 import { RootState } from 'src/store/features';
 
+import styles from './UndoFullScreen.module.css';
+
 interface Props {}
 
 const UndoFullScreen = (props: Props) => {
@@ -17,16 +19,10 @@ const UndoFullScreen = (props: Props) => {
 
   return (
     <div
+      className={styles.undoFullScreen}
       style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        padding: '10px 1rem',
-        margin: '1rem',
-        boxShadow: '0 0 3px 1px #333131',
-        transform: isFullScreen ? 'translateY(0)' : 'translateY(-100px)',
-        transition: 'transform 200ms linear',
-        zIndex: 2,
+        transform: isFullScreen ? 'translateY(89px)' : 'translateY(-200px)',
+        transition: !isFullScreen ? 'none' : `transform 200ms linear 200ms`,
       }}
     >
       <FullscreenExitIcon

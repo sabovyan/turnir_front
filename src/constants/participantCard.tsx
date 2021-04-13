@@ -4,6 +4,7 @@ import TeamsIcon from 'src/components/icons/Teams/TeamsIcon';
 import { PlayersType } from 'src/types/main.types';
 import Color from 'src/styles/colors';
 import personCardIconStyle from 'src/styles/personCardIconStyle';
+import Monster from 'src/components/icons/monster/Monster';
 
 type ParticipantCard = {
   color: Color;
@@ -30,6 +31,12 @@ const PARTICIPANT_CARDS: ParticipantCard[] = [
     name: 'Draw Your Partner',
     icon: <DrawYourPartnerIcon style={personCardIconStyle} />,
     type: PlayersType.DYP,
+  },
+  {
+    color: Color.monster,
+    name: 'Monster DYP',
+    icon: <Monster style={personCardIconStyle} />,
+    type: PlayersType.MDYP,
   },
 ];
 

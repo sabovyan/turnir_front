@@ -12,5 +12,7 @@ enum Colors {
   roundRobin = '#4f9e18',
   primary = '#43a047',
   neutral = 'lightgrey',
+  secondaryWhite = '#929292',
+  monster = '#fbc02d',
 }
 export default Colors;

@@ -4,25 +4,13 @@ import {
   AsyncResponseStatus,
   ITournamentAllTogether,
   OnlyId,
+  ReduxState,
+  ThunkError,
 } from 'src/types/main.types';
-
-type State<T> = {
-  data: T;
-  error: null | string;
-  status: AsyncResponseStatus;
-};
-
-type ThunkError = {
-  message: string;
-};
-
-type args = {
-  id: number;
-};
 
 export const getAllTournaments = createAsyncThunk<
   ITournamentAllTogether[] | undefined,
-  args,
+  OnlyId,
   { rejectValue: ThunkError }
 >('tournaments/getAll', async (_, thunkApi) => {
   try {
@@ -33,7 +21,7 @@ export const getAllTournaments = createAsyncThunk<
   }
 });
 
-const initialState: State<ITournamentAllTogether[]> = {
+const initialState: ReduxState<ITournamentAllTogether[]> = {
   data: [],
   error: null,
   status: AsyncResponseStatus.idle,

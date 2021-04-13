@@ -18,6 +18,7 @@ import {
   changePlayerType,
 } from 'src/store/features/settingsInfo';
 import { countLeftAndRightSides } from 'src/utils/Dyp.utils';
+import { setNewTournamentModal } from 'src/store/features/newTournamentModal';
 
 const ParticipantsTopBar = () => {
   const { playerType } = useSelector((state: RootState) => state.settingsInfo);
@@ -78,6 +79,11 @@ const ParticipantsTopBar = () => {
           playerType === PlayersType.DYP2 ? participants : draftParticipants,
       }),
     );
+
+    if (playerType === PlayersType.MDYP) {
+      dispatch(setNewTournamentModal(true));
+      return;
+    }
 
     history.push('/setup');
   };
