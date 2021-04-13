@@ -13,8 +13,6 @@ const generateFirstRoundGames = (
   let count = 0;
   let turn = TURN.first;
 
-  console.log(participants);
-
   const games = participants.reduce<Game[]>((collected, participant) => {
     if (count === firstRoundGamesQuantity) {
       count = 0;

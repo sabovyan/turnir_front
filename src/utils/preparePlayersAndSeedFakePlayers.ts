@@ -1,18 +1,34 @@
 import { Participant, Side } from '../types/main.types';
 import deepCopyArray from './deepCopy';
 
+enum Turn {
+  first,
+  second,
+}
+
 const seedFakePlayers = (
   participants: Participant[],
   gamesQuantity: number,
 ) => {
-  const participantsCopy = deepCopyArray<Participant>(participants);
+  let participantsCopy = deepCopyArray(participants);
 
   const fakePlayer = {
     name: '',
+    players: [],
+    side: Side.neutral,
   };
 
+  let turn = Turn.first;
+
   while (participantsCopy.length / gamesQuantity < 2) {
-    participantsCopy.push({ ...fakePlayer, players: [], side: Side.neutral });
+    if (turn === Turn.first) {
+      participantsCopy.push(fakePlayer);
+      turn = Turn.second;
+    } else {
+      participantsCopy = [fakePlayer, ...participantsCopy];
+
+      turn = Turn.first;
+    }
   }
 
   return participantsCopy;
