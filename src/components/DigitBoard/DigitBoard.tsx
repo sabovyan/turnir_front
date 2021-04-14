@@ -1,7 +1,11 @@
 import IconButton from '@material-ui/core/IconButton';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Colors from 'src/styles/colors';
-import useDigits, { ArrayOrder, makeArrayOfDigits } from 'src/hooks/useDigits';
+import useDigits, {
+  ArrayOrder,
+  makeArrayOfDigits,
+  roughHalf,
+} from '../../hooks/useDigits';
 
 interface Props {
   cellWidth: number;
@@ -9,72 +13,79 @@ interface Props {
   maxValue: number;
   transitionDuration: number;
   onDigitClick: (selectedNumber: number) => void;
+  chosen: number;
 }
 
-const Test = ({
+const DigitBoard = ({
   cellWidth,
   order,
   maxValue,
   transitionDuration,
+  chosen,
   onDigitClick,
 }: Props) => {
-  const digits = useDigits(order, maxValue);
+  const digits = useDigits(order, maxValue + 1);
 
   const [translateWidth, setTranslateWith] = useState(() => {
-    if (order === ArrayOrder.inc) {
-      return maxValue > 7 ? (maxValue - 7) * -cellWidth : 0;
-    }
-    return maxValue > 7 ? (maxValue - 7) * cellWidth : 0;
+    const width = maxValue >= 8 ? (maxValue - 7) * cellWidth : 0;
+    return order === ArrayOrder.inc ? width * -1 : width;
   });
-  const [selectedDigit, setSelectedDigit] = useState(-1);
-  const [count, setCount] = useState(0);
+  const [diff, setDiff] = useState(() =>
+    maxValue >= 8 ? (maxValue + 1) % 4 : 0,
+  );
+  const minWidthToTranslate = useRef<number>(
+    maxValue >= 8 ? 4 : roughHalf(maxValue),
+  );
+
+  const [selectedDigit, setSelectedDigit] = useState(chosen);
+  const [count, setCount] = useState(
+    maxValue >= 8 ? Math.floor((maxValue + 1 - 8) / 4) : 0,
+  );
+
   const [delays, setDelays] = useState<number[]>([]);
-
-  const [diff, setDiff] = useState(() => (maxValue >= 8 ? maxValue - 7 : 0));
-
-  console.log({ diff });
 
   const handlePlus = () => {
     digits.increment();
 
-    setTranslateWith(
-      (state) => {
-        if (order === ArrayOrder.inc) {
-          const width = state - cellWidth * 4;
+    setTranslateWith((state) => {
+      if (order === ArrayOrder.inc) {
+        const width = state - minWidthToTranslate.current * cellWidth;
+        return width > 0 ? 0 : width;
+      }
 
-          return width > 0 ? 0 : width;
-        }
+      return state + minWidthToTranslate.current * cellWidth;
+    });
 
-        return state + cellWidth * 4;
-      },
-      // order === ArrayOrder.inc ? state - cellWidth * 4 : state + cellWidth * 4,
+    setDelays((state) =>
+      makeArrayOfDigits(
+        maxValue + minWidthToTranslate.current,
+        0,
+        ArrayOrder.inc,
+      ),
     );
-
-    setDelays((state) => makeArrayOfDigits(maxValue + 5, 0, ArrayOrder.inc));
 
     setCount((state) => state + 1);
   };
 
   const handleMinus = () => {
     digits.decrement();
-    setTranslateWith(
-      (state) => {
-        if (order === ArrayOrder.inc) {
-          const width = state + cellWidth * 4;
+    setTranslateWith((state) => {
+      if (order === ArrayOrder.inc) {
+        const width = state + minWidthToTranslate.current * cellWidth;
+        return width > 0 ? 0 : width;
+      }
+      const width = state - minWidthToTranslate.current * cellWidth;
+      return width < 0 ? 0 : width;
+    });
 
-          return width > 0 ? 0 : width;
-        }
+    setDelays((state) => {
+      const value =
+        maxValue + roughHalf(maxValue) > 12
+          ? 12
+          : maxValue + roughHalf(maxValue);
 
-        const width = state - cellWidth * 4;
-
-        return width < 0 ? 0 : width;
-      },
-      // order === ArrayOrder.inc ? state + cellWidth * 4 : state - cellWidth * 4,
-    );
-
-    setDelays((state) =>
-      makeArrayOfDigits(maxValue + 5, maxValue + 4, ArrayOrder.dec),
-    );
+      return makeArrayOfDigits(value, value, ArrayOrder.dec);
+    });
     setCount((state) => (state - 1 < 0 ? 0 : state - 1));
   };
 
@@ -83,14 +94,17 @@ const Test = ({
     onDigitClick(digit);
   };
 
-  console.log({ exp: count * 4 - diff });
-  console.log({ count });
-
   useEffect(() => {
     if (translateWidth === 0) {
       setDiff(0);
     }
   }, [translateWidth]);
+
+  useEffect(() => {
+    if (chosen > -1) {
+      setSelectedDigit(chosen);
+    }
+  }, [chosen]);
 
   return (
     <div
@@ -129,7 +143,8 @@ const Test = ({
           display: 'flex',
           listStyleType: 'none',
           padding: 0,
-          width: cellWidth * 8,
+          width: cellWidth * (maxValue + 1),
+          maxWidth: cellWidth * 8,
           height: cellWidth,
           position: 'relative',
           overflow: 'hidden',
@@ -157,13 +172,17 @@ const Test = ({
                   ? cellWidth * idx - translateWidth
                   : 'none',
               transition: `right ${transitionDuration}ms ease-in-out ${
-                idx - count * 4 < 0
+                idx - count * minWidthToTranslate.current < 0
                   ? 0
-                  : (delays[idx - count * 4] * transitionDuration) / 5
+                  : (delays[idx - count * minWidthToTranslate.current] *
+                      transitionDuration) /
+                    5
               }ms, left ${transitionDuration}ms ease-in-out ${
-                idx - count * 4 < 0
+                idx - count * minWidthToTranslate.current < 0
                   ? 0
-                  : (delays[idx - count * 4] * transitionDuration) / 5
+                  : (delays[idx - count * minWidthToTranslate.current] *
+                      transitionDuration) /
+                    5
               }ms`,
             }}
             onClick={handleDigitClick(el)}
@@ -181,21 +200,27 @@ const Test = ({
             position: 'absolute',
             left:
               order === ArrayOrder.inc
-                ? selectedDigit * cellWidth - (count * 4 + diff) * cellWidth
+                ? selectedDigit * cellWidth -
+                  (count * minWidthToTranslate.current + diff) * cellWidth
                 : 'none',
             right:
               order === ArrayOrder.dec
-                ? selectedDigit * cellWidth - (count * 4 + diff) * cellWidth
+                ? selectedDigit * cellWidth -
+                  (count * minWidthToTranslate.current + diff) * cellWidth
                 : 'none',
 
             transition: `right ${transitionDuration}ms ease-in-out ${
-              selectedDigit - count * 4 < 0
+              selectedDigit - count * minWidthToTranslate.current < 0
                 ? 0
-                : (delays[selectedDigit - count * 4] * transitionDuration) / 5
+                : (delays[selectedDigit - count * minWidthToTranslate.current] *
+                    transitionDuration) /
+                  5
             }ms, left ${transitionDuration}ms ease-in-out ${
-              selectedDigit - count * 4 < 0
+              selectedDigit - count * minWidthToTranslate.current < 0
                 ? 0
-                : (delays[selectedDigit - count * 4] * transitionDuration) / 5
+                : (delays[selectedDigit - count * minWidthToTranslate.current] *
+                    transitionDuration) /
+                  5
             }ms`,
           }}
         />
@@ -225,4 +250,4 @@ const Test = ({
   );
 };
 
-export default Test;
+export default DigitBoard;

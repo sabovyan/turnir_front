@@ -202,7 +202,6 @@ const useProvideAuth = (): IAuthProvider => {
                 type: 'error',
               }),
             );
-            authStorage.clear();
             console.error(err.response.data.error);
           });
       }
@@ -220,7 +219,7 @@ const useProvideAuth = (): IAuthProvider => {
           })
           .catch((err) => {
             authStorage.clear();
-            console.error(err);
+            console.log(err.response.data.error);
           });
       }
 
@@ -234,7 +233,7 @@ const useProvideAuth = (): IAuthProvider => {
           return;
         }
 
-        if (diff <= 2) {
+        if (diff <= 4) {
           refreshAccessToken(refreshToken)
             .then((res: AxiosResponse<any>) => {
               const { data } = res;

@@ -1,11 +1,11 @@
 import React from 'react';
-import Backdrop from 'src/components/common/Backdrop/Backdrop';
-import Colors from 'src/styles/colors';
 import ScoreBoardHeader from './ScoreBoardHeader';
 
-import ScorePicker from './ScorePicker';
+import ScorePicker from '../../components/DigitBoard/ScorePicker';
 
 interface Props {}
+
+const length = 105;
 
 const TestScreen = (props: Props) => {
   return (
@@ -19,7 +19,7 @@ const TestScreen = (props: Props) => {
         }}
       >
         <ScoreBoardHeader name1={'Vagho'} name2={'Gago'} />
-        <ScorePicker goalsToWin={7} />
+        <ScorePicker left={-1} right={-1} winningPoints={length} pointer={0} />
         {/* <ScorePicker /> */}
       </div>
 
@@ -32,7 +32,7 @@ const TestScreen = (props: Props) => {
         }}
       >
         <ScoreBoardHeader name1={'Vagho'} name2={'Gago'} />
-        <ScorePicker goalsToWin={7} />
+        <ScorePicker left={-1} right={-1} winningPoints={length} pointer={1} />
         {/* <ScorePicker /> */}
       </div>
     </>

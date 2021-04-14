@@ -18,20 +18,26 @@ export const makeArrayOfDigits = (
         .fill(initialValue)
         .map((el, idx) => el - idx);
 
+export const roughHalf = (length: number) => Math.round(length / 2);
+
 const useDigits = (type: ArrayOrder, length: number) => {
   // const [digits, setDigits] = useState(
   //   type === ArrayOrder.inc
   //     ? makeArrayOfDigits(length + 5, 0, ArrayOrder.inc)
   //     : makeArrayOfDigits(length + 5, length + 4, ArrayOrder.dec),
   // );
-  const [digits, setDigits] = useState(
-    makeArrayOfDigits(length + 5, 0, ArrayOrder.inc),
-  );
+
+  const [digits, setDigits] = useState(() => {
+    const additional = roughHalf(length) >= 4 ? 4 : roughHalf(length);
+    return makeArrayOfDigits(length + additional, 0, ArrayOrder.inc);
+  });
 
   const increment = () => {
     setDigits((state) => {
       const newState = [...state];
-      for (let i = 0; i < 4; i++) {
+      const end = roughHalf(length) >= 4 ? 4 : roughHalf(length);
+
+      for (let i = 0; i < end; i++) {
         newState.push(newState[newState.length - 1] + 1);
       }
 
@@ -40,7 +46,13 @@ const useDigits = (type: ArrayOrder, length: number) => {
   };
 
   const decrement = () => {
-    setDigits((state) => state.slice(0, state.length - 4));
+    const end = roughHalf(length) >= 4 ? 4 : roughHalf(length);
+
+    setDigits((state) =>
+      state.slice(0, state.length - end).length < length
+        ? state
+        : state.slice(0, state.length - end),
+    );
   };
 
   return {

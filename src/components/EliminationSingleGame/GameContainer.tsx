@@ -48,7 +48,9 @@ const GameContainer = ({
 
       <div
         className={styles.enterResult}
-        style={{ display: isGameStarted ? 'flex' : 'none' }}
+        style={{
+          display: isGameStarted && player1 && player2 ? 'flex' : 'none',
+        }}
       >
         <CButton
           text="Enter Result"

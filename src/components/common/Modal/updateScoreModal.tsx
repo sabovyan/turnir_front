@@ -1,33 +1,28 @@
-import React, { MouseEvent, useEffect } from 'react';
+import React, { MouseEvent } from 'react';
 
 import ScoreBoardHeader from 'src/components/ScoreBoard/ScoreBoardHeader';
 import { Button, ButtonGroup } from '@material-ui/core';
-import { Game } from 'src/types/main.types';
 import Backdrop from '../Backdrop/Backdrop';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/features';
-import ScorePicker from 'src/pages/TestScreen/ScorePicker';
+import ScorePicker from 'src/components/DigitBoard/ScorePicker';
 import { closeScoreModal } from 'src/store/features/scoreBoard.feature';
 
-interface Props {
-  // open: boolean;
-  // game: Game;
-  // closeModal: () => void;
-}
+interface Props {}
 
-// const UpdateScoreModal = ({ open, game, closeModal }: Props) => {
 const UpdateScoreModal = ({}: Props) => {
   const {
     tournament: { data: tournamentData },
-    scoreBoard: { open, data: game },
+    scoreBoard: { open, data: game, sets, winningPoints },
   } = useSelector((state: RootState) => state);
+
+  // console.log(tournamentData);
 
   const dispatch = useDispatch();
 
   const handleResultPageClose = () => {
     dispatch(closeScoreModal());
-    // closeModal();
   };
 
   return open ? (
@@ -61,13 +56,17 @@ const UpdateScoreModal = ({}: Props) => {
             name1={game && game.participant1?.name}
             name2={game && game.participant2?.name}
           />
-          <ScorePicker goalsToWin={7} />
-          {/* {tournamentData &&
-            Array(tournamentData.winningSets)
-              .fill(0)
-              .map(() => (
-                <ScorePicker goalsToWin={tournamentData.goalsToWin} />
-              ))} */}
+          <div style={{ maxHeight: 420, overflow: 'auto' }}>
+            {sets.map((el, idx) => (
+              <ScorePicker
+                left={el.left}
+                right={el.right}
+                key={idx}
+                winningPoints={winningPoints}
+                pointer={idx}
+              />
+            ))}
+          </div>
         </div>
 
         <ButtonGroup style={{ color: 'white', alignSelf: 'flex-end' }}>

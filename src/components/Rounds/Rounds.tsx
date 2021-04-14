@@ -66,9 +66,9 @@ const Rounds = ({ rounds, isGameStarted, scale }: Props) => {
                     left: -5,
                     transform: 'translateY(50%)',
                   }}
+                  key={game.id}
                 >
                   <EliminationSingleGame
-                    key={game.id}
                     game={game}
                     gameIndex={gameIndex}
                     roundIndex={roundIndex}

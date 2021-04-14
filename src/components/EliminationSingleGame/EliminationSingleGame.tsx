@@ -8,10 +8,15 @@ import gameUiDetails from 'src/constants/gameUiDetails';
 import GameContainer from './GameContainer';
 
 import styles from './EliminationGameRectangle.module.css';
-import { useDispatch } from 'react-redux';
-import { openScoreModal } from 'src/store/features/scoreBoard.feature';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  IScore,
+  IScoreState,
+  openScoreModal,
+} from 'src/store/features/scoreBoard.feature';
 
 import UpdateScoreModal from '../common/Modal/updateScoreModal';
+import { RootState } from 'src/store/features';
 
 interface Props {
   // isEven: boolean;
@@ -38,27 +43,53 @@ const EliminationSingleGame = ({
 }: Props) => {
   const dispatch = useDispatch();
 
+  const { data: tournamentData } = useSelector(
+    (state: RootState) => state.tournament,
+  );
+
   const isEven = gameIndex % 2 === 0 ? false : true;
   const isFirstRound = roundIndex === 0 ? true : false;
 
-  const [open, setOpen] = useState(false);
-
   const handleResultPageOpen = () => {
-    dispatch(openScoreModal({ data: game, open: true }));
-    setOpen(true);
-  };
+    if (!tournamentData) return;
 
-  const handleResultPageClose = () => {
-    setOpen(false);
+    const { winningSets, goalsToWin } = tournamentData;
+    const { firstParticipantScore, secondParticipantScore } = game;
+
+    const s: IScore = {
+      left: -1,
+      right: -1,
+    };
+    const initialSets: IScore[] = Array(winningSets).fill(s);
+
+    const scoreModalData: IScoreState = {
+      data: game,
+      open: true,
+      sets: initialSets,
+      winningPoints: goalsToWin,
+      hasWinner: false,
+      winningSets: winningSets,
+    };
+
+    if (
+      firstParticipantScore.length &&
+      secondParticipantScore.length &&
+      firstParticipantScore.length === secondParticipantScore.length
+    ) {
+      const existingSets: IScore[] = initialSets.map((el, idx) => {
+        el.left = firstParticipantScore[idx];
+        el.right = secondParticipantScore[idx];
+        return el;
+      });
+
+      scoreModalData.sets = existingSets;
+    }
+
+    dispatch(openScoreModal(scoreModalData));
   };
 
   return (
     <>
-      {/* <UpdateScoreModal
-        open={open}
-        game={game}
-        closeModal={handleResultPageClose}
-      /> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className={styles.eliminationGameWrapper}>
           {isFinal && gameIndex === 1 ? (

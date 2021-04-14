@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Colors from 'src/styles/colors';
 import { ButtonGroup } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import ScorePicker from '../TestScreen/ScorePicker';
+import ScorePicker from '../../components/DigitBoard/ScorePicker';
 
 interface Props {}
 
@@ -76,7 +76,7 @@ const LSMRounds = (props: Props) => {
                 2222
               </Typography>
             </div>
-            <ScorePicker goalsToWin={7} />
+            <ScorePicker winningPoints={7} left={-1} right={-1} pointer={0} />
           </div>
         </div>
         <ButtonGroup
