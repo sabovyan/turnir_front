@@ -22,7 +22,7 @@ const Modal = () => {
   const {
     newTournamentModal,
     settingsInfo: { goalsToWin, tables, tournamentType, winningSets },
-    gamesForSetup: { firstRoundGames },
+    gamesForSetup: { firstRoundGames, hasThirdPlaceGame },
   } = useSelector((state: RootState) => state);
 
   const [name, setName] = useState('');
@@ -56,16 +56,6 @@ const Modal = () => {
     try {
       if (!user) throw new Error('you are not logged In');
 
-      console.log({
-        games: firstRoundGames,
-        goalsToWin,
-        tables,
-        tournamentTypeId: tournamentType,
-        winningSets,
-        userId: user.id,
-        name: name ? name : new Date().toLocaleDateString(),
-      });
-
       const tournament = await tournamentService.create({
         games: firstRoundGames,
         goalsToWin,
@@ -74,6 +64,7 @@ const Modal = () => {
         winningSets,
         userId: user.id,
         name: name ? name : new Date().toLocaleDateString(),
+        hasThirdPlaceGame,
       });
 
       console.log(tournament);
