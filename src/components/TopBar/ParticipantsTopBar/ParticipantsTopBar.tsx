@@ -33,7 +33,6 @@ const ParticipantsTopBar = () => {
 
   const handleBackButtonClick = () => {
     dispatch(changePlayerType(PlayersType.none));
-    history.push('/tournament-settings');
   };
 
   const handleNextButtonClick = () => {

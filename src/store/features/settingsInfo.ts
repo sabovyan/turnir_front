@@ -8,6 +8,26 @@ import {
   TournamentType,
 } from '../../types/main.types';
 
+/**
+ * @description participants dummy data
+ * @example
+ * participants: [
+    { name: 'alpha', players: [{ id: 0 }], side: Side.neutral },
+    { name: 'betta', players: [{ id: 1 }, { id: 2 }], side: Side.neutral },
+    { name: 'gamma', players: [{ id: 3 }], side: Side.neutral },
+    { name: 'delta', players: [{ id: 4 }], side: Side.neutral },
+    { name: 'epsilon', players: [{ id: 5 }], side: Side.neutral },
+    { name: 'zeta', players: [{ id: 6 }], side: Side.neutral },
+    { name: 'eta', players: [{ id: 7 }], side: Side.neutral },
+    { name: 'theta', players: [{ id: 8 }], side: Side.neutral },
+    { name: 'iota', players: [{ id: 9 }], side: Side.neutral },
+    { name: 'kappa', players: [{ id: 10 }], side: Side.neutral },
+    { name: 'lambda', players: [{ id: 11 }], side: Side.neutral },
+    { name: 'mu', players: [{ id: 12 }], side: Side.neutral },
+    { name: 'nu', players: [{ id: 13 }], side: Side.neutral },
+  ],
+ */
+
 type tournamentSettings = {
   tables: number;
   goalsToWin: number;
@@ -33,21 +53,6 @@ const initialState: tournamentSettings = {
   participants: [],
   pointsForWin: 2,
   pointsFoDraw: 1,
-  // participants: [
-  //   { name: 'alpha', players: [{ id: 0 }], side: Side.neutral },
-  //   { name: 'betta', players: [{ id: 1 }, { id: 2 }], side: Side.neutral },
-  //   { name: 'gamma', players: [{ id: 3 }], side: Side.neutral },
-  //   { name: 'delta', players: [{ id: 4 }], side: Side.neutral },
-  //   { name: 'epsilon', players: [{ id: 5 }], side: Side.neutral },
-  //   { name: 'zeta', players: [{ id: 6 }], side: Side.neutral },
-  //   { name: 'eta', players: [{ id: 7 }], side: Side.neutral },
-  //   { name: 'theta', players: [{ id: 8 }], side: Side.neutral },
-  //   { name: 'iota', players: [{ id: 9 }], side: Side.neutral },
-  //   { name: 'kappa', players: [{ id: 10 }], side: Side.neutral },
-  //   { name: 'lambda', players: [{ id: 11 }], side: Side.neutral },
-  //   { name: 'mu', players: [{ id: 12 }], side: Side.neutral },
-  //   { name: 'nu', players: [{ id: 13 }], side: Side.neutral },
-  // ],
   sides: {
     left: [],
     right: [],
@@ -58,6 +63,10 @@ const { reducer, actions } = createSlice({
   name: 'settingsInfo',
   initialState,
   reducers: {
+    resetSettings: (state) => {
+      return initialState;
+    },
+
     setTablesQuantity: (
       state,
       { payload }: PayloadAction<Pick<tournamentSettings, 'tables'>>,
@@ -323,5 +332,6 @@ export const {
   pairParticipants,
   setPointsForWin,
   setPointsForDraw,
+  resetSettings,
 } = actions;
 export default reducer;

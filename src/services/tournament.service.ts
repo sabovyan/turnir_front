@@ -18,6 +18,7 @@ interface createTournamentArgs {
   games: Game[];
   userId: number;
   name: string;
+  hasThirdPlaceGame: boolean;
 }
 
 const create = async (data: createTournamentArgs) => {

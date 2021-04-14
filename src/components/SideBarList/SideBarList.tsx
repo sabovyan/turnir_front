@@ -21,6 +21,8 @@ import colors from '../../styles/colors';
 import svg from '../../assets/tournaments.svg';
 import './SideBarList.css';
 import { activeSideBarIcon } from '../../types/main.types';
+import { useDispatch } from 'react-redux';
+import { resetSettings } from 'src/store/features/settingsInfo';
 
 interface ISideBarList {
   handleSettingsIconClick: () => void;
@@ -36,6 +38,11 @@ const SideBarList: FC<ISideBarList> = ({
   handlePlayersIconClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { t } = useTranslation();
+  const history = useHistory();
+  const { user } = useAuth();
+  const dispatch = useDispatch();
+
   const handleToggleDrawer = (event: any) => {
     if (
       !(event.target.tagName === 'svg') &&
@@ -48,12 +55,9 @@ const SideBarList: FC<ISideBarList> = ({
     }
   };
 
-  const { t } = useTranslation();
-  const history = useHistory();
-  const { user } = useAuth();
-
   const handleHomeIconClick = () => {
     history.push('/');
+    dispatch(resetSettings());
   };
 
   return (
