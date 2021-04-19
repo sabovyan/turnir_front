@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { PlayersType } from 'src/types/main.types';
+import { PlayersType, TournamentType } from 'src/types/main.types';
 import { RootState } from '../../../store/features';
 import { setUpGamesAndPlayers } from '../../../store/features/gamesForSetup';
 import BackButton from '../../common/Buttons/BackButton/BackButton';
@@ -21,7 +21,9 @@ import { countLeftAndRightSides } from 'src/utils/Dyp.utils';
 import { setNewTournamentModal } from 'src/store/features/newTournamentModal';
 
 const ParticipantsTopBar = () => {
-  const { playerType } = useSelector((state: RootState) => state.settingsInfo);
+  const { playerType, tournamentType } = useSelector(
+    (state: RootState) => state.settingsInfo,
+  );
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -84,7 +86,11 @@ const ParticipantsTopBar = () => {
       return;
     }
 
-    history.push('/setup');
+    if (tournamentType === TournamentType.elimination) {
+      history.push('/setup');
+    } else {
+      history.push('/lms');
+    }
   };
 
   return (

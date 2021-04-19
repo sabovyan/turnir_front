@@ -233,3 +233,8 @@ export enum RoundName {
   final = 'Final',
   semiFinal = '1/2 Finals',
 }
+
+export type ConfigListItem = {
+  name: string;
+  description: string;
+};

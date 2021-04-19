@@ -1,7 +1,8 @@
 import React from 'react';
 import TournamentTopBar from 'src/components/TopBar/TournamentTopBar/TournamentTopBar';
 import { TournamentType } from 'src/types/main.types';
-import LSMRounds from './LSMRounds';
+import LSMRounds from './LMSRounds';
+import PlayerStats from './PlayerStats';
 
 interface Props {}
 
@@ -22,7 +23,10 @@ const Lsm = (props: Props) => {
         }}
       />
 
-      <LSMRounds />
+      <div style={{ display: 'flex', margin: 16, gap: '1rem' }}>
+        <LSMRounds />
+        <PlayerStats />
+      </div>
     </div>
   );
 };
