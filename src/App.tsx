@@ -15,6 +15,7 @@ import Tournament from './pages/Tournament/Tournament';
 import TestScreen from './pages/TestScreen/TestScreen';
 import CreateTournamentModal from './components/common/Modal/CreateTournamentModal';
 import Lsm from './pages/Lsm/Lsm';
+import Result from './pages/Result/Result';
 // import CreateTournamentModal from './components/common/Modal/CreateTournamentModal';
 // import UndoFullScreen from './components/UndoFullScreen/UndoFullScreen';
 // import UpdateScoreModal from './components/common/Modal/updateScoreModal';
@@ -55,6 +56,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute isAuth={user} path="/lsm">
               <Lsm />
+            </PrivateRoute>
+            <PrivateRoute isAuth={user} path="/result">
+              <Result />
             </PrivateRoute>
 
             <Route path="/email-confirmation/:token">

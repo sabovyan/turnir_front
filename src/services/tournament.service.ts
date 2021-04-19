@@ -21,6 +21,18 @@ interface createTournamentArgs {
   hasThirdPlaceGame: boolean;
 }
 
+export interface IUpdateGameScore {
+  firstParticipantScore: number[];
+  secondParticipantScore: number[];
+  gameId: number;
+  tournamentId: number;
+}
+
+export interface IUpdateGameResponse {
+  updatedGame: Game;
+  nextGame?: undefined;
+}
+
 const create = async (data: createTournamentArgs) => {
   const token = authStorage.getAccessToken();
   if (!token) return;
@@ -94,12 +106,32 @@ const deleteById = async ({ id }: OnlyId) => {
   return tournament;
 };
 
+const updateTournamentScore = async ({
+  gameId,
+  firstParticipantScore,
+  secondParticipantScore,
+  tournamentId,
+}: IUpdateGameScore) => {
+  const token = authStorage.getAccessToken();
+  if (!token) return;
+
+  const response = await tournamentRequest.doUpdate({
+    url: `game/${gameId}`,
+    token,
+    data: { firstParticipantScore, secondParticipantScore, tournamentId },
+  });
+
+  const updatedGames = response.data as IUpdateGameResponse;
+  return updatedGames;
+};
+
 const tournamentService = {
   create,
   getAll,
   getById,
   changeNameById,
   deleteById,
+  updateTournamentScore,
 };
 
 export default tournamentService;

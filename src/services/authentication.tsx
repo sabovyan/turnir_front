@@ -195,14 +195,19 @@ const useProvideAuth = (): IAuthProvider => {
             setUser(data);
           })
           .catch((err) => {
-            dispatch(
-              setResponseStatus({
-                message: 'Network Error',
-                open: true,
-                type: 'error',
-              }),
-            );
-            console.error(err.response.data.error);
+            if (!err.response) {
+              dispatch(
+                setResponseStatus({
+                  message: 'Network Error',
+                  open: true,
+                  type: 'error',
+                }),
+              );
+
+              setUser(false);
+            } else {
+              console.error(err.response.data.error);
+            }
           });
       }
       if (expiry < now && !user) {
@@ -218,8 +223,18 @@ const useProvideAuth = (): IAuthProvider => {
             setExpiry(data.expiry);
           })
           .catch((err) => {
-            authStorage.clear();
-            console.log(err.response.data.error);
+            if (!err.response) {
+              dispatch(
+                setResponseStatus({
+                  message: 'Server error',
+                  open: true,
+                  type: 'error',
+                }),
+              );
+            } else {
+              authStorage.clear();
+              console.log(err.response.data.error);
+            }
           });
       }
 

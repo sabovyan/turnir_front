@@ -17,6 +17,7 @@ import useAuth from 'src/services/authentication';
 import { useHistory } from 'react-router-dom';
 import { setResponseStatus } from 'src/store/features/formResponseStatus';
 import { TournamentType } from 'src/types/main.types';
+import { resetSettings } from 'src/store/features/settingsInfo';
 
 const Modal = () => {
   const {
@@ -67,11 +68,10 @@ const Modal = () => {
         hasThirdPlaceGame,
       });
 
-      console.log(tournament);
-
       if (tournament) {
         dispatch(setNewTournamentModal(false));
-
+        dispatch(resetSettings());
+        history.replace('/');
         history.push(`/tournament/${tournament.id}`);
       }
     } catch (error) {

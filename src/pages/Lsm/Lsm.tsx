@@ -18,6 +18,7 @@ const Lsm = (props: Props) => {
           tournamentTypeId: TournamentType.lastManStanding,
           userId: 1,
           winningSets: 7,
+          completionStatus: false,
         }}
       />
 

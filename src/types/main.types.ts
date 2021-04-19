@@ -98,6 +98,7 @@ export type Participant = {
   name: string;
   players: Pick<Player, 'id'>[];
   side: Side;
+  id?: number;
 };
 
 export enum PlayersType {
@@ -169,6 +170,7 @@ export interface ITournament {
   tournamentTypeId: TournamentType;
   name: string;
   createdAt: string;
+  completionStatus: boolean;
 }
 
 export interface IRound {
@@ -225,4 +227,9 @@ export type ThunkError = {
 export enum DigitButtonType {
   plus,
   minus,
+}
+
+export enum RoundName {
+  final = 'Final',
+  semiFinal = '1/2 Finals',
 }

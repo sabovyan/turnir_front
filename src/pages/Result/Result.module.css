@@ -1,0 +1,11 @@
+.resultList {
+  width: 500px;
+  height: 700px;
+  list-style: none;
+  padding: 16px;
+  overflow: auto;
+}
+
+.resultList::-webkit-scrollbar {
+  display: none;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import { Game } from 'src/types/main.types';
@@ -17,6 +17,8 @@ import {
 
 import UpdateScoreModal from '../common/Modal/updateScoreModal';
 import { RootState } from 'src/store/features';
+import { countVictories } from 'src/utils/countVictories';
+import { Score } from '@material-ui/icons';
 
 interface Props {
   // isEven: boolean;
@@ -47,6 +49,11 @@ const EliminationSingleGame = ({
     (state: RootState) => state.tournament,
   );
 
+  const [score, setScore] = useState({
+    firstScore: -1,
+    secondScore: -1,
+  });
+
   const isEven = gameIndex % 2 === 0 ? false : true;
   const isFirstRound = roundIndex === 0 ? true : false;
 
@@ -69,6 +76,7 @@ const EliminationSingleGame = ({
       winningPoints: goalsToWin,
       hasWinner: false,
       winningSets: winningSets,
+      tournamentId: tournamentData.id,
     };
 
     if (
@@ -76,7 +84,9 @@ const EliminationSingleGame = ({
       secondParticipantScore.length &&
       firstParticipantScore.length === secondParticipantScore.length
     ) {
-      const existingSets: IScore[] = initialSets.map((el, idx) => {
+      const sets = Array(firstParticipantScore.length).fill(s);
+
+      const existingSets: IScore[] = sets.map((el, idx) => {
         el.left = firstParticipantScore[idx];
         el.right = secondParticipantScore[idx];
         return el;
@@ -87,6 +97,27 @@ const EliminationSingleGame = ({
 
     dispatch(openScoreModal(scoreModalData));
   };
+
+  useEffect(() => {
+    if (
+      game.firstParticipantScore.length &&
+      game.secondParticipantScore.length
+    ) {
+      if (game.firstParticipantScore.length === 1) {
+        setScore({
+          firstScore: game.firstParticipantScore[0],
+          secondScore: game.secondParticipantScore[0],
+        });
+      } else {
+        setScore(
+          countVictories(
+            game.firstParticipantScore,
+            game.secondParticipantScore,
+          ),
+        );
+      }
+    }
+  }, [game.firstParticipantScore, game.secondParticipantScore]);
 
   return (
     <>
@@ -112,6 +143,8 @@ const EliminationSingleGame = ({
             player1={game.participant1?.name}
             player2={game.participant2?.name}
             handleResultPageOpen={handleResultPageOpen}
+            score1={score.firstScore}
+            score2={score.secondScore}
           />
           <GameFrontLine
             toDown={isEven}

@@ -1,5 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { Game } from 'src/types/main.types';
+import WinningSets from 'src/components/WinningSets/WinningSets';
+import { Game, OnlyId } from 'src/types/main.types';
 
 export interface IScore {
   left: number;
@@ -12,6 +13,8 @@ type VictoryCounterType = {
 };
 
 const countWinners = (acc: VictoryCounterType, { left, right }: IScore) => {
+  if (left === -1 || right === -1) return acc;
+
   if (left > right) {
     acc.left += 1;
     return acc;
@@ -34,6 +37,7 @@ export interface IScoreState {
   winningPoints: number;
   hasWinner: boolean;
   winningSets: number;
+  tournamentId: number;
 }
 
 const initialState: IScoreState = {
@@ -43,6 +47,7 @@ const initialState: IScoreState = {
   winningPoints: 7,
   hasWinner: false,
   winningSets: 1,
+  tournamentId: 0,
 };
 
 const { reducer, actions } = createSlice({
@@ -58,30 +63,19 @@ const { reducer, actions } = createSlice({
       }: PayloadAction<{ idx: number; left?: number; right?: number }>,
     ) => {
       const score = state.sets[idx];
-      if (left) {
+      if (left !== undefined && left >= 0) {
         score.left = left;
         if (left < state.winningPoints && score.right === -1) {
           score.right = state.winningPoints;
         }
       }
 
-      if (right) {
+      if (right !== undefined && right >= 0) {
         score.right = right;
         if (right < state.winningPoints && score.left === -1) {
           score.left = state.winningPoints;
         }
       }
-
-      // const registeredSets = state.sets.filter(
-      //   (set) => set.left > -1 && set.right > -1,
-      // );
-
-      // if (
-      //   registeredSets.length !== state.sets.length ||
-      //   !(registeredSets.length >= state.winningSets)
-      // ) {
-      //   return;
-      // }
 
       const victoryQuantity = state.sets.reduce<VictoryCounterType>(
         countWinners,
@@ -90,7 +84,25 @@ const { reducer, actions } = createSlice({
 
       console.log(victoryQuantity);
 
-      if (victoryQuantity.left === victoryQuantity.right) {
+      const candidateScore =
+        victoryQuantity.left > victoryQuantity.right
+          ? victoryQuantity.left
+          : victoryQuantity.left < victoryQuantity.right
+          ? victoryQuantity.right
+          : null;
+
+      if (candidateScore && candidateScore >= state.winningSets) {
+        state.hasWinner = true;
+      } else {
+        state.hasWinner = false;
+      }
+
+      console.log(candidateScore);
+
+      if (
+        victoryQuantity.left === victoryQuantity.right ||
+        (candidateScore && candidateScore < state.winningSets)
+      ) {
         const unregistered = state.sets.some(
           (set) => set.left === -1 || set.right === -1,
         );
@@ -116,51 +128,14 @@ const { reducer, actions } = createSlice({
           }
         }
       }
+    },
 
-      // if (registeredSets.length >= state.winningSets) {
-      //   const victoryQuantity = registeredSets.reduce<VictoryCounterType>(
-      //     countWinners,
-      //     { left: 0, right: 0 },
-      //   );
-
-      //   console.log(victoryQuantity);
-
-      //   if (victoryQuantity.left !== victoryQuantity.right) {
-      //     if (
-      //       victoryQuantity.left >= state.winningSets &&
-      //       state.winningSets < state.sets.length
-      //     ) {
-      //       // state.hasWinner = true;
-      //       state.sets.pop();
-      //     }
-
-      //     if (
-      //       victoryQuantity.right >= state.winningSets &&
-      //       state.winningSets < state.sets.length
-      //     ) {
-      //       // state.hasWinner = true;
-      //       state.sets.pop();
-      //     }
-      //   }
-
-      //   if (
-      //     (victoryQuantity.left >= state.winningSets ||
-      //       victoryQuantity.right >= state.winningSets) &&
-      //     victoryQuantity.left !== victoryQuantity.right
-      //   ) {
-      //     state.hasWinner = true;
-      //   } else {
-      //     const newSet: IScore = {
-      //       left: -1,
-      //       right: -1,
-      //     };
-      //     state.sets.push(newSet);
-      //   }
-      // }
+    removeSet: (state, { payload: { id } }: PayloadAction<OnlyId>) => {
+      state.sets = state.sets.filter((set, idx) => idx !== id);
     },
   },
 });
 
 export default reducer;
 
-export const { openScoreModal, closeScoreModal, setScore } = actions;
+export const { openScoreModal, closeScoreModal, setScore, removeSet } = actions;

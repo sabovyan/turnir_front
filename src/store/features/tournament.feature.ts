@@ -7,6 +7,7 @@ import {
   ReduxState,
   ThunkError,
 } from 'src/types/main.types';
+import { getNumberFromName } from 'src/utils/getNumberFromRoundName';
 
 interface TournamentState extends ReduxState<ITournamentAllTogether | null> {
   scale: number;
@@ -26,8 +27,8 @@ export const getTournamentById = createAsyncThunk<
       const final = rounds.find((round) => round.name === 'Final');
       const restRounds = rounds.filter((el) => el.name !== 'Final');
 
-      const sortedRounds = restRounds.sort((a, b) =>
-        b.name.localeCompare(a.name),
+      const sortedRounds = restRounds.sort(
+        (a, b) => getNumberFromName(b.name) - getNumberFromName(a.name),
       );
       if (final) {
         sortedRounds.push(final);

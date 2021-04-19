@@ -27,18 +27,7 @@ const Rounds = ({ rounds, isGameStarted, scale }: Props) => {
     >
       <div
         className={!isGameStarted ? styles.roundWrapper : styles.gameWrapper}
-        style={
-          scale
-            ? {
-                transform: `scale(${scale / 100})`,
-              }
-            : {}
-        }
-        onTransitionEnd={(event: TransitionEvent<HTMLDivElement>) => {
-          event.currentTarget.style.transform = scale
-            ? `scale(${scale / 100})`
-            : '';
-        }}
+        style={scale ? { transform: `scale(${scale / 100})` } : {}}
       >
         {rounds.map(({ games, name }, roundIndex) => (
           <Round name={name} key={name} roundHeight={roundHeight}>
