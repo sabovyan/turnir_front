@@ -16,7 +16,7 @@ const useCardStyles = makeStyles({
 
   cardContent: {
     color: 'white',
-    flexGrow: 4,
+    flexGrow: 2,
     display: 'flex',
     justifyContent: 'space-between',
   },

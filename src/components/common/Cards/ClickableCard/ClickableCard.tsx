@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import useCardStyles from './ClickableCard.styles';
 import ICardProps from './ClickableCard.interface';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from '@material-ui/core';
 import FormField from 'src/components/Input/FormField';
 import tournamentService from 'src/services/tournament.service';
@@ -17,6 +16,7 @@ import {
   deleteTournamentById,
   updateTournamentName,
 } from 'src/store/features/allTournaments';
+import { CloseButton } from '../../Buttons';
 
 const ClickableCard: FC<ICardProps> = ({
   icon,
@@ -131,57 +131,86 @@ const ClickableCard: FC<ICardProps> = ({
   };
 
   return (
-    <MUICard className={classes.card} onClick={handleCardClick} data-card="yes">
+    <MUICard
+      className={classes.card}
+      onClick={handleCardClick}
+      data-card="yes"
+      style={{
+        width: !isInteractive ? 250 : 350,
+        height: !isInteractive ? 200 : 220,
+      }}
+    >
       <CardContent
         className={classes.cardContent}
-        style={{ background: color, cursor: 'pointer' }}
+        style={{ background: color, cursor: 'pointer', position: 'relative' }}
       >
         {icon}
+        {isInteractive && (
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              flexDirection: 'column',
+              position: 'absolute',
+              top: 5,
+              right: 5,
+            }}
+          >
+            <CloseButton
+              onClick={handleDeleteIconClick}
+              style={{ color: 'white', cursor: 'pointer' }}
+            />
+          </div>
+        )}
       </CardContent>
-      {isInteractive && (
-        <Typography
-          onClick={(event: MouseEvent<HTMLElement>) => event.stopPropagation()}
-          align="left"
-          variant="body2"
-          color="textSecondary"
-          style={{ margin: '0 10px' }}
-        >
-          {date &&
-            new Date(date).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            })}
-        </Typography>
-      )}
+
       <CardActions
         className={classes.action}
-        style={{ justifyContent: isInteractive ? 'space-between' : 'center' }}
+        style={{
+          justifyContent: isInteractive ? 'space-between' : 'center',
+          width: '100%',
+          alignItems: 'flex-start',
+        }}
         onClick={(event: MouseEvent<HTMLElement>) => event.stopPropagation()}
       >
         {!isEdit ? (
           <>
-            <Typography
-              variant="h6"
-              style={{ color: !isInteractive ? color : 'inherit' }}
-            >
-              {name}
-            </Typography>
+            <div>
+              <Typography
+                variant={!isInteractive ? 'h6' : 'body1'}
+                style={{
+                  color: !isInteractive ? color : 'inherit',
+                  fontWeight: !isInteractive ? 'inherit' : 'bold',
+                }}
+              >
+                {name}
+              </Typography>
+              {isInteractive && (
+                <Typography
+                  onClick={(event: MouseEvent<HTMLElement>) =>
+                    event.stopPropagation()
+                  }
+                  align="left"
+                  variant="body2"
+                  color="textSecondary"
+                  style={{ margin: '10px 0' }}
+                >
+                  {date &&
+                    new Date(date).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                </Typography>
+              )}
+            </div>
             {isInteractive && (
-              <div style={{ display: 'flex', gap: '1rem' }}>
-                <IconButton
-                  onClick={handleEditIconClick}
-                  style={{ margin: 0, padding: 0 }}
-                >
-                  <EditIcon style={{ color, cursor: 'pointer' }} />
-                </IconButton>
-                <IconButton
-                  onClick={handleDeleteIconClick}
-                  style={{ margin: 0, padding: 0 }}
-                >
-                  <DeleteIcon style={{ color, cursor: 'pointer' }} />
-                </IconButton>
-              </div>
+              <IconButton
+                onClick={handleEditIconClick}
+                style={{ margin: 5, padding: 0 }}
+              >
+                <EditIcon style={{ color, cursor: 'pointer' }} />
+              </IconButton>
             )}
           </>
         ) : (

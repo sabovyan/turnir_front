@@ -85,7 +85,7 @@ const Home = () => {
             display: 'flex',
             justifyContent: 'center',
             height: '80vh',
-            gap: '2rem',
+            gap: '1rem',
             flexWrap: 'wrap',
             marginTop: '2rem',
             overflow: 'auto',
