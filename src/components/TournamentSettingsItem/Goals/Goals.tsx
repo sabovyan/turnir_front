@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { goalsDescription } from '../../constants/description';
-import { goalsArray } from '../../constants/quantity';
-import SettingsListItem from '../SettingsListItem/SettingsListItem';
-import SettingsSelect from '../SettingsSelect/SettingsSelect';
-import { RootState } from '../../store/features';
-import { setGoalsQuantity } from '../../store/features/settingsInfo';
+import { goalsDescription } from '../../../constants/description';
+import { goalsArray } from '../../../constants/quantity';
+import SettingsListItem from '../../SettingsListItem/SettingsListItem';
+import SettingsSelect from '../../SettingsSelect/SettingsSelect';
+import { RootState } from '../../../store/features';
+import { setGoalsQuantity } from '../../../store/features/settingsInfo';
 
 interface Props {}
 
@@ -29,6 +29,7 @@ const Goals = (props: Props) => {
         label={t('Goals to Win')}
         array={goalsArray}
         type={'Goals'}
+        firstItemType={t('Goal')}
         value={String(goalsToWin)}
         onChange={handelGoalsChange}
       />

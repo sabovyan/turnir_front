@@ -40,6 +40,7 @@ type tournamentSettings = {
   sides: ArrangedParticipants;
   pointsForWin: number;
   pointsFoDraw: number;
+  lives: number;
 };
 
 const initialState: tournamentSettings = {
@@ -57,6 +58,7 @@ const initialState: tournamentSettings = {
     left: [],
     right: [],
   },
+  lives: 3,
 };
 
 const { reducer, actions } = createSlice({

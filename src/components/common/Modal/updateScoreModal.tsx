@@ -11,7 +11,6 @@ import {
   closeScoreModal,
   removeSet,
 } from 'src/store/features/scoreBoard.feature';
-import { CloseButton } from '../Buttons';
 import Colors from 'src/styles/colors';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -81,8 +80,6 @@ const UpdateScoreModal = () => {
       if (data) {
         dispatch(getTournamentById({ id: tournamentId }));
         dispatch(closeScoreModal());
-        // setTimeout(() => {
-        // }, 1000);
       }
     } catch (err) {
       console.log(err.response.data.error);

@@ -8,6 +8,7 @@ interface ISettingsSelectProps extends IFormFieldProps {
   array: string[];
   value: string;
   type: string;
+  firstItemType: string;
 }
 
 const SettingsSelect = ({
@@ -15,6 +16,7 @@ const SettingsSelect = ({
   array,
   value,
   type,
+  firstItemType,
   ...props
 }: ISettingsSelectProps) => {
   return (
@@ -34,7 +36,7 @@ const SettingsSelect = ({
         {array.map((el, idx) =>
           idx === 0 ? (
             <MenuItem key={el} value={el}>
-              {`${el} ${type.slice(0, -1)}`}
+              {`${el} ${firstItemType}`}
             </MenuItem>
           ) : (
             <MenuItem key={el} value={el}>

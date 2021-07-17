@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
-import { Paper, Typography } from '@material-ui/core';
+
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store/features';
 import { useHistory } from 'react-router';
 import useAuth from '../../services/authentication';
 import { setResponseStatus } from '../../store/features/formResponseStatus';
-import Goals from '../Goals/Goals';
-import Tables from '../Tables/Tables';
-import WinningSets from '../WinningSets/WinningSets';
+
+import SettingsItem from 'src/components/TournamentSettingsItem';
+import ViewWrapper from '../common/ViewWrapper/ViewWrapper';
+import Checkbox from '@material-ui/core/Checkbox';
+import { FormControlLabel, Paper, Typography } from '@material-ui/core';
+
+import { TournamentType } from 'src/types/main.types';
 
 import styles from './EliminationSettings.module.css';
-import ViewWrapper from '../common/ViewWrapper/ViewWrapper';
-import { RootState } from 'src/store/features';
-import { TournamentType } from 'src/types/main.types';
-import Points from '../Points/Points';
 
 const EliminationSettings = () => {
   const { tournamentType } = useSelector(
@@ -51,11 +52,22 @@ const EliminationSettings = () => {
   return (
     <ViewWrapper>
       <Paper className={styles.paper} elevation={3}>
-        <Tables />
-        <Goals />
-        <WinningSets />
+        {tournamentType === TournamentType.lastManStanding ? (
+          <SettingsItem.Lives />
+        ) : null}
+        <SettingsItem.Tables />
+        <SettingsItem.Goals />
+        {tournamentType === TournamentType.lastManStanding ? (
+          <div>
+            <FormControlLabel control={<Checkbox />} label={t('Draw')} />
+          </div>
+        ) : null}
 
-        {tournamentType === TournamentType.lastManStanding ? <Points /> : null}
+        <SettingsItem.WinningSets />
+
+        {tournamentType === TournamentType.lastManStanding ? (
+          <SettingsItem.Points />
+        ) : null}
 
         <div style={{ width: '480px' }}>
           <Typography

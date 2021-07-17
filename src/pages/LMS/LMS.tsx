@@ -2,7 +2,7 @@ import React from 'react';
 import TournamentTopBar from 'src/components/TopBar/TournamentTopBar/TournamentTopBar';
 import { TournamentType } from 'src/types/main.types';
 import LSMRounds from './LMSRounds';
-import PlayerStats from './PlayerStats';
+import PlayerStats from './PlayerStats/PlayerStats';
 
 interface Props {}
 

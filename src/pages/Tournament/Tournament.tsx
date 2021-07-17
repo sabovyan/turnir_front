@@ -5,7 +5,6 @@ import { RootState } from 'src/store/features';
 import { getTournamentById } from 'src/store/features/tournament.feature';
 import {
   AsyncResponseStatus,
-  Game,
   Participant,
   RoundName,
 } from 'src/types/main.types';
@@ -42,7 +41,7 @@ const Tournament = (props: Props) => {
   const moveToResultPage = () => {
     if (!tournament) return;
 
-    const [firstRound, ...rest] = tournament.rounds;
+    const [firstRound] = tournament.rounds;
 
     let participants = firstRound.games.reduce<Participant[]>((acc, game) => {
       if (game.participant1) {

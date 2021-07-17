@@ -234,7 +234,7 @@ export enum RoundName {
   semiFinal = '1/2 Finals',
 }
 
-export type ConfigListItem = {
+export type PlayerStatsConfig = {
   name: string;
   description: string;
 };

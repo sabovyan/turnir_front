@@ -1,6 +1,6 @@
-import { ConfigListItem } from 'src/types/main.types';
+import { PlayerStatsConfig } from 'src/types/main.types';
 
-const playerStatsConfig: ConfigListItem[] = [
+const playerStatsConfig: PlayerStatsConfig[] = [
   {
     name: 'Lives left',
     description:

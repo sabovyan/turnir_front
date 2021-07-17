@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Result from 'src/pages/Result/Result';
 import { Participant, TournamentType } from 'src/types/main.types';
 
 type ResultState = {

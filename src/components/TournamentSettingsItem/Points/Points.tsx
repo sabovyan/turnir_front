@@ -1,14 +1,15 @@
 import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { pointsDescription } from 'src/constants/description';
 import { pointsArray } from 'src/constants/quantity';
 import { RootState } from 'src/store/features';
 import {
   setPointsForDraw,
   setPointsForWin,
 } from 'src/store/features/settingsInfo';
-import SettingsListItem from '../SettingsListItem/SettingsListItem';
-import SettingsSelect from '../SettingsSelect/SettingsSelect';
+import SettingsListItem from '../../SettingsListItem/SettingsListItem';
+import SettingsSelect from '../../SettingsSelect/SettingsSelect';
 
 interface Props {}
 
@@ -35,16 +36,12 @@ const Points = (props: Props) => {
     }
   };
   return (
-    <SettingsListItem
-      header="Points"
-      description={
-        "The 'points for scarce matches' setting allows points to be awarded, to the loser of a game, that has a scarce goal difference. For multiple sets or disciplines, all goals of that matches are added."
-      }
-    >
+    <SettingsListItem header="Points" description={pointsDescription}>
       <SettingsSelect
         array={pointsArray}
         label={t('Points for Win')}
         type={'Points'}
+        firstItemType={'Point'}
         value={String(pointsForWin)}
         onChange={handlePointsChange('win')}
       />
@@ -52,6 +49,7 @@ const Points = (props: Props) => {
         array={pointsArray}
         label={t('Points for Draw')}
         type={'Points'}
+        firstItemType={'Point'}
         value={String(pointsFoDraw)}
         onChange={handlePointsChange('draw')}
         disabled

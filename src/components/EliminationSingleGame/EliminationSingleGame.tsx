@@ -15,16 +15,10 @@ import {
   openScoreModal,
 } from 'src/store/features/scoreBoard.feature';
 
-import UpdateScoreModal from '../common/Modal/updateScoreModal';
 import { RootState } from 'src/store/features';
 import { countVictories } from 'src/utils/countVictories';
-import { Score } from '@material-ui/icons';
 
 interface Props {
-  // isEven: boolean;
-  // isFirstRound: boolean;
-  // maxHeight: number;
-  // numberOfGamesInOneRound: number;
   isGameStarted: boolean;
   game: Game;
   gameIndex: number;

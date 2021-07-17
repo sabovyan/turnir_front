@@ -1,5 +1,4 @@
 import React from 'react';
-import { TransitionEvent } from 'react';
 import gameUiDetails from 'src/constants/gameUiDetails';
 import { DraftRound } from 'src/types/main.types';
 import EliminationSingleGame from '../EliminationSingleGame/EliminationSingleGame';

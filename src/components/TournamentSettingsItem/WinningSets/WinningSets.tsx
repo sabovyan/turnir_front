@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { winningSetsArray } from '../../constants/quantity';
-import SettingsListItem from '../SettingsListItem/SettingsListItem';
-import SettingsSelect from '../SettingsSelect/SettingsSelect';
-import { RootState } from '../../store/features';
-import { setWinningSets } from '../../store/features/settingsInfo';
+import { winningSetsArray } from '../../../constants/quantity';
+import SettingsListItem from '../../SettingsListItem/SettingsListItem';
+import SettingsSelect from '../../SettingsSelect/SettingsSelect';
+import { RootState } from '../../../store/features';
+import { setWinningSets } from '../../../store/features/settingsInfo';
 
 interface Props {}
 
@@ -27,6 +27,7 @@ const WinningSets = (props: Props) => {
         array={winningSetsArray}
         label={t('Winning Sets')}
         type={'Sets'}
+        firstItemType={'Set'}
         value={String(winningSets)}
         onChange={handelGoalsChange}
       />

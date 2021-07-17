@@ -1,5 +1,5 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import WinningSets from 'src/components/WinningSets/WinningSets';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { Game, OnlyId } from 'src/types/main.types';
 
 export interface IScore {
