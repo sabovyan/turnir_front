@@ -26,6 +26,7 @@ interface Props extends CardContentProps {
   groupId: number;
   onDelete: () => void;
   onEdit: (name?: string) => void;
+  AddItemForm: React.ReactNode;
 }
 
 const SideBarGroupCard = ({
@@ -34,6 +35,7 @@ const SideBarGroupCard = ({
   isEditable,
   isEdit,
   groupId,
+  AddItemForm,
   onDelete,
   onEdit,
 }: Props) => {
@@ -124,6 +126,7 @@ const SideBarGroupCard = ({
             boxShadow: '0 0 3px 1px #333333',
             minHeight: '500px',
             minWidth: '200px',
+            marginBottom: 16,
           }}
         >
           <List
@@ -139,6 +142,7 @@ const SideBarGroupCard = ({
             {children}
           </List>
         </div>
+        {AddItemForm}
       </CardContent>
     </GroupCard>
   );

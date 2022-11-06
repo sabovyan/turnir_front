@@ -1,60 +1,62 @@
-import React from "react";
-import { makeStyles, MenuItem, Select, Typography } from "@material-ui/core";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import Colors from "src/styles/colors";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { makeStyles, MenuItem, Select, Typography } from '@material-ui/core';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Colors from 'src/styles/colors';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    display: "flex",
-    gap: "1rem",
-    alignItems: "flex-start",
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'flex-start',
   },
 
   select: {
     minWidth: 100,
-    fontSize: "1.5rem",
+    fontSize: '1.5rem',
     color: Colors.backdropColor,
-    border: "none",
-    background: "transparent",
+    border: 'none',
+    background: 'transparent',
 
-    "& > .MuiSelect-select:focus": {
-      background: "white",
+    '& > .MuiSelect-select:focus': {
+      background: 'white',
     },
 
-    "&:before": {
-      display: "none",
+    '&:before': {
+      display: 'none',
     },
 
-    "&:after": {
-      display: "none",
+    '&:after': {
+      display: 'none',
     },
   },
 });
 
 interface Props {}
 
-type ManageState = "tournaments" | "players";
+type ManageState = 'tournaments' | 'players';
 
 const ManageSelect = (props: Props) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const history = useHistory();
 
-  const [state, setState] = useState<ManageState>("tournaments");
+  const [state, setState] = useState<ManageState>(
+    history.location.pathname === '/' ? 'tournaments' : 'players',
+  );
 
   const handleSelectChange = (
-    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
+    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    if (typeof e.target.value === "string") {
+    if (typeof e.target.value === 'string') {
       const value = e.target.value as ManageState;
 
       setState(value);
-      if (value === "players") {
-        history.push("players");
+      if (value === 'players') {
+        history.push('players');
       } else {
-        history.push("/");
+        history.push('/');
       }
     }
   };
@@ -70,8 +72,8 @@ const ManageSelect = (props: Props) => {
         onChange={handleSelectChange}
       >
         <MenuItem aria-label="Select" value="Select" disabled />
-        <MenuItem value={"tournaments"}>{t("Tournaments")}</MenuItem>
-        <MenuItem value={"players"}>{t("Players")}</MenuItem>
+        <MenuItem value={'tournaments'}>{t('Tournaments')}</MenuItem>
+        <MenuItem value={'players'}>{t('Players')}</MenuItem>
       </Select>
     </div>
   );

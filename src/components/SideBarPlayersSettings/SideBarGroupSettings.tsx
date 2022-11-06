@@ -136,6 +136,7 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               isEditable={true}
               onDelete={handleDeleteEvent}
               onEdit={handleEditEvent}
+              AddItemForm={<CreateNewGroupForm />}
             >
               <GroupPlayerList
                 groupId={activeGroup.id}
@@ -151,6 +152,7 @@ const SideBarGroupSettings = ({ open, onCloseIconClick }: Props) => {
               isEditable={false}
               onDelete={() => {}}
               onEdit={() => {}}
+              AddItemForm={<CreateNewGroupForm />}
             ></SideBarGroupCard>
           )}
         </div>
